@@ -69,12 +69,37 @@
 %
 \section{Introduction}
 
-Evolutionary Algorithms (EAs) are inherently parallelizable, as each individual can be considered as an independent unit \cite{Alba13parallel}, and therefore, they can improve the computational performance over their non-parallel versions. Multi-Objective Evolutionary Algorithms (MOEAs) are a sub-set of... Also, as this kind of algorithms may be computationally expensive, several parallelization methods have been proposed \cite{Luna15Survey}. However, as MOEAs deal with whole solution sets called Pareto Fronts (PFs), different distribution and sharing mechanisms need to be addressed. Classic approaches, such as the global parallel EAs (Master-Slave), or the spatially structured algorithms (Island model or Cellullar EAs) deal with the individuals as independent units of information, and ...  In island based models blablabla .  
+Evolutionary Algorithms (EAs) are inherently parallelizable, as each
+individual can be considered as an independent unit
+\cite{Alba13parallel}, and therefore, they can improve the
+computational performance over their non-parallel
+versions. Multi-Objective Evolutionary Algorithms (MOEAs) are a
+sub-set of... Also, as this kind of algorithms may be computationally
+expensive, several parallelization methods have been proposed
+\cite{Luna15Survey}. However, as MOEAs deal with whole solution sets
+called Pareto Fronts (PFs), different distribution and sharing
+mechanisms need to be addressed. Classic approaches, such as the
+global parallel EAs (Master-Slave), or the spatially structured
+algorithms (Island model or Cellullar EAs) deal with the individuals
+as independent units of information, and ...  In island based models
+blablabla .   % this is a lot of boilerplate - JJ
 
 MOEAs have gained attention in the last years, mostly because their application in real-world problems. Usually these problems require a higher number of decission variables. Larger individuals require extra time for crossover, mutation and transmission. Dividing the search space...
-Co-evolution model is a dimension-distributed model where a high-dimensional problem is divided into lower dimensional problems \cite{Gong15models}. However, usually there exist interdependences among the elements of the solutions, so... In this paper, several of these ideas are taken into account to compare different approaches in chromosome division BLABLA
+Co-evolution model is a dimension-distributed model where a
+high-dimensional problem is divided into lower dimensional problems
+\cite{Gong15models}. However, usually there exist interdependences
+among the elements of the solutions, so... In this paper, several of
+these ideas are taken into account to compare different approaches in
+chromosome division BLABLA 
 
-The hypothesis of this paper is to demonstrate that dividing the chromosome search space by applying crossover and mutation in different sections in each island can improve the quality of the solutions in the same time. Two different approaches have been compared with a baseline version of a distributed NSGA-II. Results show that this technique can improve different quality indicators in the same amount of time.
+The hypothesis of this paper is to demonstrate that dividing the
+chromosome search space by applying crossover and mutation in
+different sections in each island can improve the quality of the
+solutions in the same time. %computing time? - JJ
+ Two different approaches have been
+compared with a baseline version of a distributed NSGA-II. Results
+show that this technique can improve different quality indicators in
+the same amount of time. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  STATE OF THE ART  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,11 +107,54 @@ The hypothesis of this paper is to demonstrate that dividing the chromosome sear
 \section{State of the Art}
 \label{sec:SoA}
 
-Distributed and parallel Evolutionary Algorithms have been used since the early 2000s \cite{ELQUESEA} to leverage the capabilities of clusters or GRIDs. However, in MOEAs is not as easy as in single-objective EAs, as the . Some authors have focused in Master-Slave approaches to parallelize MOEAs. For example, Durillo et al. \cite{Durillo08masterslave} compared different master-slave approaches to save time when running the EA. The method proposed by Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending of the computation power. 
+%make it a narrative. - JJ
+Distributed and parallel Evolutionary Algorithms have been used since
+the early 2000s \cite{ELQUESEA} to leverage the capabilities of
+clusters or grids. However, distributing MOEAs is not as easy as it is
+in
+single-objective EAs, as the %unfinished
+. Some authors have focused in
+Master-Slave approaches to parallelize MOEAs. For example, Durillo et
+al. \cite{Durillo08masterslave} compared different master-slave
+approaches to save time when running the EA. The method proposed by
+Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending of
+the computation power.  
 
-Dividing the decission or search space of EAs in different islands is not a novel idea \cite{ALGUNOANTIGUO}. However, when using multi-objective EAs ...
+Dividing the decision or search space of EAs in different islands is
+not a novel idea \cite{ALGUNOANTIGUO}. However, when using
+multi-objective EAs ... 
 
-First approaches for distributed MOEAs were studied in \cite{Deb03distributed}. In that work, the dominance of solutions is divided in the islands using a transformation of coordinates. Authors concluded that dividing the search space is a good idea, but achieve this is not trivial. Other ideas for dividing the search space include objective separation in different processors \cite{Xiao03specialized}, or divide in two populations: one for elite and other search  \cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a Barabasi-Albert island topology and selection based in migrate individuals from a not-crowded area and acceptance based in diversity. But the idea of dividing the decission space has been studied in \cite{Kimovski15Parallel}. In this work, different workers evolve sub-populations created and recombinated by a master process, which performs different recombination alternatives from the parts by worker processes. A high dimensional problem was used to compare these alternatives. Although a low number of workers were used (8), significant speedups were attained. A more similar approach to the one presented here was studied by Dorronsoro et al. in \cite{Dorronsoro13superlinear}. They obtained super-linear performance BLABLABLABLA. Kimovski et al. \cite{Kimovski15Parallel} uses a master-slave method that splits the population to several processors, each one running in parallel a MOEA that only affects some portion of the individuals. After certain number of generations, the master process receive all the sub-populations to be combined. Different combination alternatives in this step are compared. Up to 8 processors were used in the experimental setup. However, our approach do not broadcast all solutions to all islands for recombination, as previous works, but only one solution to a random island, needing less communication time. Besides, the maximum number of islands of Dorronsoro or Kimovsky approaches was 8, while in this paper we have used up to 128 islands.
+First approaches for distributed MOEAs were studied in
+\cite{Deb03distributed}. In that work, the dominance of solutions is
+divided in the islands using a transformation of coordinates. Authors
+concluded that dividing the search space is a good idea, but achieve
+this is not trivial. Other ideas for dividing the search space include
+objective separation in different processors \cite{Xiao03specialized},
+or divide in two populations: one for elite and other search
+\cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a
+Barabasi-Albert island topology and selection based in migrate
+individuals from a not-crowded area and acceptance based in
+diversity. But the idea of dividing the decission space has been
+studied in \cite{Kimovski15Parallel}. In this work, different workers
+evolve sub-populations created and recombinated by a master process,
+which performs different recombination alternatives from the parts by
+worker processes. A high dimensional problem was used to compare these
+alternatives. Although a low number of workers were used (8),
+significant speedups were attained. A more similar approach to the one
+presented here was studied by Dorronsoro et al. in
+\cite{Dorronsoro13superlinear}. They obtained super-linear performance
+BLABLABLABLA. Kimovski et al. \cite{Kimovski15Parallel} uses a
+master-slave method that splits the population to several processors,
+each one running in parallel a MOEA that only affects some portion of
+the individuals. After certain number of generations, the master
+process receive all the sub-populations to be combined. Different
+combination alternatives in this step are compared. Up to 8 processors
+were used in the experimental setup. However, our approach do not
+broadcast all solutions to all islands for recombination, as previous
+works, but only one solution to a random island, needing less
+communication time. Besides, the maximum number of islands of
+Dorronsoro or Kimovsky approaches was 8, while in this paper we have
+used up to 128 islands. 
 
 
 
