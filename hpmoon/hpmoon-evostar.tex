@@ -34,7 +34,7 @@
 % the running heads and the author index.
 %
 %\author{P. Garc\'ia-S\'anchez \and J. Ortega \and
-%  J. Gonz\'alez\inst{1}}
+%  J. Gonz\'alez\inst{1} \and P. A. Castillo \and J.J. Merelo}
 \author{A. U. Thor\inst{1}}
 % ¿Se puede ayudar aquí?
 %
@@ -46,7 +46,7 @@
 % unless you accept that it will be published
 %\institute{Dept. of Computer Architecture and Technology, University
 %of Granada, Spain}
-\instutte{MIT, Midgardian Institute of Technology}
+\institute{MIT, Midgardian Institute of Technology}
 
 %
 % NB: a more complex sample for affiliations and the mapping to the
@@ -86,7 +86,7 @@ mechanisms need to be addressed. Classic approaches, such as the
 global parallel EAs (Master-Slave), or the spatially structured
 algorithms (Island model or Cellullar EAs) deal with the individuals
 as independent units of information, and ...  In island based models
-blablabla .   % this is a lot of boilerplate - JJ
+blablabla .   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
 
 MOEAs have gained attention in the last years, mostly because their application in real-world problems. Usually these problems require a higher number of decission variables. Larger individuals require extra time for crossover, mutation and transmission. Dividing the search space...
 Co-evolution model is a dimension-distributed model where a
@@ -99,7 +99,7 @@ chromosome division BLABLA
 The hypothesis of this paper is to demonstrate that dividing the
 chromosome search space by applying crossover and mutation in
 different sections in each island can improve the quality of the
-solutions in the same time. %computing time? - JJ
+solutions in the same computing time. %computing time? - JJ DONE
  Two different approaches have been
 compared with a baseline version of a distributed NSGA-II. Results
 show that this technique can improve different quality indicators in
@@ -111,12 +111,12 @@ the same amount of time.
 \section{State of the Art}
 \label{sec:SoA}
 
-%make it a narrative. - JJ
+%make it a narrative. - JJ FERGU: I know, I know, it was still pending :) TODO
 Distributed and parallel Evolutionary Algorithms have been used since
 the early 2000s \cite{ELQUESEA} to leverage the capabilities of
 clusters or grids. However, distributing MOEAs is not as easy as it is
 in
-single-objective EAs, as the %unfinished
+single-objective EAs, as they have to deal with a whole set of solutions %unfinished Pablo: Done
 . Some authors have focused in
 Master-Slave approaches to parallelize MOEAs. For example, Durillo et
 al. \cite{Durillo08masterslave} compared different master-slave
@@ -184,6 +184,7 @@ In this approach, each individual of size $L$ is split into $P$ chunks of size $
 \begin{figure}
 \includegraphics[width=10cm]{islandDisjoint.jpg}
 \caption{Disjoint algorithm: every island $p$ only modifies the $p_{th}$ part (in grey) of the individuals.}
+\label{fig:disjoint}
 \end{figure}
 
 \subsection{Overlapped Algorithm}
@@ -193,6 +194,7 @@ This approach is similar to the previous one, but every island also uses the $p+
 \begin{figure}
 \includegraphics[width=10cm]{islandNoDisjoint.jpg}
 \caption{Disjoint algorithm: every island $p$ modifies the  $p+1$, $p_{th}$ and $p-1$  parts (in grey) of the individuals.}
+\label{fig:overlapped}
 \end{figure}
 
 % --------------------------------------------------------------
@@ -356,7 +358,7 @@ Results show that... Table \ref{tab:gens} shows the generations and average solu
 
 
 \end{tabular}
-\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline , Disjoint and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
+\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
 \end{table}
 
 \section{Conclusions}
