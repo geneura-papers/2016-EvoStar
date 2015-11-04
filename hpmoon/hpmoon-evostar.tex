@@ -77,33 +77,40 @@ Evolutionary Algorithms (EAs) are inherently parallelizable, as each
 individual can be considered as an independent unit
 \cite{Alba13parallel}, and therefore, they can improve the
 computational performance over their non-parallel
-versions. Multi-Objective Evolutionary Algorithms (MOEAs) are a
-sub-set of... Also, as this kind of algorithms may be computationally
+versions. This can also be applied to Multi-Objective Evolutionary 
+Algorithms (MOEAs). Besides, as this kind of algorithms may be computationally
 expensive, several parallelization methods have been proposed
 \cite{Luna15Survey}. However, as MOEAs deal with whole solution sets
 called Pareto Fronts (PFs), different distribution and sharing
 mechanisms need to be addressed. Classic approaches, such as the
 global parallel EAs (Master-Slave), or the spatially structured
-algorithms (Island model or Cellullar EAs) deal with the individuals
-as independent units of information, and ...  In island based models
-blablabla .   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
+algorithms (Island model or Cellular EAs) deal with the individuals
+as independent units of information, and they have been applied successfully in the past.   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
 
-MOEAs have gained attention in the last years, mostly because their application in real-world problems. Usually these problems require a higher number of decission variables. Larger individuals require extra time for crossover, mutation and transmission. Dividing the search space...
-Co-evolution model is a dimension-distributed model where a
+MOEAs have gained attention in the last years, mostly because their application in real-world problems \cite{Luna15Survey}. Usually these problems require a higher number of decision variables, and these larger individuals require a lot extra time for crossover, mutation and transmission. Therefore, dividing the decision space (that is, the chromosome) may achieve high performance. In this aspect, co-evolution model is a dimension-distributed model where a
 high-dimensional problem is divided into lower dimensional problems
-\cite{Gong15models}. However, usually there exist interdependences
-among the elements of the solutions, so... In this paper, several of
-these ideas are taken into account to compare different approaches in
-chromosome division BLABLA 
+\cite{Gong15models}, and evolved separately. Also, applying parallelism techniques in EAs not only implies reduce time, 
+but developing new and more efficient search models \cite{Luna15Survey}.  The idea of dividing the decision space has been
+studied in \cite{Kimovski15Parallel}. In that work, different workers
+evolve sub-populations created and recombined by a master process,
+which performs different recombination alternatives from the parts by
+worker processes. A high dimensional problem was used to compare these
+alternatives. Although a low number of workers were used (8),
+significant speedups were attained. In this paper, several of these ideas are taken into account to compare different approaches in
+chromosome division in distributed island MOEAs. 
 
 The hypothesis of this paper is to demonstrate that dividing the
 chromosome search space by applying crossover and mutation in
 different sections in each island can improve the quality of the
 solutions in the same computing time. %computing time? - JJ DONE
- Two different approaches have been
+ Two different approaches (with disjoint and overlapped sections) have been
 compared with a baseline version of a distributed NSGA-II. Results
 show that this technique can improve different quality indicators in
 the same amount of time. 
+
+The rest of the paper is structured as follows: after a background in parallelization in MOEAs, 
+ the compared algorithms and the used methodology (Section \ref{sec:met}) are presented. 
+Then, the results of the experiments are shown (Section \ref{sec:results}), followed by conclusions and suggestions for future work lines.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  STATE OF THE ART  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,18 +122,16 @@ the same amount of time.
 Distributed and parallel Evolutionary Algorithms have been used since
 the early 2000s \cite{ELQUESEA} to leverage the capabilities of
 clusters or grids. However, distributing MOEAs is not as easy as it is
-in
-single-objective EAs, as they have to deal with a whole set of solutions %unfinished Pablo: Done
-. Some authors have focused in
-Master-Slave approaches to parallelize MOEAs. For example, Durillo et
+in single-objective EAs, as they have to deal with a whole set of solutions, that should be managed in several steps of the algorithm %unfinished Pablo: Done
+. Some authors have focused in Master-Slave approaches to parallelize this kind of EAs. For example, Durillo et
 al. \cite{Durillo08masterslave} compared different master-slave
 approaches to save time when running the EA. The method proposed by
 Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending of
 the computation power.  
 
-Dividing the decision or search space of EAs in different islands is
-not a novel idea \cite{ALGUNOANTIGUO}. However, when using
-multi-objective EAs ... 
+%Dividing the decision or search space of EAs in different islands is
+%not a novel idea \cite{ALGUNOANTIGUO}. However, when using
+%multi-objective EAs ... 
 
 First approaches for distributed MOEAs were studied in
 \cite{Deb03distributed}. In that work, the dominance of solutions is
@@ -138,17 +143,14 @@ or divide in two populations: one for elite and other search
 \cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a
 Barabasi-Albert island topology and selection based in migrate
 individuals from a not-crowded area and acceptance based in
-diversity. But the idea of dividing the decission space has been
-studied in \cite{Kimovski15Parallel}. In this work, different workers
-evolve sub-populations created and recombinated by a master process,
-which performs different recombination alternatives from the parts by
-worker processes. A high dimensional problem was used to compare these
-alternatives. Although a low number of workers were used (8),
-significant speedups were attained. A more similar approach to the one
-presented here was studied by Dorronsoro et al. in
-\cite{Dorronsoro13superlinear}. They obtained super-linear performance
-BLABLABLABLA. Kimovski et al. \cite{Kimovski15Parallel} uses a
-master-slave method that splits the population to several processors,
+diversity. 
+
+More similar approaches to the one presented here were studied in the
+ next two works, also using cooperative coevolution for high-dimensional problems. Dorronsoro et al. in
+\cite{Dorronsoro13superlinear} obtained super-linear performance
+in several instances using cooperative coevolution, focusing each island in a portion of the chromosome. However, in some instances the parallel version not always 
+improved the sequential version.  Kimovski et al. \cite{Kimovski15Parallel} proposed a
+master-slave method that splits the population into several processors,
 each one running in parallel a MOEA that only affects some portion of
 the individuals. After certain number of generations, the master
 process receive all the sub-populations to be combined. Different
@@ -168,14 +170,22 @@ used up to 128 islands.
 %
 \section{Methodology and experimental setup}
 \label{sec:met}
+This section describes the quality indicators used and the methods compared. The chosen quality indicators are:
 
+\begin{itemize}
+\item Hypervolume (HV): measures the area formed by all non-dominated solutions found with, respect to a reference point. 
+\item Inverted Generational distance (IGD): calculates the distance of the obtained set of solutions to the optimal PF. Therefore, this metric requires the optimal PF found in the literature, or the theoretical one. %Pablo: theoretical?
+\item Spread (S): Measures the spread between solutions, taking into account the euclidean distance between consecutive solutions.
+\end{itemize}
+
+With exception of the HV, the lower, the better. All these metrics have been used and described in previously presented works \cite{Deb03distributed,Durillo08masterslave,Hiroyasu07discussion,Dorronsoro13superlinear} in Section \ref{sec:soa}.
 
 
 % --------------------------------------------------------------
 
 \subsection{Baseline algorithm}
+This algorithm is a regular NSGA-II algorithm distributed along a number $P$ of islands. Every certain number of generations, one individual is migrated to other random island. At the end of the run, all PFs of all island are aggregated in a new one and the metrics are calculated.
 
-At the end of the run, all PFs of all island are aggregated in a new one and the metrics are calculated.
 
 \subsection{Disjoint Algorithm}
 
@@ -205,17 +215,13 @@ This approach is similar to the previous one, but every island also uses the $p+
 \section{Experiments and Results}
 \label{sec:res}
 
-The three approaches have been launched with a different combination of chromosome lengths ($L$): 512 and 2048. Also, different number of islands ($P$) have been compared: 8, 16 and 128. This maximum number of islands have been also used in previous work in the literature \cite{Martens13asynchronous}.
+The three approaches have been launched with a different combination of chromosome lengths ($L$): 512 and 2048. Also, different number of islands ($P$) have been compared: 8, 16 and 128. This maximum number of islands have been also used in previous work in the literature \cite{Martens13asynchronous}. The crossover and mutation chosen, SBX and polynomial, have been used previously by other authors in \cite{Durillo08masterslave}.
 
 The chosen problems to evaluate are the ZDT. This benchmark has been chosen because it has been previously used in different works of the literature \cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}.
 
-Different metrics have been used to calculate the quality of the obtained PFs in each configuration.
 
-\begin{itemize}
-\item Hypervolume (HV):
-\item Inverted Generational distance (IGD):
-\item Spread (S):
-\end{itemize}
+
+
 
 The termination criterion used is the time. 25 seconds for dimension 512 and 100 for 2048. JUSTIFICAR
 
@@ -247,7 +253,7 @@ The island model has been executed synchronously, using the ECJ Internal Island 
 
 The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}.
 
-The results are shown in Table \ref{tab:results}.
+Different metrics, explained in previous section, have been used to calculate the quality of the obtained PFs in each configuration. As some of the metrics require a reference point to be calculated (such as HV), the point (1,9) has been chosen as reference, as none of the generated PFs in all runs are dominated by it. Metrics are then normalized with respect to that point. The average results for each configuration are shown in Table \ref{tab:results}.
 
 \begin{table}
 \centering
@@ -302,11 +308,13 @@ The results are shown in Table \ref{tab:results}.
 
 \end{tabular}
 }
-\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
+\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
 \label{tab:results}
 \end{table}
 
-Results show that... Table \ref{tab:gens} shows the generations and average solutions per island obtained in each method. 
+Results show that HV indicator lowers when the number of islands is increased, as the subpopulations are smaller. This is consistent with the claim by Durillo in \cite{Dorronsoro13superlinear}, where cooperative coevolutionary MOEAs work better on bigger populations (more than 100 individual).
+
+Table \ref{tab:gens} shows the generations and average solutions per island obtained in each method. 
 
 \begin{table}
 \begin{tabular}{|c||c|c|c||c|c|c||}
