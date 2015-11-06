@@ -64,6 +64,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ABSTRACT   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \begin{abstract}
+High-performance problems with large number of decision variables can take advantage of distributed optimization algorithms, for example, dividing their decision space. This paper compares a distributed multiobjective evolutionary algorithm using two different division methods: one where each island only modifies a disjoint part of the chromosome; and another where some sections of the chromosome are modified by more than one island. Different quality metrics have been used for comparing these methods. Results show that dividing the chromosome decision space achieves better results than the baseline. %Pablo: El abstract sigue así así
 
 \keywords{Multi-objective algorithms, NSGA-II, Island model, distributed evolutionary algorithms}
 \end{abstract}
@@ -104,23 +105,23 @@ chromosome search space by applying crossover and mutation in
 different sections in each island can improve the quality of the
 solutions in the same computing time. %computing time? - JJ DONE
  Two different approaches (with disjoint and overlapped sections) have been
-compared with a baseline version of a distributed NSGA-II. Results
+compared with a baseline version of a distributed NSGA-II \cite{Deb00NSGAII}. Results
 show that this technique can improve different quality indicators in
 the same amount of time. 
 
 The rest of the paper is structured as follows: after a background in parallelization in MOEAs, 
  the compared algorithms and the used methodology (Section \ref{sec:met}) are presented. 
-Then, the results of the experiments are shown (Section \ref{sec:results}), followed by conclusions and suggestions for future work lines.
+Then, the results of the experiments are shown (Section \ref{sec:res}), followed by conclusions and suggestions for future work lines.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  STATE OF THE ART  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \section{State of the Art}
-\label{sec:SoA}
+\label{sec:soa}
 
 %make it a narrative. - JJ FERGU: I know, I know, it was still pending :) TODO
 Distributed and parallel Evolutionary Algorithms have been used since
-the early 2000s \cite{ELQUESEA} to leverage the capabilities of
+the early 2000s \cite{Talbi08Parallel} to leverage the capabilities of
 clusters or grids. However, distributing MOEAs is not as easy as it is
 in single-objective EAs, as they have to deal with a whole set of solutions, that should be managed in several steps of the algorithm %unfinished Pablo: Done
 . Some authors have focused in Master-Slave approaches to parallelize this kind of EAs. For example, Durillo et
@@ -133,7 +134,7 @@ the computation power.
 %not a novel idea \cite{ALGUNOANTIGUO}. However, when using
 %multi-objective EAs ... 
 
-First approaches for distributed MOEAs were studied in
+First approaches for distributed MOEAs (dMOEAs) were studied in
 \cite{Deb03distributed}. In that work, the dominance of solutions is
 divided in the islands using a transformation of coordinates. Authors
 concluded that dividing the search space is a good idea, but achieve
@@ -141,8 +142,8 @@ this is not trivial. Other ideas for dividing the search space include
 objective separation in different processors \cite{Xiao03specialized},
 or divide in two populations: one for elite and other search
 \cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a
-Barabasi-Albert island topology and selection based in migrate
-individuals from a not-crowded area and acceptance based in
+Barabasi-Albert island topology and selection based on migrating
+individuals from a not-crowded area and acceptance based on
 diversity. 
 
 More similar approaches to the one presented here were studied in the
@@ -152,10 +153,10 @@ in several instances using cooperative coevolution, focusing each island in a po
 improved the sequential version.  Kimovski et al. \cite{Kimovski15Parallel} proposed a
 master-slave method that splits the population into several processors,
 each one running in parallel a MOEA that only affects some portion of
-the individuals. After certain number of generations, the master
-process receive all the sub-populations to be combined. Different
+the individuals. After a certain number of generations, the master
+process receives all the sub-populations to be combined. Different
 combination alternatives in this step are compared. Up to 8 processors
-were used in the experimental setup. However, our approach do not
+were used in the experimental setup. However, our approach does not
 broadcast all solutions to all islands for recombination, as previous
 works, but only one solution to a random island, needing less
 communication time. Besides, the maximum number of islands of
@@ -184,12 +185,12 @@ With exception of the HV, the lower, the better. All these metrics have been use
 % --------------------------------------------------------------
 
 \subsection{Baseline algorithm}
-This algorithm is a regular NSGA-II algorithm distributed along a number $P$ of islands. Every certain number of generations, one individual is migrated to other random island. At the end of the run, all PFs of all island are aggregated in a new one and the metrics are calculated.
+This algorithm is a regular NSGA-II algorithm distributed along a number $P$ of islands. Every certain number of generations, one individual is migrated to another random island. At the end of the run, all PFs of all islands are aggregated in a new one and the metrics are calculated.
 
 
 \subsection{Disjoint Algorithm}
 
-In this approach, each individual of size $L$ is split into $P$ chunks of size $L/P$. Every island $p$ only performs crossover and mutation on the $p_{th}$ part of the individuals.  As in the baseline, every certain number of generations, an individual is migrated to another random island.  In the new island, this individual will be crossed and mutated as the other individuals of the island. Note that, on the contrary of another works such as \cite{EL QUE SEA} all the islands deal with complete chromosomes for fitness calculation, so our approach can deal with no decomposable problems. Figure \ref{fig:disjoint} describes this approach, with $P=5$ islands.
+In this approach, each individual of size $L$ is split into $P$ chunks of size $L/P$. Every island $p$ only performs crossover and mutation on the $p_{th}$ part of the individuals.  As in the baseline, every certain number of generations, an individual is migrated to another random island.  In the new island, this individual will be crossed and mutated as the other individuals on the island. Note that, on the contrary of other works such as the ones described \cite{Talbi08Parallel} all the islands deal with complete chromosomes for fitness calculation, so our approach can deal with no decomposable problems. Figure \ref{fig:disjoint} describes this approach, with $P=5$ islands.
 
 \begin{figure}
 \includegraphics[width=10cm]{islandDisjoint.jpg}
@@ -198,7 +199,7 @@ In this approach, each individual of size $L$ is split into $P$ chunks of size $
 \end{figure}
 
 \subsection{Overlapped Algorithm}
-This approach is similar to the previous one, but every island also uses the $p+1$ and $p-1$ (module size) chunks of the individual for crossover and migration. Therefore, some kind of overlapping of the crossed and mutated parts exist between islands. Figure \ref{fig:overlapped} shows the affected parts of the individuals in each island.
+This approach is similar to the previous one, but every island also uses the $p+1$ and $p-1$ (module size) chunks of the individual for crossover and migration. Therefore, some kind of overlapping of the crossed and mutated parts exists between islands. Figure \ref{fig:overlapped} shows the affected parts of the individuals in each island.
 
  
 \begin{figure}
@@ -217,13 +218,13 @@ This approach is similar to the previous one, but every island also uses the $p+
 
 The three approaches have been launched with a different combination of chromosome lengths ($L$): 512 and 2048. Also, different number of islands ($P$) have been compared: 8, 16 and 128. This maximum number of islands have been also used in previous work in the literature \cite{Martens13asynchronous}. The crossover and mutation chosen, SBX and polynomial, have been used previously by other authors in \cite{Durillo08masterslave}.
 
-The chosen problems to evaluate are the ZDT. This benchmark has been chosen because it has been previously used in different works of the literature \cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}.
+The chosen problems to evaluate are the ZDT. This benchmark has been chosen because it has been previously used in different works of the literature \cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}. The optimal PF distribution used for comparison has 1000 solutions \footnote{Optimal PFs can be obtained here: \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}.}.
 
 
 
 
 
-The termination criterion used is the time. 25 seconds for dimension 512 and 100 for 2048. JUSTIFICAR
+The termination criterion used is the time: 25 seconds for dimension 512 and 100 (four times more) for 2048. We have used the time instead the number of evaluations firstly because our hypothesis argue that the time saved in crossover in mutation can be spent on improving the sub-populations and more operations and migrations can be achieved. Also, we are using different number of islands (with different sub-population sizes) that could lead to different execution times, so it would be difficult to compare different times and quality solutions at the same time.
 
 \begin{table}
 \begin{center}
@@ -249,11 +250,11 @@ Runs per configuration & 30 \\ \hline
 \end{center}
 \end{table}
 
-The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16.
+The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus in the behaviour of our model in a non-real scenario (the islands share the same memory and processor), the migration time will not be as an important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
 
 The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}.
 
-Different metrics, explained in previous section, have been used to calculate the quality of the obtained PFs in each configuration. As some of the metrics require a reference point to be calculated (such as HV), the point (1,9) has been chosen as reference, as none of the generated PFs in all runs are dominated by it. Metrics are then normalized with respect to that point. The average results for each configuration are shown in Table \ref{tab:results}.
+Different metrics, explained in the previous section, have been used to calculate the quality of the obtained PFs in each configuration. As some of the metrics require a reference point to be calculated (such as HV), the point (1,9) has been chosen as reference, as none of the generated PFs in all runs are dominated by it. Metrics are then normalized with respect to that point. A Kruskall-Wallis significance test has been performed to the metrics of all runs of the configurations, as the Kolmogorov-Smirnov test detected non-normal distributions. The average results for each configuration are shown in Table \ref{tab:results}.
 
 \begin{table}
 \centering
@@ -308,15 +309,16 @@ Different metrics, explained in previous section, have been used to calculate th
 
 \end{tabular}
 }
-\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
+\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significant difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
 \label{tab:results}
 \end{table}
 
-Results show that HV indicator lowers when the number of islands is increased, as the subpopulations are smaller. This is consistent with the claim by Durillo in \cite{Dorronsoro13superlinear}, where cooperative coevolutionary MOEAs work better on bigger populations (more than 100 individual).
+At a first glance results show that dividing the chromosome produces an improvement in all the quality indicators in all the configurations, with respect to the baseline. Also, results also show that all the quality indicators lowers when the number of islands is increased, as the subpopulations are smaller. This is consistent with the claim by Durillo in \cite{Dorronsoro13superlinear}, where cooperative coevolutionary MOEAs work better on bigger populations (more than 100 individuals). With respect to the disjoint and overlapped methods, when using 8 islands the disjoint method always attain better metrics, and more times with the 2048 chromosome length. This can be explained because only 1/8 of the individual is changed in each island, while in the overlapped, 3/8 of the island may be more similar to the baseline. Therefore, there exist some kind of limit point where one method will be preferable to another, depending the number of islands, population size and length.
 
-Table \ref{tab:gens} shows the generations and average solutions per island obtained in each method. 
+This can be explained also comparing the number of generations and average solutions per island. Table \ref{tab:gens} shows these values obtained in each method. It is clear that in the same amount of time, the disjoint and overlapped method attains more generations than the baseline. This is even clearer with $L=$2048, where almost 10 times the number of generations is attained, and therefore, more migrations and crossovers/mutations can be achieved. Surprisingly, the average number of solutions of PFs per island in the baseline is significantly higher in some configurations (mostly with 128 islands), but their combination in the final PF never attains higher values than Disjoint and Overlapped methods.
 
 \begin{table}
+\centering
 \begin{tabular}{|c||c|c|c||c|c|c||}
 \hline
 	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
@@ -366,13 +368,18 @@ Table \ref{tab:gens} shows the generations and average solutions per island obta
 
 
 \end{tabular}
-\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
+\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint and Overlapped. An asterisk (*) means that there is not significant difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
+\label{tab:gens}
 \end{table}
 
 \section{Conclusions}
 
+High-performance problems that require a large number of decision variables can leverage from dividing the decision space in parallel and distributed algorithms. This can be applied in dMOEAs dividing the chromosome in different parts, each one modified in a different island. This paper compares a baseline distributed NSGA-II with two different methods to separate the chromosome (disjoint or overlapped parts). Results show that these methods can achieve better results than the baseline, being the relation of the number of islands used and the length of the chromosome a key factor to decide to take advantage of these methods. This can be explained because the time reduction in crossover and mutation in the chromosomes.
 
-\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO!!!!
+In future work, other MOEAs, such as SPEA will be compared, with more configurations of population size and chromosome lengths. Also, a real distributed system (such as a GRID or cluster) with more different numbers of islands/processors, will be used to compare the different methods, and a scalability study will be performed, therefore the transmission time between islands will also be a relevant issue to study. New benchmarks and real problems will be also used to validate our approach.
+
+
+\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO Y EL DE MARIBEL EN INGLES!!!!
 Hidden for double blind review 
 %\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).}
 
