@@ -7,10 +7,12 @@
 \usepackage{graphicx}
 \usepackage{multirow}
 \usepackage{rotating}
-\usepackage{subfigure}
+%\usepackage{subfigure}
 %\usepackage{subfig}
 \usepackage{url}
 \usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
 
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
@@ -100,8 +102,93 @@ Our previous work has reinforced the idea that a hybrid \textit{Evolutionary Com
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  METHODOLOGY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\section{Methodology and experimental setup}
+\section{A backstory generator that promotes the monomyth}
 
+In this section we will present a system that uses the three-layered system EC-Logical Reasoner-ABM to generate and evaluate backstories in the virtual world. Firstly, in section \ref{2.1}, we show the high level architecture of the system and the tasks assigned tof each logical module. Later, in section \ref{2.2} we give the details of the ABM layer including the virtual world, the agent's model, the parameterization of the simulation and the output format. Then, in section \ref{2.3}, we propose an implementation of the logical model of the monomyth, and a method to evaluate the quality of the backstories using logical reasoning on that model. Finally, in section \ref{2.4}, we argue the usage of a GA to promote the emergence of the monomyth.
+
+\subsection{The system architecture}
+
+The proposed system is described in the Dataflow Diagram of figure \ref{fig:dataflow}. Different modules have been defined: The optimizer, the simulator, the reasoner, the narrator and the customizer. The optimizer, formerly the EC layer, uses a GA whose individuals are simulation configurations and returns the best individual found. The fitness function of each individual consists in several simulations, performed by the Simulator, i.e. the ABM layer, that uses a multi-agent system in order to generate a sequence of events. These events are evaluated by the Reasoner, the third layer, that uses predicate logic to assign a numerical value to the events following guidelines extracted from the monomyth. The numerical values are aggregated by configuration in the Simulator and used in the Optimizer as fitness. On the other hand, the Narrator takes a given solution and transforms it to an agnostic narration, that is a selection of relevant predicates without final names for the narration elements. The Customizer is in charge of assigning names and structures to the agnostic narration in order to apply a specific literary setting, for example, middle-age, futuristic, steampunk or Shakespearian.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.33\textwidth}
+		\includegraphics[width=\textwidth]{3_layers.pdf}
+		\caption{Proposed three-layered architecture (EC-ABM-LR).}
+		\label{fig:3_layered}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.63\textwidth}
+		\includegraphics[width=\textwidth]{made_architecture.pdf}
+		\caption{Proposed components and data flow diagram of the whole architecture.}
+		\label{fig:dataflow}
+	\end{subfigure}
+	\caption{high-level architecture of the system.}
+\end{figure}
+
+\subsection{An agent-based model that implements base predicates}
+
+The virtual environment that we propose in this work is called ColourForms, and has been designed as a board-like game that focuses in the four independent, ontic dimensions that conform the ludo-narrative design space described by Aarseth in his work \cite{aarseth2012narrative}: world, objects, agents and events. In our virtual environment, pieces will compete and collaborate in order to reach their desired colour. The narrative, as Aylett studied in \cite{aylett1999narrative}, emerges through small interactions between the characters. The main elements are described as follows: 
+
+{\bf World}: Our backstories need spatio-temporal dimensions, namely, a place where they occur and a time that sequences and orders the events. In Colourforms, we propose to use a very simple map: the checkerboard, that consist of 64 squares (8x8). The time is measured in virtual days.
+{\bf Agents}: Our agents are pieces that can occupy one cell each. There are three shapes for the pieces (circle, square and triangle) and a zero-sum game relation between them, rock-paper-scissors alike, in order to establish a method to decide the winner and the loser in individual direct conflicts while keeping a global balance. Agents change along the timeline: every piece has a background color and a foreground color that are constantly modified. The background color varies randomly in a slowly way for every piece and represents the continuous internal changes in the character needs. The foreground color can be changed by the piece or by other pieces under certain circumstances and is used to improve the happiness: the piece is happier when the two colours are equal. 
+{\bf Objects}: We use one type of object, that the characters compete and collaborate for: the colour spot. In our environment, the agents can stain with the spot in order to become colored. The colour spots can appear or disappear from the world randomly.
+{\bf Events}: The characters can interact between them and the environment, although the number of actions is very limited: move to a free adjacent cell, push another agent to a  depending on the shape, interchange the background color and stain with a colour spot.
+
+As the introduction remarked, following Szymanezyk et al. in \cite{szymanezyk2011individual}, characters need to explore a social network in order to augment their believability. The social component is defined in ColorForms by an affinity matrix: Each piece has an affinity with every other piece in the board, that will depend on their shape, background and foreground colors. This affinity is dynamic and will take part in the decisions that the piece makes, for instance, the joy of the piece will be influenced by the ones with high affinity with it.
+
+Kim \cite{kim1976events} theorized that the term 'event' usually implies a change, and most changes are changes in a substance (an individual, an object, a living thing or a system), that occur when 'it acquires a property it did not previously have, or loses a property it previously had'. Formerly, Kim defined the events in his theory of the structured complexes using the canonical notation [x, P, t], where x is the substance, P is the property it exemplifies and t is the time. The existence condition implies that Event [x, P, t] exists just in case that substance x has the property P at the time t. In our work, the events that compound the backstories are defined as meaningful logical predicates with notation Predicate (t, x\_0, /dots , x\_n) where t is the time, and each x is an element of the world (a character, a cell, a moment, the property of an element or a value). Each predicate has a name, a signature (or arguments) and an interpretation, that is a description of the event in natural language.
+
+Our current research contemplates two types of predicates: Those that have been generated by the agents in the virtual environment (world's facts)  and those that are inferred using the Reasoner module, related to the monomyth (world's deductions). The world's facts are composed of the following events:
+
+Firstly, the events related to the board configuration are characterAppears, colorSportAppears, colorSpotDisappears and areNear::
+characterAppears(Day,Subject,Foreground,Background,Shape)
+colorSpotAppears(Day,Spot,Cell)
+colorSpotDisappears(Day,Spot,Cell)
+areNear(Day,Subject,[CharacterThatIsNear])
+newDay(Day)
+
+The events that are generated by every agent every day are naturalChange, isEnemyOf, isFriendOf and joy: 
+naturalChange(Day,Subject,OldColor,NewColor,Subject.0)
+isEnemyOf(Day,Subject,[Enemy])
+isFriendOf(Day,Subject,[Friend])
+joy(Day,Subject,0.JoyLevel)
+
+The conditions of the behaviour tree are canImproveFriendSimilarity, canImproveSelfSimilarity, canReduceEnemySimilarity, hasAnticipation, hasFear, isSad, isSurprised and trusts:
+canImproveFriendSimilarity(Day,Subject,Friend)
+canImproveSelfSimilarity(Day,Subject,Spot)
+canReduceEnemySimilarity(Day,Subject,Enemy)
+hasAnticipation(Day,Subject,Spot)
+hasFear(Day,Subject,Enemy)
+isSad(Day,Subject)
+isSurprised(Day,Subject)
+trusts(Day,Subject,Friend
+
+Finally, the strategies of the behaviour tree are displaces, giveTurn, moves, movesAway, skipsTurn, stains and transfersColor:
+displaces(Day,Subject,Enemy,Cell)
+giveTurn(Day,Subject,Friend)
+moves(Day,Subject,Cell)
+movesAway(Day,Subject,Cell)
+skipsTurn(Day,Subject)
+stains(Day,Subject,Spot)
+transfersColor(Day,Subject,Friend)
+
+
+In our virtual environment we propose different strategies that the pieces can use to interact with each other and generate events that will conform later backstories. 
+% AMPLIAR INFO 
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{bt_autogen.pdf}
+	\caption{Proposed agents' behavior tree: Circular nodes represent conditions and rectangular nodes represent actions.)}
+	\label{fig:bt_autogen}
+\end{figure}
+
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{theory.pdf}
+	\caption{Predicate dependencies in the proposed logical theory of the monomyth: White nodes represent predicates generable by the ABM layer and gray predicates are inferred by the Reasoner. Dark-gray predicates conform the monomyth.}
+	\label{fig:theory}
+\end{figure}
 
 % --------------------------------------------------------------
 
