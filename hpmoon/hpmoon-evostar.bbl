@@ -19,6 +19,31 @@ Gong, Y., Chen, W., Zhan, Z., Zhang, J., Li, Y., Zhang, Q., Li, J.:
   the state-of-the-art.
 \newblock Appl. Soft Comput. \textbf{34} (2015)  286--300
 
+\bibitem{Kimovski15Parallel}
+Kimovski, D., Ortega, J., Ortiz, A., Ba{\~{n}}os, R.:
+\newblock Parallel alternatives for evolutionary multi-objective optimization
+  in unsupervised feature selection.
+\newblock Expert Syst. Appl. \textbf{42}(9) (2015)  4239--4252
+
+\bibitem{Deb00NSGAII}
+Deb, K., Agrawal, S., Pratap, A., Meyarivan, T.:
+\newblock A fast elitist non-dominated sorting genetic algorithm for
+  multi-objective optimisation: {NSGA-II}.
+\newblock In Schoenauer, M., Deb, K., Rudolph, G., Yao, X., Lutton, E.,
+  Guerv{\'{o}}s, J.J.M., Schwefel, H., eds.: Parallel Problem Solving from
+  Nature - {PPSN} VI, 6th International Conference, Paris, France, September
+  18-20, 2000, Proceedings. Volume 1917 of Lecture Notes in Computer Science.,
+  Springer (2000)  849--858
+
+\bibitem{Talbi08Parallel}
+Talbi, E., Mostaghim, S., Okabe, T., Ishibuchi, H., Rudolph, G., Coello,
+  C.A.C.:
+\newblock Parallel approaches for multiobjective optimization.
+\newblock In Branke, J., Deb, K., Miettinen, K., Slowinski, R., eds.:
+  Multiobjective Optimization, Interactive and Evolutionary Approaches [outcome
+  of Dagstuhl seminars]. Volume 5252 of Lecture Notes in Computer Science.,
+  Springer (2008)  349--372
+
 \bibitem{Durillo08masterslave}
 Nebro, A.J., Durillo, J.J.:
 \newblock A study of the parallelization of the multi-objective metaheuristic
@@ -70,12 +95,6 @@ M{\"{a}}rtens, M., Izzo, D.:
 \newblock In Blum, C., Alba, E., eds.: Genetic and Evolutionary Computation
   Conference, {GECCO} '13, Amsterdam, The Netherlands, July 6-10, 2013, {ACM}
   (2013)  1173--1180
-
-\bibitem{Kimovski15Parallel}
-Kimovski, D., Ortega, J., Ortiz, A., Ba{\~{n}}os, R.:
-\newblock Parallel alternatives for evolutionary multi-objective optimization
-  in unsupervised feature selection.
-\newblock Expert Syst. Appl. \textbf{42}(9) (2015)  4239--4252
 
 \bibitem{Dorronsoro13superlinear}
 Dorronsoro, B., Danoy, G., Nebro, A.J., Bouvry, P.:
