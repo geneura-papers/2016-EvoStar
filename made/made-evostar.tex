@@ -1,0 +1,129 @@
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{subfigure}
+%\usepackage{subfig}
+\usepackage{url}
+\usepackage{caption}
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\providecommand{\tabularnewline}{\\}
+
+\begin{document}
+
+\mainmatter
+\title{Title under construction}
+
+
+\titlerunning{}
+
+%\author{R. H. P. Garc\'ia-Ortega \and P. Garc\'ia-S\'anchez \and J.J. Merelo}
+\author{Mustrum Ridcully\inst{1}}
+% ¿Se puede ayudar aquí?
+%
+%\authorrunning{R. H. P. Garc\'ia-Ortega et al.}
+\authorrunning{}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+%\institute{Dept. of Computer Architecture and Technology, University
+%of Granada, Spain}
+\institute{Unseen University of Ankh-Morpork}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+
+
+
+\maketitle
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ABSTRACT   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{abstract}
+The procedural generation of massive subplots and backstories in secondary characters that inhabit Open World videogames usually lead to stereotyped characters that act as mere decoration of the virtual world; however, many game designers claim that the stories can be very relevant for the player's experience. For this reason we are looking for a methodology that improves the variability of the characters' personality while enhancing the quality of their backstories following artistic or literary guidelines.
+In previous works, we used multi agent systems in order to have stochastic but regulated inter-relations that became backstories; later, we have used genetic algorithms to promote the appearance of high level behaviors inside them.
+Our current work follows the previous research line and propose a three layered system (Evolutionary computation - Agent-Based Model - Logical Reasoner) that is applied to the promotion of the monomyth, commonly known as the hero's journey, a social pattern that constantly appears in literature, films, and videogames. 
+As far as we know, there is no previous attempt to model the monomyth as a logical theory, and no attempt to use the sub-solutions for narrating purposes. Moreover, this paper shows for the first time this multi-paradigm three-layered methodology to generate massive backstories. 
+Different metrics have been tested in the experimental phase, from those that sum all the monomyth-related tropes to those that promote distribution of archetypes in the characters.
+
+% Results are coming...
+
+\keywords{Procedural generation, monomyth, agent-based model, emergent behavior}
+\end{abstract}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   INTRODUCTION   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Introduction}
+
+Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. that are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can roam freely through a virtual world. 
+
+Open worlds are usually created using Procedural Content Generation (PGC) techniques. Recently, PCG is boosting its popularity, mainly due to two reasons: the cost reduction that the automatic generation implies to the developers, and the re-playability that it offers to the players. As a recent example, \textit{No man's sky}, an indie adventure videogame where planets, fauna and flora are created procedurally, won three Game Critics Awards, including Best Original Game and the Special Commendation for Innovation, in the past Electronic Entertainment Expo 2014, a reference annual trade show for the video game industry\footnote{\url{http://www.gamecriticsawards.com/winners.html}}.
+
+Szymanezyk et al. in \cite{szymanezyk2011individual} remark that virtual humans composing a crowd are often modeled only in terms of individuals and that research in crowd behavior identifies that a large majority of persons in real crowds do not act in individualistic terms. Characters need to explore a social network in order to augment their believability and, as simulated crowds, need to consider group aspects, hence they propose to create a network-type data structure with the help of on-going sociology work.
+The different inter-relations between the NPCs generate events and the goal of our research is to use those events to generate quality backstories for the NPCs, that are an important part of the game narrative, as defined by Bateman et al. in \cite{bateman2007game}:
+
+Backstories are the histories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research we create them massively using social interactions between the NPCs.
+
+Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. From our point of view, an archetype is a role that a character plays on a given moment or period, regardless of the nature of characteristics of them. Following this reasoning, a character could play many different archetypes in their life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
+
+The monomyth, commonly known as the hero's journey, is a pattern where different archetypes behave in a specific way and conform to ancient and modern myths from cultures all over the world: It is the story of someone who is considered a hero, that has to deal with his/her shadow, who is waiting at the end of a journey, where different characters appear like mentors, allies or obstacles. The monomyth was studied by Joseph Campbell in The Hero with a Thousand Faces~\cite{campbell2008hero}, and later by Vogler in The writer's journey~\cite{vogler2007writer}. The monomyth has been typically applied to literature and traditional media, but it actually manifests also in modern videogames like Mass Effect or Skyrim \cite{knopf2013rationalist} among others. In videogames, the \textit{monomyth} is used to design the main plots that the player can empathize with: In his work \cite{bartle2004massively}, Bartle identifies and examines the application of key elements of the monomyth to videogames, and discovers that players play virtual worlds as a mean for self-discovery, by subconsciously, following a predetermined path: the monomyth. Our work uses the monomyth as a frame for backstories in videogames, since it provides a basic but omnipresent set of high level behaviors that can be found in the daily life but also in the biggest adventures. We use the monomyth as metric of interest in order to promote the archetypes present in it.
+
+Our research uses a virtual world inhabited by autonomous agents, but the idea of using Agent-Based Models (ABM) of the world to generate stories is not new, as remarked in previous works \cite{garcia2014my} \cite{garciaortega2015how}, especially in the area of the interactive drama.
+In 2002, Virtual storyteller \cite{theune2002virtual} used agents that improvised using techniques from improvisational theater, a plot guide and a narrator. Our technique uses the same approach but there is no plot guide agent. Instead, a Genetic Algorithm (GA) guides the mood of the backstories created by finding 'archetypes'.
+Mei et al. created in 2005 a system called Thespian \cite{si2005thespian}, where the agents' personalities, their goals, are fitted so that they are motivated to perform according to the scripts. They use lookahead search in a decision-theoretic framework to determine the best way to achieve their goals and they are prepared to respond to the user interaction in a consistent way. Like Thespian, our work is also focused in the final script, not in modeling the agent's personality, but in our target application, open-world videogames, scripts are auto-generated in order to be re-playable.
+In 2008, Peinado et al. studied in \cite{peinado2008revisiting} the Belief-Desire-Intention (BDI), a cognitive model that reinforces narrative causality insofar as motivations and where beliefs are causal links that enrich characters. DBI is a theory that is starting to be considered a promising tool for modeling sophisticated characters, but it is not suitable for our research since we need to use more basic agents, easy to model and parametrize: As discussed by Sanchez and Lucas in \cite{sanchez2002exploring}, the analysis of relatively simple simulations using ABMs can, nonetheless, be quite complex, and in our case we use them in massively inhabited virtual worlds hard to analyze and evolve.
+
+In previous works we used Finite State Machines (FSMs) to model the agent behavior, but FSMs and its variants have limitations in developing game Artificial Intelligence (AI), for this reason in our present research we have used Behavior Trees (BT) instead, following Lim's arguments in \cite{lim2009ai}: BTs simplify the design of behavior by allowing the re-usability of tasks without increasing the complexity of the nodes and transitions. Moreover, BTs are the most successful method to model AIs in videogames, and many game engines allow the possibility to create them, like Unity3D or Unreal Engine. A behavior tree consist of different kinds of tasks that are the nodes in a hierarchical structure, following the description by Trembley \cite{tremblay2012understanding}: conditions, that check properties of the environment, actions, that alter the state of the environment,  and compositions, whose result is calculated from the children tasks.
+
+Our previous work has reinforced the idea that a hybrid \textit{Evolutionary Computation - Agent Based Model} (EC-ABM) methodology can be used to achieve the emergence of archetypes, according to the structure studied by Cioffi et al. in \cite{cioffi2012evolutionary}. In our current research, we add a new layer, that is in charge of evaluating the backstories: The Logical Reasoner. We use an ABM for the execution of the virtual world, whose execution is parameterized by a set of integer and float values, a Logical Reasoner that evaluates the events generated by each simulation and a Genetic Algorithm (GA) to find the set of parameters with highest fitness. The Logical Reasoner uses a mixed imperative-declarative paradigm, as shown in \cite{denti2001tuprolog},  to make high level deductions from the simulation's events, that are also expressed as logical predicates, using a logical theory that is modeled from the monomyth.
+
+% Pending some review comments from the original document in drive
+
+
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  METHODOLOGY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Methodology and experimental setup}
+
+
+% --------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  EXPERIMENTS AND RESULTS  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Experiments and Results}
+
+\section{Conclusions}
+
+
+\section*{Acknowledgments}
+Hidden for double blind review 
+%\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).}
+
+
+%
+%Hidden for double-blind review
+
+
+\bibliographystyle{splncs}
+\bibliography{made-evostar}
+
+
+\end{document}
