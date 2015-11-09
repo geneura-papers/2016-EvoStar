@@ -75,6 +75,8 @@ Different metrics have been tested in the experimental phase, from those that su
 \section{Introduction}
 \label{sec:intro}
 
+Our present work defines and tests a system that uses multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual words in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts.
+
 Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. that are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can roam freely through a virtual world. 
 
 Open worlds are usually created using Procedural Content Generation (PGC) techniques. Recently, PCG is boosting its popularity, mainly due to two reasons: the cost reduction that the automatic generation implies to the developers, and the re-playability that it offers to the players. As a recent example, \textit{No man's sky}, an indie adventure videogame where planets, fauna and flora are created procedurally, won three Game Critics Awards, including Best Original Game and the Special Commendation for Innovation, in the past Electronic Entertainment Expo 2014, a reference annual trade show for the video game industry\footnote{\url{http://www.gamecriticsawards.com/winners.html}}.
@@ -128,7 +130,7 @@ In this section we will present a system that uses the three-layered system EC-A
 The proposed system is described in the Dataflow Diagram of figure \ref{fig:dataflow}. Different modules have been defined: The optimizer, the simulator, the reasoner, the narrator and the customizer. The Optimizer, formerly the EC layer, uses a GA whose individuals are simulation configurations and returns the best individual found. The fitness function of each individual consists in several simulations, performed by the Simulator, i.e. the ABM layer, that uses a multi-agent system in order to generate a sequence of events. These events are evaluated by the LR, the third layer, that uses predicate logic to assign a numerical value to the events following guidelines extracted from the monomyth. The Simulator runs the virtual environment with each configuration in different trials and returns the average (the fitness) to the Optimizer. On the other hand, the Narrator takes a given solution and transforms it to an agnostic narration, that is a selection of relevant predicates without final names for the narration elements. The Customizer is in charge of assigning names and structures to the agnostic narration in order to apply a specific literary setting, for example, middle-age, futuristic, steampunk or Shakespearian.
 
 
-\subsection{An agent-based model that generates simple events}
+\subsection{ABM Layer: An agent-based model that generates simple events}
 \label{sec:abm}
 
 The virtual environment that we propose in this work is called ColourForms, and has been designed as a board-like game that focuses in the four independent, ontic dimensions that conform the ludo-narrative design space described by Aarseth in his work \cite{aarseth2012narrative}: world, objects, agents and events. In our virtual environment, pieces will compete and collaborate in order to reach their desired colour. The narrative, as Aylett studied in \cite{aylett1999narrative}, emerges through small interactions between the characters. The main elements are described as follows: 
@@ -282,7 +284,7 @@ The Simulator takes an array of 52 values as input, maps them to the environment
 	\label{fig:abm_parameters}
 \end{figure}
 
-\subsection{Construction of the monomyth}
+\subsection{LR layer: Logical reasoning to construct the monomyth}
 \label{sec:lr}
 
 As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not 'rigid character roles' but 'flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
@@ -320,8 +322,14 @@ In our approach, we have taken the archetypes that conform the monomyth and trie
 	\label{fig:theory}
 \end{figure}
 
-\subsection{Emergence of archetypes}
+\subsection{EC layer: Genetic algorithms for the archetypes emergence}
 \label{sec:ec}
+
+
+The Optimizer module, uses a GA to evolve configurations of the Simulator in order to find the one with the best fitness, that is calculated in base of the predicates found by the Reasoner. The use of a GA is adequate since the 52 arguments (the genotype) define world's features, as the size of the map or the number of virtual days, and specific nodes in the behavior tree of each piece shape, hence it is not possible to deduce the effects of their values when the agents interact: The fitness is the result of high level interactions or specific sequences of them (phenotype) that cannot be predicted.This uncertainty is increased by the stochastic nature of the simulation, since different executions of the simulator provide different results that inproves the re-playability of the videogame.
+
+An individual for our GA is a chromosome of 52 genes, where the first five are integer with different ranges and the following forty seven are real values in the range [0-1].
+
 
 % --------------------------------------------------------------
 
