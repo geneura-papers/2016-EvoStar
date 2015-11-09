@@ -155,6 +155,172 @@ The virtual environment created for this work, the pieces (characters) are emoti
 	\label{fig:bt_autogen}
 \end{figure}
 
+The Simulator takes an array of 52 values as input, maps them to the environment internal variables and performs the execution of the virtual world by running sequentially the parametrized agents' behavior tree. Finally, when a specific number of virtual days is reached, the simulation finishes and the generated events are sent to the Reasoner for further analysis. The structure of the configuration array and the meaning of each element are described in figure~\ref{fig:abm_parameters}. As we will se in further sections, the configuration array of the Reasoner will be the chromosome in the Optimizer, in other words, the individual of the GA.
+
+\subsection{LR layer: Logical reasoning to construct the monomyth}
+\label{sec:lr}
+
+As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not 'rigid character roles' but 'flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
+'There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', but we will focus in the eight archetypes that conform the monomyth:
+
+\begin{enumerate}
+	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
+	\item The \textbf{Mentor} teaches and protects heroes and gives them gifts.
+	\item The \textbf{Threshold} Guardians are the the forces that the hero must overcome.
+	\item The \textbf{Herald} is the caller to the adventure for the hero.
+	\item The \textbf{Shapeshifter} changes (of archetype) along the journey.
+	\item The \textbf{Shadow} is the villain or antagonist; the dark side.
+	\item The \textbf{Ally} accompanies or helps the hero through the journey.
+	\item The \textbf{Trickster} is a mischief-makers.
+\end{enumerate}
+
+In our approach, we have taken the archetypes that conform the monomyth and tried to define them in terms of the world's events described in section~\ref{sec:abm}. The Reasoner uses a logical theory in PROLOG, that is a powerful approach since it gives us the possibility to compound predicates and use time-frameworks. The terms in our theory are shown in figure~\ref{fig:theory} in an ordered way following a dependency graph. Coming up next we describe our implementation of the archetypes and other needed concepts.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{theory.pdf}
+	\caption{Predicate dependencies in the proposed logical theory of the monomyth: White nodes represent predicates generable by the ABM layer and gray predicates (helpers) are inferred by the Reasoner. Dark-gray predicates (facilitators) conform the monomyth.}
+	\label{fig:theory}
+\end{figure}
+
+\begin{enumerate}
+	\item We define \textbf{Conflict} as a sequence of events that succeed in a certain moment where two characters take part (the winner and the loser). In the ColorForms game, a conflict might appear when a piece scares or displaces other, or when they takes a color spot that the other desires. If a two pieces are friends and one of them is displaced by a third piece, the two friends have both a conflict with them.
+	\item We define \textbf{Journey} as time interval between two conflict between two characters. The first conflict has to be lost by one of them (the \textbf{Hero}) and the second one has to be lost by the other (the \textbf{Shadow}). Moreover, the Shadow must be 'more evil' than the Hero, that is to say that must have helped less friends until this moment.
+	\item We define \textbf{Mentor} as a character that is a friend of the Hero during the Journey and helps them at least once. 
+	\item We define \textbf{Threshold Guardian} as a character that loses a conflict with the hero along the journey. 
+	\item We define \textbf{Herald} as a friend of the hero in a Journey that has the initiator conflict.
+	\item We define \textbf{Shapeshifter} as a character that has played the Ally and the Threshold Guardian archetypes in the same Journey.
+	\item We define \textbf{Ally} as a character that helps the Hero in a Journey. It can give the Hero an extra turn to accomplish them goals or they can accompany the Hero physically in the map along the journey.
+	\item  We define \textbf{Trickster} as a character that accompanies the Hero along the Journey and is trickier. In our implementation, to be trickier tan other can imply to have more joy than them.  
+\end{enumerate}
+
+
+\subsection{EC layer: Genetic algorithms for the archetypes emergence}
+\label{sec:ec}
+
+% Why do we use GA??
+
+As previously explained, the objective of our work is to generate the archetypes present in the monomyth. Since we have to deal with a big amount of parameters and the result of the simulator in uncertain, due the stochastic nature of the virtual world and the unpredictable inter-relationships of the agents, the usage of a GA is proposed. This technique has been proved to work successfully in these kind of environments by A and B in C and D respectivelly. 
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{abm_parameters.pdf}
+	\caption{Configuration array of the reasoner (ABM layer) and structure of the individual of the Optimizer (EC layer). Gray rectangles stand for the index of the parameters.}
+	\label{fig:abm_parameters}
+\end{figure}
+
+% What is a GA?
+
+GAs are a subset of Evolutionary Algorithms (EAs), which are a set of bio-inspired techniques applied to optimization problems \cite{eiben2010whatis}, based on the process of natural selection \cite{darwin1859}. In this kind of algorithms, a \textsc{population} of codified solutions (called \textsc{individuals}) is created. The most adapted individuals have more chances to be selected for reproduction, so their offspring could inherit their genetic material. The level of adaptation of each solution is measured using a \textsc{fitness} function, that usually models the problem to solve. GAs were proposed by Holland \cite{holland1975adaptation}, and also studied by Goldberg \cite{goldberg1988genetic} and Michalewicz \cite{michalewicz1996genetic}. In this kind of EA, the representation of the solution is a string of numbers, called \textsc{chromosome} (and sometimes \textsc{genome}). The individuals are selected proportionally to their fitness, and then \textsc{recombination} and/or \textsc{mutation} are applied to generate new individuals that will be introduced in the population. These algorithms have been used in different areas, such as function optimization \cite{michalewicz1996genetic}, combinatorial optimization \cite{Esparcia2009EVITA}, artificial intelligence in videogames \cite{Fernandez20111optimizing}, or generative art \cite{Garcia2013RGB}, among others. 
+
+The Optimizer module, uses a GA to evolve configurations of the Simulator in order to find the one with the best fitness, that is calculated in base of the predicates found by the Reasoner. The use of a GA is adequate since it is not possible to deduce the effects of the parameter values when the agents interact: The fitness is the result of high level interactions or specific sequences of them (phenotype) that cannot be predicted. This uncertainty is increased by the stochastic nature of the simulation, since different executions of the simulator provide distinct results that improves the re-playability of the videogame.
+
+An individual for our GA is a chromosome of 52 genes, where the first 5 are natural numbers in different ranges and the following 47 are real values in the range [0-1]. The structure of the chromosome is detailed in figure~\ref{fig:abm_parameters}.
+
+We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decision are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
+
+The fitness used takes into account the number of archetypes that have been deduced by the Reasoner since we are interested in the promotion of the monomyth, as described in section~\ref{sec:lr}.
+
+
+Let
+$A_i$ an archetype in the set of all $T$ desired predicates $A$:
+\begin{multline}
+A = \{Conflict, Journey, Shadow, Hero, Mentor, Herald, Guardian,\\
+Allied, Trickster, Shapeshifter, Monomyth\}
+\end{multline}
+and $|A_{i}|$ the number of occurrences of that predicate generated by the Reasoner at the end of the simulation, we define the next three metrics to evaluate the fitness $F$:
+
+\begin{itemize}
+\item Amount of Monomyth Occurrences Found ($M$): Count the number of occurrences of the predicate 'monomyth', hence it stands for the most basic metric we can implement.
+\begin{equation}
+F_{M} = \left| A_{Monomyth}\right|
+\label{eq:M}
+\end{equation}
+
+
+\item Amount of All Occurrences Found ($A$): Count the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
+\begin{equation}
+F_{A} = \sum _{i=0}^{T}\left| A_{i}\right|
+\label{eq:A}
+\end{equation}
+
+\item Amount of All Ocurrences Distributed by Predicates ($AD$): Counts the number of occurrences, but promotes the appearance of new archetypes. That is, the occurrence of two different predicates gets a bigger fitness than two occurrences of the same predicate. 
+\begin{equation}
+F_{AD} = \sum _{i=0}^{T} \log _{10} (\left|A_{i}\right| + 1)
+\label{eq:AD}
+\end{equation}
+
+\end{itemize}
+
+Although our goal is to make the monomyth emerge, and this can be achieved with fitness metric $M$ (equation ~\ref{eq:M}), we have added the extra metrics defined in equations \ref{eq:A} and \ref{eq:AD} to observe the effects of guiding the evolution by promoting the appearance of the facilitators.
+
+More complicated metrics could be chosen, for example, using human interaction as proposed by Takagi in \cite{Takagi2001}, but the chosen ones can be considered the simplest ones to detect the emergence of the monomyth. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  EXPERIMENTS AND RESULTS  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Experiments and Results}
+
+% Qué queremos hacer? demostrar que podemos hacer que surja el monomito y de paso si las métricas seleccionadas son adecuadas
+
+The objective of this paper is to demonstrate that it is possible to create a multi-paradigm three-layered system (AC-LR-ABM) that is able to generate massive backstories following the monomyth guidelines. As secondary objectives, we try to test if the chosen metrics are valid to allow the emergence in the evolutionary process of the GA. 
+
+% Parametrización del GA
+
+The experiments  we set the environment with the following parameters:
+
+
+\begin{table}[htb]
+	\scriptsize
+	\begin{center}
+		\def\arraystretch{1.5}
+		\setlength\tabcolsep{0.1cm}
+		\begin{tabular}{| l | l |}
+			\hline
+			\textbf{Parameter}			  & \textbf{Value} \\ \hline
+			\multicolumn{2}{|c|}{GA parameters} \\ \hline
+			Type                  & generational                 \\ \hline 
+			Population size       & 30                            \\ \hline
+			Selection             & binary tournament             \\ \hline
+			Mutation operator     & polynomial (theta = 20)       \\ \hline
+			Crossover operator    & blx-$\alpha$ ($\alpha$ = 0.5) \\ \hline
+			Termination condition & 40 generations                \\ \hline
+			Fitness               & M / A / AD                    \\ \hline
+			Number of trials in fitness & 15 \\ \hline
+			Maximum reasoning time & 300 s \\ \hline
+			\multicolumn{2}{|c|}{Gene ranges} \\ \hline
+			World size gene & 8 - 16 \\ \hline
+			Number of circles & 0 - 15 \\ \hline
+			Number of triangles & 0 - 15 \\ \hline
+			Number of squares & 0 - 15 \\ \hline
+			Number of virtual days & 2 - 128 \\ \hline
+		\end{tabular}
+		\caption{Parameters of the GA used in the experiments.}
+		\label{tab:strategies}
+	\end{center}
+\end{table}
+
+% Resultados experimentos
+
+% grafica de predicado monomito con los 3 fitness
+
+% graficas del resto de predicados con los 3 fitness
+
+% estudio de la mejor solución encontrada
+
+% el código fuente de los experimentos y del framework puede descargarse de ...
+
+\section{Conclusions}
+
+% este trabajo presenta...
+
+The present paper uses Agent-Based Modeling, Logical Reasoning and Genetic Algorithms to promote the appearance of massive backstories for videogames with archetypes that follow the monomyth guidelines. For this, we model emotion-driven autonomous agents that interact in a virtual world called ColorForm where color pieces compete and collaborate in order to change their colors. The virtual environment generates events using logical predicates that are later used by a PROLOG reasoner to deduce the different archetypes that conforms the monomyth. Finally, a genetic algorithm is used to optimize the configuration of the virtual world. We have compared three different fitnesses in order to guide the evolutionary process.
+
+% los resultados muestran que
+Experiments show that the emergence of the monomyth can be improved by searching facilitators, in other words, the predicates that are found in the monomyth, instead of just focusing in the number of monomyth occurrences. Moreover, rewarding the diversity of archetypes leads to better solutions. Results demonstrate that it is possible to make the monomyth emerge and massively generate backstories populated with archetypes that are proved emotionally engaging for the videogame player.
+
+
+% como trabajo futuro ...
+
+
 \begin{table}[ht]
 	\scriptsize
 	\begin{center}
@@ -275,116 +441,6 @@ The virtual environment created for this work, the pieces (characters) are emoti
 		\label{tab:strategies}
 	\end{center}
 \end{table}
-
-The Simulator takes an array of 52 values as input, maps them to the environment internal variables and performs the execution of the virtual world by running sequentially the parametrized agents' behavior tree. Finally, when a specific number of virtual days is reached, the simulation finishes and the generated events are sent to the Reasoner for further analysis. The structure of the configuration array and the meaning of each element are described in figure~\ref{fig:abm_parameters}. As we will se in further sections, the configuration array of the Reasoner will be the chromosome in the Optimizer, in other words, the individual of the GA.
-
-\subsection{LR layer: Logical reasoning to construct the monomyth}
-\label{sec:lr}
-
-As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not 'rigid character roles' but 'flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
-'There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', but we will focus in the eight archetypes that conform the monomyth:
-
-\begin{enumerate}
-	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
-	\item The \textbf{Mentor} teaches and protects heroes and gives them gifts.
-	\item The \textbf{Threshold} Guardians are the the forces that the hero must overcome.
-	\item The \textbf{Herald} is the caller to the adventure for the hero.
-	\item The \textbf{Shapeshifter} changes (of archetype) along the journey.
-	\item The \textbf{Shadow} is the villain or antagonist; the dark side.
-	\item The \textbf{Ally} accompanies or helps the hero through the journey.
-	\item The \textbf{Trickster} is a mischief-makers.
-\end{enumerate}
-
-In our approach, we have taken the archetypes that conform the monomyth and tried to define them in terms of the world's events described in section~\ref{sec:abm}. The Reasoner uses a logical theory in PROLOG, that is a powerful approach since it gives us the possibility to compound predicates and use time-frameworks. The terms in our theory are shown in figure~\ref{fig:theory} in an ordered way following a dependency graph. Coming up next we describe our implementation of the archetypes and other needed concepts.
-
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{theory.pdf}
-	\caption{Predicate dependencies in the proposed logical theory of the monomyth: White nodes represent predicates generable by the ABM layer and gray predicates (helpers) are inferred by the Reasoner. Dark-gray predicates (facilitators) conform the monomyth.}
-	\label{fig:theory}
-\end{figure}
-
-\begin{enumerate}
-	\item We define \textbf{Conflict} as a sequence of events that succeed in a certain moment where two characters take part (the winner and the loser). In the ColorForms game, a conflict might appear when a piece scares or displaces other, or when they takes a color spot that the other desires. If a two pieces are friends and one of them is displaced by a third piece, the two friends have both a conflict with them.
-	\item We define \textbf{Journey} as time interval between two conflict between two characters. The first conflict has to be lost by one of them (the \textbf{Hero}) and the second one has to be lost by the other (the \textbf{Shadow}). Moreover, the Shadow must be 'more evil' than the Hero, that is to say that must have helped less friends until this moment.
-	\item We define \textbf{Mentor} as a character that is a friend of the Hero during the Journey and helps them at least once. 
-	\item We define \textbf{Threshold Guardian} as a character that loses a conflict with the hero along the journey. 
-	\item We define \textbf{Herald} as a friend of the hero in a Journey that has the initiator conflict.
-	\item We define \textbf{Shapeshifter} as a character that has played the Ally and the Threshold Guardian archetypes in the same Journey.
-	\item We define \textbf{Ally} as a character that helps the Hero in a Journey. It can give the Hero an extra turn to accomplish them goals or they can accompany the Hero physically in the map along the journey.
-	\item  We define \textbf{Trickster} as a character that accompanies the Hero along the Journey and is trickier. In our implementation, to be trickier tan other can imply to have more joy than them.  
-\end{enumerate}
-
-
-\subsection{EC layer: Genetic algorithms for the archetypes emergence}
-\label{sec:ec}
-
-% Why do we use GA??
-
-As previously explained, the objective of our work is to generate the archetypes present in the monomyth. Since we have to deal with a big amount of parameters and the result of the simulator in uncertain, due the stochastic nature of the virtual world and the unpredictable inter-relationships of the agents, the usage of a GA is proposed. This technique has been proved to work successfully in these kind of environments by A and B in C and D respectivelly. 
-
-\begin{figure}[ht]
-	\includegraphics[width=\textwidth]{abm_parameters.pdf}
-	\caption{Configuration array of the reasoner (ABM layer) and structure of the individual of the Optimizer (EC layer). Gray rectangles stand for the index of the parameters.}
-	\label{fig:abm_parameters}
-\end{figure}
-
-% What is a GA?
-
-GAs are a subset of Evolutionary Algorithms (EAs), which are a set of bio-inspired techniques applied to optimization problems \cite{eiben2010whatis}, based on the process of natural selection \cite{darwin1859}. In this kind of algorithms, a \textsc{population} of codified solutions (called \textsc{individuals}) is created. The most adapted individuals have more chances to be selected for reproduction, so their offspring could inherit their genetic material. The level of adaptation of each solution is measured using a \textsc{fitness} function, that usually models the problem to solve. GAs were proposed by Holland \cite{holland1975adaptation}, and also studied by Goldberg \cite{goldberg1988genetic} and Michalewicz \cite{michalewicz1996genetic}. In this kind of EA, the representation of the solution is a string of numbers, called \textsc{chromosome} (and sometimes \textsc{genome}). The individuals are selected proportionally to their fitness, and then \textsc{recombination} and/or \textsc{mutation} are applied to generate new individuals that will be introduced in the population. These algorithms have been used in different areas, such as function optimization \cite{michalewicz1996genetic}, combinatorial optimization \cite{Esparcia2009EVITA}, artificial intelligence in videogames \cite{Fernandez20111optimizing}, or generative art \cite{Garcia2013RGB}, among others. 
-
-The Optimizer module, uses a GA to evolve configurations of the Simulator in order to find the one with the best fitness, that is calculated in base of the predicates found by the Reasoner. The use of a GA is adequate since it is not possible to deduce the effects of the parameter values when the agents interact: The fitness is the result of high level interactions or specific sequences of them (phenotype) that cannot be predicted. This uncertainty is increased by the stochastic nature of the simulation, since different executions of the simulator provide distinct results that improves the re-playability of the videogame.
-
-An individual for our GA is a chromosome of 52 genes, where the first 5 are natural numbers in different ranges and the following 47 are real values in the range [0-1]. The structure of the chromosome is detailed in figure~\ref{fig:abm_parameters}.
-
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decision are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
-
-The fitness used takes into account the number of archetypes that have been deduced by the Reasoner since we are interested in the promotion of the monomyth, as described in section~\ref{sec:lr}.
-
-
-Let
-$A_i$ an archetype in the set of all $T$ desired predicates $A$:
-\begin{multline}
-A = \{Conflict, Journey, Shadow, Hero, Mentor, Herald, Guardian,\\
-Allied, Trickster, Shapeshifter, Monomyth\}
-\end{multline}
-and $|A_{i}|$ the number of occurrences of that predicate generated by the Reasoner at the end of the simulation, we define the next three metrics to evaluate the fitness $F$:
-
-\begin{itemize}
-\item Amount of Monomyth Occurrences Found ($M$): Count the number of occurrences of the predicate 'monomyth', hence it stands for the most basic metric we can implement.
-\begin{equation}
-F_{M} = \left| A_{Monomyth}\right|
-\label{eq:M}
-\end{equation}
-
-
-\item Amount of All Occurrences Found ($A$): Count the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
-\begin{equation}
-F_{A} = \sum _{i=0}^{T}\left| A_{i}\right|
-\label{eq:A}
-\end{equation}
-
-\item Amount of All Ocurrences Distributed by Predicates ($AD$): Counts the number of occurrences, but promotes the appearance of new archetypes. That is, the occurrence of two different predicates gets a bigger fitness than two occurrences of the same predicate. 
-\begin{equation}
-F_{AD} = \sum _{i=0}^{T} \log _{10} (\left|A_{i}\right| + 1)
-\label{eq:AD}
-\end{equation}
-
-\end{itemize}
-
-Although our goal is to make the monomyth emerge, and this can be achieved with fitness metric $M$ (equation ~\ref{eq:M}), we have added the extra metrics defined in equations \ref{eq:A} and \ref{eq:AD} to observe the effects of guiding the evolution by promoting the appearance of the facilitators.
-
-More complicated metrics could be chosen, for example, using human interaction as proposed by Takagi in \cite{Takagi2001}, but the chosen ones can be considered the simplest ones to detect the emergence of the monomyth. 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%  EXPERIMENTS AND RESULTS  %%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Experiments and Results}
-
-
-
-
-\section{Conclusions}
-
 
 \section*{Acknowledgments}
 Hidden for double blind review 
