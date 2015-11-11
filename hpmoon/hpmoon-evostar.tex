@@ -8,7 +8,6 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{subfigure}
-%\usepackage{subfig}
 \usepackage{url}
 \usepackage{caption}
 
@@ -65,9 +64,8 @@
 %
 \begin{abstract}
 Large-scale multi-objective optimization problems with many decision variables have 
-recently attracted attention as many data mining applications involving high 
-dimensional patterns can take advantage of multi-objective approaches. Present 
-parallel and distributed computer architectures can provide the required computing 
+recently attracted the attention of researhers as many data mining applications involving high 
+dimensional patterns can be leveraged using them. Current parallel and distributed computer architectures can provide the required computing 
 capabilities to cope with these problems once efficient procedures are available. In this 
 paper we propose a cooperative coevolutionary island-model procedure based on the parallel 
 execution of sub-populations, whose individuals explore different domains of the 
@@ -204,7 +202,17 @@ This algorithm is a regular NSGA-II algorithm distributed along a number $P$ of 
 
 \subsection{Disjoint Algorithm}
 
-In this approach, each individual of size $L$ is split into $P$ chunks of size $L/P$. Every island $p$ only performs crossover and mutation on the $p_{th}$ part of the individuals.  As in the baseline, every certain number of generations, an individual is migrated to another random island.  In the new island, this individual will be crossed and mutated as the other individuals on the island. Note that, on the contrary of other works such as the ones described \cite{Talbi08Parallel} all the islands deal with complete chromosomes for fitness calculation, so our approach can deal with no decomposable problems. Figure \ref{fig:disjoint} describes this approach, with $P=5$ islands.
+In this approach, each individual of size $L$ is split into $P$ chunks
+of size $L/P$. Every island $p$ only performs crossover and mutation
+on the $p_{th}$ part of the individuals.  As in the baseline, every
+certain number of generations, an individual is migrated to another
+random island.  In the new island, this individual will be crossed and
+mutated as the other individuals on the island. Note that, on the
+contrary of other works such as the ones described
+\cite{Talbi08Parallel} all the islands deal with complete chromosomes
+for fitness calculation, so our approach can deal with no decomposable
+problems. Figure \ref{fig:disjoint} describes this approach, with
+$P=5$ islands. 
 
 \begin{figure}
 \includegraphics[width=10cm]{islandDisjoint.jpg}
@@ -230,9 +238,21 @@ This approach is similar to the previous one, but every island also uses the $p+
 \section{Experiments and Results}
 \label{sec:res}
 
-The three approaches have been launched with a different combination of chromosome lengths ($L$): 512 and 2048. Also, different number of islands ($P$) have been compared: 8, 32 and 128. This maximum number of islands have been also used in previous work in the literature \cite{Martens13asynchronous}. The crossover and mutation chosen, SBX and polynomial, have been used previously by other authors in \cite{Durillo08masterslave}.
+The three approaches have been run with a different combination of
+chromosome lengths ($L$): 512 and 2048. Different number of
+islands ($P$) have also been compared: 8, 32 and 128. This maximum number
+of islands have been also used in previous work in the literature
+\cite{Martens13asynchronous}. The crossover and mutation chosen, SBX
+and polynomial, have been used previously by other authors in
+\cite{Durillo08masterslave}. 
 
-The chosen problems to evaluate are the ZDT. This benchmark has been chosen because it has been previously used in different works of the literature \cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}. The optimal PF distribution used for comparison has 1000 solutions \footnote{Optimal PFs can be obtained here: \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}.}.
+ZDT has been chosen as a benchmark, since it is the most widely
+used. This benchmark has been chosen because it has been previously
+used in different works of the literature
+\cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}. The
+optimal PF distribution used for comparison has 1000
+solutions \footnote{Optimal PFs can be obtained here:
+  \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}.}. 
 
 
 
