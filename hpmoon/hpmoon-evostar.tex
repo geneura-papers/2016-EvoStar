@@ -22,7 +22,7 @@
 
 % first the title is needed
 \title{Addressing high dimensional multi-objective optimization
-  problems by islands with overlapping search space} %TITULO PROVISIONAL
+  problems by islands with overlapping search spaces} %TITULO PROVISIONAL
 
 % a short form should be given in case it is too long for the running head
 \titlerunning{Addressing high dimensional multi-objective optimization problems}
@@ -184,7 +184,10 @@ used up to 128 islands.
 %
 \section{Methodology and experimental setup}
 \label{sec:met}
-This section describes the quality indicators used and the methods compared. The chosen quality indicators are:
+This section describes the quality indicators used and the methods
+compared. The chosen quality indicators,
+% which were presented in \cite{} give a reference for this metric. - JJ
+are:
 
 \begin{itemize}
 \item Hypervolume (HV): measures the area formed by all non-dominated solutions found with, respect to a reference point. Higher values imply better quality of the PF.
@@ -192,17 +195,28 @@ This section describes the quality indicators used and the methods compared. The
 \item Spread (S): Measures the spread between solutions, taking into account the euclidean distance between consecutive solutions. As in previous metric, the lower value, the better, as it implies solutions distributed along all the PF.
 \end{itemize}
 
-All these metrics have been used and described in previously presented works \cite{Deb03distributed,Durillo08masterslave,Hiroyasu07discussion,Dorronsoro13superlinear} in Section \ref{sec:soa}.
+These metrics have been used extensively, especially in the paper
+presented previously in Section \ref{sec:soa}.
 
 
 % --------------------------------------------------------------
 
 \subsection{Baseline algorithm}
-This algorithm is a regular NSGA-II algorithm distributed along a number $P$ of islands. Every certain number of generations, one individual is migrated to another random island. At the end of the run, all PFs of all islands are aggregated in a new one and the metrics are calculated.
 
+This algorithm is a regular NSGA-II algorithm distributed along a
+number $P$ of islands. After a fixed number of generations, one
+individual is migrated to another random island. At the end of the
+run, all PFs of all islands are aggregated in a new one to compute the
+quality measures.
+% some justification on why this was chosen - JJ
+
+% And some liaison to next subsection - JJ
 
 \subsection{Coevolutionary algorithms compared}
-Two different coevolutionary methods have also been used. In both methods, each individual is splitted in different chunks, and every island performs crossover and mutation in specific chunks of the individuals.  As in the baseline, every
+Two different coevolutionary methods have also been used. In both
+methods, each individual is splitted in different chunks, and every
+island performs crossover and mutation in specific chunks of the
+individuals.  As in the baseline, every 
 certain number of generations, an individual is migrated to another
 random island.  In the new island, this individual will be considered as one of the others in the island, crossed and
 mutated in the same way, depending of the island identifier. Note that, on the
@@ -215,7 +229,7 @@ problems.
 In this approach, each individual of size $L$ is split into $P$ chunks
 of size $L/P$. Every island $p$ only performs crossover and mutation
 on the $p_{th}$ part of the individuals. Figure \ref{fig:disjoint} describes this approach, with
-$P=5$ islands. 
+$P=5$ islands.  
 
 \begin{figure}
 \includegraphics[width=10cm]{islandDisjoint.jpg}
@@ -223,14 +237,19 @@ $P=5$ islands.
 \label{fig:disjoint}
 \end{figure}
 
-\subsubsection{Coevolution with overlapped islands}
-This approach is similar to the previous one, but every island also uses the $p+1$ and $p-1$ (module size) chunks of the individual for crossover and migration. Therefore, some kind of overlapping of the crossed and mutated parts exists between islands. Figure \ref{fig:overlapped} shows the affected parts of the individuals in each island.
+\subsubsection{Coevolution with overlapping islands}
+This approach is similar to the previous one, but every island also
+uses the $p+1$ and $p-1$ (module size) chunks of the individual for
+crossover and migration. Therefore, some kind of overlapping of the
+crossed and mutated parts exists between islands. Figure
+\ref{fig:overlapping} shows the affected parts of the individuals in
+each island. 
 
  
 \begin{figure}
 \includegraphics[width=10cm]{islandNoDisjoint.jpg}
-\caption{Overlapped algorithm: every island $p$ modifies the  $p+1$, $p_{th}$ and $p-1$  parts (in grey) of the individuals.}
-\label{fig:overlapped}
+\caption{Overlapping algorithm: every island $p$ modifies the  $p+1$, $p_{th}$ and $p-1$  parts (in grey) of the individuals.}
+\label{fig:overlapping}
 \end{figure}
 
 % --------------------------------------------------------------
@@ -303,7 +322,7 @@ Different metrics, explained in the previous section, have been used to calculat
  
 	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
 \multicolumn{10}{|c|}{512 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{10}{|c|}{ZDT1}																												\\ \hline
 8	&	0.870	&	\textbf{0.961}	&		0.943			&	0.775	&	0.546		&	0.720	*		&	0.019	&	0.000		&	0.004			\\
 32	&	0.803	&	0.887	&		\textbf{0.957}			&	0.815	&	0.837	*	&	0.621			&	0.033	&	0.014		&	0.001			\\
@@ -327,7 +346,7 @@ Different metrics, explained in the previous section, have been used to calculat
 																												
 	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
 \multicolumn{10}{|c|}{2048 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{10}{|c|}{ZDT1}																												\\ \hline
 8	&	0.754	&	\textbf{0.948}	&		0.889			&	0.844	&	0.587		&	0.807	*		&	0.044	&	0.003		&	0.015			\\
 32	&	0.679	&	0.928	&		\textbf{0.942}			&	0.854	&	0.714		&	0.646			&	0.061	&	0.006		&	0.004			\\
@@ -348,13 +367,44 @@ Different metrics, explained in the previous section, have been used to calculat
 
 \end{tabular}
 }
-\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significant difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
+\caption{Quality metrics obtained after 30 runs per configuration, for
+  the three methods compared: Baseline, Disjoint  and Overlapping. An
+  asterisk (*) means that there is not significant difference with
+  respect to Baseline, and a bullet ($\bullet$) indicates there is not
+  difference between Disjoint and Overlapping.} 
 \label{tab:results}
 \end{table}
 
-At a first glance results show that dividing the chromosome produces an improvement in all the quality indicators in all the configurations, with respect to the baseline. Also, results show that all the quality indicators lowers when the number of islands is increased, as the subpopulations are smaller. This is consistent with the claim by Durillo in \cite{Dorronsoro13superlinear}, where cooperative coevolutionary MOEAs work better on bigger populations (more than 100 individuals). With respect to the disjoint and overlapped methods, only when using 8 islands the disjoint method always attain better metrics, and more times with the 2048 chromosome length. This can be explained because only 1/8 of the individual is changed in each island, while in the overlapped, 3/8 of the island may be more similar to the baseline. Therefore, there exist some kind of limit point where one method will be preferable to another, depending the number of islands, population size and length.
+At a first glance results show that dividing the chromosome produces
+an improvement in all the quality indicators in all the
+configurations, with respect to the baseline. Also, results show that
+all the quality indicators lowers when the number of islands is
+increased, as the subpopulations are smaller. This is consistent with
+the claim by Durillo in \cite{Dorronsoro13superlinear}, where
+cooperative coevolutionary MOEAs work better on bigger populations
+(more than 100 individuals). With respect to the disjoint and
+overlapping methods, only when using 8 islands the disjoint method
+always attain better metrics, and more times with the 2048 chromosome
+length. This can be explained because only 1/8 of the individual is
+changed in each island, while in the overlapping, 3/8 of the island
+may be more similar to the baseline. Therefore, there exist some kind
+of limit point where one method will be preferable to another,
+depending the number of islands, population size and length. 
 
-This can be explained also comparing the number of generations and average solutions per island. Table \ref{tab:gens} shows these values obtained in each method. It is clear that in the same amount of time, the disjoint and overlapped method attains more generations than the baseline. This is even clearer with $L=$2048, where almost 10 times the number of generations is attained, and therefore, more migrations and crossovers/mutations can be achieved. Surprisingly, the average number of solutions of PFs per island in the baseline is significantly higher in some configurations (mostly with 128 islands), but their combination in the final PF never attains higher values than Disjoint and Overlapped methods.
+This can be explained also comparing the number of generations and
+average solutions per island. Table \ref{tab:gens} shows these values
+obtained in each method. It is clear that in the same amount of time,
+the disjoint and overlapping method needs more generations than the
+baseline. This is even clearer with $L=$2048, where almost 10 times
+the number of generations is attained, and therefore, more migrations
+and crossovers/mutations can be achieved. Surprisingly, the average
+number of solutions of PFs per island in the baseline is significantly
+higher in some configurations (mostly with 128 islands), but their
+combination in the final PF never attains higher values than Disjoint
+and Overlapping methods. % Evaluations instead of generations should
+                         % have been used. Generations will have
+                         % different number of evaluations per
+                         % island. 
 
 \begin{table}
 \centering
@@ -362,7 +412,7 @@ This can be explained also comparing the number of generations and average solut
 \hline
 	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
 \multicolumn{7}{|c|}{512 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{7}{|c|}{ZDT1}																			\\ \hline
 8	&	112.933	&	453.333		&	225.233			&	118.733	&	137.000		&	141.467		$\bullet$	\\
 32	&	111.333	&	851.933		&	561.667			&	69.433	&	33.067		&	73.833	*		\\
@@ -386,7 +436,7 @@ This can be explained also comparing the number of generations and average solut
 																			
 	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
 \multicolumn{7}{|c|}{2048 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{7}{|c|}{ZDT1}																			\\ \hline
 8	&	118.333	&	574.100		&	262.700			&	136.167	&	126.267		&	136.267	*	$\bullet$	\\
 32	&	115.567	&	1195.800		&	721.733			&	103.867	&	35.000		&	60.267			\\
@@ -407,20 +457,52 @@ This can be explained also comparing the number of generations and average solut
 
 
 \end{tabular}
-\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint and Overlapped. An asterisk (*) means that there is not significant difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference between Disjoint and Overlapped.}
+\caption{Number of generations and average number of solutions per
+  island obtained after 30 runs per configuration, for the three
+  methods compared: Baseline, Disjoint and Overlapping. An asterisk
+  (*) means that there is not significant difference with respect to
+  Baseline, and a bullet ($\bullet$) indicates there is not difference
+  between Disjoint and Overlapping.} 
+% Disjoint takes twice as many generations as baseline and obtains
+% less solutions?  - JJ
 \label{tab:gens}
 \end{table}
 
 \section{Conclusions}
 
-High-performance problems that require a large number of decision variables can leverage from dividing the decision space in parallel and distributed algorithms. This can be applied in dMOEAs dividing the chromosome in different parts, each one modified in a different island. This paper compares a baseline distributed NSGA-II with two different methods to separate the chromosome (disjoint or overlapped parts). Results show that these methods can achieve better results than the baseline, being the relation of the number of islands used and the length of the chromosome a key factor to decide to take advantage of these methods. This can be explained because the time reduction in crossover and mutation in the chromosomes.
+High-performance problems that require a large number of decision
+variables can leverage the division of the decision space that parallel
+and distributed algorithms imply. This can be applied in dMOEAs dividing the
+chromosome in different parts, each one modified in a different
+island. This paper compares a baseline distributed NSGA-II with two
+different methods to separate the chromosome (disjoint or overlapping
+parts). Results show that these methods can achieve better results
+than the baseline, being the relation of the number of islands used
+and the length of the chromosome a key factor to decide to take
+advantage of these methods. This can be explained because the time
+reduction in crossover and mutation in the chromosomes. 
+% Is that all? Some explanation on whi it works, if it proves your
+% hypothesis, and so on so forth- JJ
 
-In future work, other MOEAs, such as SPEA will be compared, with more configurations of population size and chromosome lengths. Also, a real distributed system (such as a GRID or cluster) with more different numbers of islands/processors, will be used to compare the different methods, and a scalability study will be performed, therefore the transmission time between islands will also be a relevant issue to study. New benchmarks and real problems will be also used to validate our approach.
+In future work, other MOEAs, such as SPEA will be compared, with more
+configurations of population size and chromosome lengths. Also, a real
+distributed system (such as a GRID or cluster) with more different
+numbers of islands/processors, will be used to compare the different
+methods, and a scalability study will be performed, therefore the
+transmission time between islands will also be a relevant issue to
+study. New benchmarks and real problems will be also used to validate
+our approach. 
 
 
 \section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO Y EL DE MARIBEL EN INGLES!!!!
 Hidden for double blind review 
-%\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).}
+%\scriptsize{This work has been supported in part by SIPESCA (Programa
+%Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02
+%(Spanish Ministry of Economy and Competitivity), SPIP2014-01437
+%(Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica
+%Andaluza Centro de Estudios Andaluces en la IX Convocatoria de
+%Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project
+%(CEI-BIOTIC Granada).} 
 
 
 %
