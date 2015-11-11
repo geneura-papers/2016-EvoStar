@@ -174,7 +174,7 @@ Our current research contemplates two types of predicates: Those that have been 
 
 The virtual environment created for this work, the pieces (characters) are emotion-driven and can perform different strategies to interact with each other in order to generate events that will conform later backstories. The behavior tree used, described in figure~\ref{fig:bt_autogen}, has condition nodes and action nodes; when a condition is fulfilled it generates an event from the table table~\ref{tab:conditions} and when an action is executed correctly it generates an event from table~\ref{tab:strategies}. Our implementation of behavior tree executes the tree in pre-order until a leaf node is evaluated as 'success'.
 
-\begin{figure}[ht]
+\begin{figure}[htb]
 	\includegraphics[width=\textwidth]{bt_autogen.pdf}
 	\caption{Proposed agents' behavior tree: Circular nodes represent conditions and rectangular nodes represent actions.)}
 	\label{fig:bt_autogen}
@@ -326,6 +326,12 @@ The experiments  we set the environment with the following parameters:
 % Resultados experimentos
 
 % grafica de predicado monomito con los 3 fitness
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{results.pdf}
+	\caption{Execution of the system with the three fitness function. The first column belongs to M (promotion of the monomyth), the second column to A (promotion of the facilitators) and the third column to AD (promotion of the distribution of facilitators). The first row shows the evolution of the best individual, the second one shows the number of occurrences of the monomyth found and the third one the number of occurrences of the facilitators}
+	\label{fig:results}
+\end{figure}
 
 % graficas del resto de predicados con los 3 fitness
 
