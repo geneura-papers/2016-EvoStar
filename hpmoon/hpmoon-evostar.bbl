@@ -13,6 +13,12 @@ Luna, F., Alba, E.:
   Computational Intelligence.
 \newblock Springer (2015)  1017--1031
 
+\bibitem{Mukhopadhyay14Survey}
+Mukhopadhyay, A., Maulik, U., Bandyopadhyay, S., Coello, C.A.C.:
+\newblock A survey of multiobjective evolutionary algorithms for data mining:
+  Part {I}.
+\newblock {IEEE} Trans. Evolutionary Computation \textbf{18}(1) (2014)  4--19
+
 \bibitem{Gong15models}
 Gong, Y., Chen, W., Zhan, Z., Zhang, J., Li, Y., Zhang, Q., Li, J.:
 \newblock Distributed evolutionary algorithms and their models: {A} survey of
@@ -24,6 +30,12 @@ Kimovski, D., Ortega, J., Ortiz, A., Ba{\~{n}}os, R.:
 \newblock Parallel alternatives for evolutionary multi-objective optimization
   in unsupervised feature selection.
 \newblock Expert Syst. Appl. \textbf{42}(9) (2015)  4239--4252
+
+\bibitem{Dorronsoro13superlinear}
+Dorronsoro, B., Danoy, G., Nebro, A.J., Bouvry, P.:
+\newblock Achieving super-linear performance in parallel multi-objective
+  evolutionary algorithms by means of cooperative coevolution.
+\newblock Computers {\&} {OR} \textbf{40}(6) (2013)  1552--1563
 
 \bibitem{Deb00NSGAII}
 Deb, K., Agrawal, S., Pratap, A., Meyarivan, T.:
@@ -95,12 +107,6 @@ M{\"{a}}rtens, M., Izzo, D.:
 \newblock In Blum, C., Alba, E., eds.: Genetic and Evolutionary Computation
   Conference, {GECCO} '13, Amsterdam, The Netherlands, July 6-10, 2013, {ACM}
   (2013)  1173--1180
-
-\bibitem{Dorronsoro13superlinear}
-Dorronsoro, B., Danoy, G., Nebro, A.J., Bouvry, P.:
-\newblock Achieving super-linear performance in parallel multi-objective
-  evolutionary algorithms by means of cooperative coevolution.
-\newblock Computers {\&} {OR} \textbf{40}(6) (2013)  1552--1563
 
 \bibitem{ECJ}
 Luke, S.,  et~al.:
