@@ -97,18 +97,19 @@ distribution of archetypes in the characters.
 \section{Introduction}
 \label{sec:intro}
 
-Our present work defines and tests a system that uses multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual words in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts.
+Our present work defines and tests a system that uses a multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual world in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts.
 
-Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. that are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can roam freely through a virtual world. 
+Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. This kind of games are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can roam freely through a virtual world. 
 
 Open worlds are usually created using Procedural Content Generation (PGC) techniques. Recently, PCG is boosting its popularity, mainly due to two reasons: the cost reduction that the automatic generation implies to the developers, and the re-playability that it offers to the players. As a recent example, \textit{No man's sky}, an indie adventure videogame where planets, fauna and flora are created procedurally, won three Game Critics Awards, including Best Original Game and the Special Commendation for Innovation, in the past Electronic Entertainment Expo 2014, a reference annual trade show for the video game industry\footnote{\url{http://www.gamecriticsawards.com/winners.html}}.
 
-Szymanezyk et al. in \cite{szymanezyk2011individual} remark that virtual humans composing a crowd are often modeled only in terms of individuals and that research in crowd behavior identifies that a large majority of persons in real crowds do not act in individualistic terms. Characters need to explore a social network in order to augment their believability and, as simulated crowds, need to consider group aspects, hence they propose to create a network-type data structure with the help of on-going sociology work.
+Szymanezyk et al. in \cite{szymanezyk2011individual} remark that virtual humans composing a crowd are often modeled only in terms of individuals and that research in crowd behavior identifies that a large majority of persons in real crowds do not act in individualistic terms. Characters need to explore a social network in order to augment their believability and, as simulated crowds, need to consider group aspects, hence they propose to create a network-type data structure with the help of on-going sociology % FERGU: sociological?
+ work.
 The different inter-relations between the NPCs generate events and the goal of our research is to use those events to generate quality backstories for the NPCs, that are an important part of the game narrative, as defined by Bateman et al. in \cite{bateman2007game}:
 
-Backstories are the histories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research we create them massively using social interactions between the NPCs.
+Backstories are the histories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research, we create them massively using social interactions between the NPCs.
 
-Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. From our point of view, an archetype is a role that a character plays on a given moment or period, regardless of the nature of characteristics of them. Following this reasoning, a character could play many different archetypes in their life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
+Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. From our point of view, an archetype is a role that a character plays in a given moment or period, regardless of the nature of the nature of their characteristics. Following this reasoning, a character could play many different archetypes in its life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
 
 The monomyth, commonly known as the hero's journey, is a pattern where
 different archetypes behave in a specific way and conform to ancient
@@ -141,9 +142,9 @@ drama. % double blind: anonimyze citations or make citations
        % impersonal - JJ
 In 2002, the Virtual Storyteller \cite{theune2002virtual} used agents
 that made up dialogue using techniques from improv theater, a plot
-guide and a narrator. Our technique uses the same approach but there
+guide and a narrator. Our technique uses the same approach, but there
 is no plot guide. Instead, a Genetic Algorithm (GA) sets the
-mood of the backstories created by finding 'archetypes'.  
+mood of the backstories created by finding `archetypes'.  
 Mei et al. created in 2005 a system called Thespian \cite{si2005thespian}, where the agents' personalities, their goals, are fitted so that they are motivated to perform according to the scripts. They use lookahead search in a decision-theoretic framework to determine the best way to achieve their goals and they are prepared to respond to the user interaction in a consistent way. Like Thespian, our work is also focused in the final script, not in modeling the agent's personality, but in our target application, open-world videogames, scripts are auto-generated in order to be re-playable.
 In 2008, Peinado et al. studied in \cite{peinado2008revisiting} the
 Belief-Desire-Intention (BDI), a cognitive model that reinforces
@@ -166,7 +167,7 @@ behavior by allowing the re-usability of tasks without increasing the
 complexity of the nodes and transitions. Moreover, BTs are the most
 successful method to model AIs in videogames, and many game engines
 allow the possibility to create them, like Unity3D or Unreal Engine. A
-behavior tree consist of different kinds of tasks that are the nodes
+behavior tree consists of different kinds of tasks that are the nodes
 in a hierarchical structure, following the description by Trembley
 \cite{tremblay2012understanding}: conditions, that check properties of
 the environment, actions, that alter the state of the environment,
@@ -199,7 +200,7 @@ be observed in figure~\ref{fig:3_layered}.
 In this section we will present a system that uses the three-layered
 system EC-ABM-LR to generate and evaluate backstories in the virtual
 world. Firstly, Subsection \ref{sec:architecture} will present the high
-level architecture of the system and the tasks assigned tof each
+level architecture of the system and the tasks assigned to each
 logical module. Later, in Subsection \ref{sec:abm} we give the details of
 the ABM layer including the virtual world, the agent's model, the
 parameterization of the simulation and the output format. Then, in
@@ -254,7 +255,7 @@ futuristic, steampunk or Shakespearian.
 
 The virtual environment that we propose in this work is called
 {\sf ColorForms}, and has been designed as a board-like game that focuses
-in the four independent, ontic dimensions that conform the
+on the four independent, ontic dimensions that conform the
 ludo-narrative design space described by Aarseth in his work
 \cite{aarseth2012narrative}: world, objects, agents and events. In our
 virtual environment, pieces will compete and collaborate in order to
@@ -266,7 +267,7 @@ the characters. The main elements are described as follows:
 	\item[{\bf World}]: Our backstories need spatio-temporal
           dimensions, namely, a place where they occur and a time that
           sequences and orders the events. In Colourforms, we propose
-          to use a very simple map: the checkerboard, that consist of
+          to use a very simple map: the checkerboard, that consists of
           64 squares (8x8). The time is measured in virtual days. 
 	\item[{\bf Agents}]: Our agents are pieces that can occupy one
           cell each. There are three shapes for the pieces (circle,
@@ -301,11 +302,11 @@ is defined in {\sf ColorForm}s by an affinity matrix: Each piece has
 an affinity with every other piece in the board, that will depend on
 their shape, background and foreground colors. This affinity is
 dynamic and will influence the decisions that piece makes; for
-instance, the hapiness of the piece will be influenced by the ones with
+instance, the happiness of the piece will be influenced by the ones with
 high affinity with it. 
 
 In our proposal, events are represented as logical predicates. Kim
-\cite{kim1976events} theorized that the term 'event' usually implies a
+\cite{kim1976events} theorized that the term `event' usually implies a
 change, and most changes are changes in a substance (an individual, an
 object, a living thing or a system), that occur when 'it acquires a
 property it did not previously have, or loses a property it previously
@@ -321,17 +322,17 @@ a moment, the property of an element or a value). Each predicate has a
 name, a signature (or arguments) and an interpretation, that is a
 description of the event in natural language. 
 
-Here we contemplates two types of predicates: Those that
+Here we contemplate two types of predicates: Those that
 have been generated by the agents in the virtual environment (world's
 facts, present in figure \ref{fig:predicates}) and those that are inferred using the Reasoner
 module, related to the monomyth (world's deductions, present in figure
 \ref{fig:theory}). White nodes in the figure represent the predicates
-generable by the ABM layer, while the gray ones are inferred by the
+generable by the ABM layer, while the gray ones are inferred by the %FERGU: Generable no existe
 Reasoner. The light gray nodes (called {\em helpers}) help to promote
 the dark-gray predicates, or {\em facilitators}. These are the ones
 that are present in the monomyth pattern, and they are interesting by
 themselves. Therefore, the {\em monomyth} node implies the appearance
-of all the {\em facilitators}. This node represent the `pure' literary
+of all the {\em facilitators}. This node represents the `pure' literary
 monomyth.
 
 The virtual environment created for this work, the pieces (characters)
@@ -342,7 +343,7 @@ figure~\ref{fig:bt_autogen}, has condition nodes and action nodes;
 when a condition is fulfilled it generates an event from the figure~\ref{fig:predicates}.c and when an action is executed correctly it
 generates an event from figure \ref{fig:predicates}.d. Our implementation
 of behavior tree executes the tree in pre-order until a leaf node is
-evaluated as 'success'. 
+evaluated as `success'. 
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{bt_autogen.pdf}
@@ -350,18 +351,18 @@ evaluated as 'success'.
 	\label{fig:bt_autogen}
 \end{figure}
 % Use this to avoid double CR - JJ
-The Simulator takes an array of 52 values as input, maps them to the environment internal variables and performs the execution of the virtual world by running sequentially the parametrized agents' behavior tree. Finally, when a specific number of virtual days is reached, the simulation finishes and the generated events are sent to the Reasoner for further analysis. The structure of the configuration array and the meaning of each element are described in figure~\ref{fig:abm_parameters}. As we will se in further sections, the configuration array of the Reasoner will be the chromosome in the Optimizer, in other words, the individual of the GA.
+The Simulator takes an array of 52 values as input, maps them to the environment internal variables and performs the execution of the virtual world by running sequentially the parametrized agents' behavior tree. Finally, when a specific number of virtual days is reached, the simulation finishes and the generated events are sent to the Reasoner for further analysis. The structure of the configuration array and the meaning of each element are described in figure~\ref{fig:abm_parameters}. As we will see in further sections, the configuration array of the Reasoner will be the chromosome in the Optimizer, in other words, the individual of the GA.
 
 \subsection{LR layer: Logical reasoning to construct the monomyth}
 \label{sec:lr}
 
-As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not 'rigid character roles' but 'flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
-'There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', but we will focus in the eight archetypes that conform the monomyth:
+As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not `rigid character roles' but `flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
+`There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', but we will focus in the eight archetypes that conform the monomyth:
 
 \begin{enumerate}
 	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
 	\item The \textbf{Mentor} teaches and protects heroes and gives them gifts.
-	\item The \textbf{Threshold} Guardians are the the forces that the hero must overcome.
+	\item The \textbf{Threshold} Guardians are the  forces that the hero must overcome.
 	\item The \textbf{Herald} is the caller to the adventure for the hero.
 	\item The \textbf{Shapeshifter} changes (of archetype) along the journey.
 	\item The \textbf{Shadow} is the villain or antagonist; the dark side.
@@ -398,7 +399,7 @@ are as follows:
           in a certain moment where two characters take part (the
           winner and the loser). In the {\sf ColorForm}s game, a
           conflict might appear when a piece scares or displaces
-          other, or when they takes a color spot that the other
+          other, or when it takes a color spot that the other
           desires. If two pieces are friends and one of them is displaced by a third one, the two friends have a conflict with it.
 	\item The \textbf{Journey} is the interval between conflicts
           between two characters. The first conflict must be lost by
@@ -415,7 +416,7 @@ are as follows:
           Threshold Guardian archetypes in the same Journey. 
 	\item The \textbf{Trickster} is a character that accompanies
           the Hero along the Journey joking and turning tricks. In our
-          implementation, to be trickier tan other can imply to have
+          implementation, to be trickier than other can imply to have
           more joy than them.
 \end{enumerate}
 
@@ -426,12 +427,12 @@ are as follows:
 % Why do we use GA??
 
 The objective of our work is to generate the archetypes present in the
-monomyth. Since we have to deal with a big amount of parameters and
-the result of the simulator in uncertain, due the stochastic nature of
+monomyth. The usage of a GA is proposed, since we have to deal with a big amount of parameters. Also, because
+the result of the simulations is uncertain, due the stochastic nature of
 the virtual world and the unpredictable inter-relationships of the
-agents, the usage of a GA is proposed. This technique has been proved
+agents. This technique has been proved
 to work successfully in these kind of environments by A and B in C and
-D respectivelly.  
+D respectively.  
 
 \begin{figure}[ht]
 	\includegraphics[width=\textwidth]{abm_parameters.pdf}
@@ -478,7 +479,7 @@ the videogame.
 
 An individual for our GA is a chromosome of 52 genes, where the first 5 are natural numbers in different ranges and the following 47 are real values in the range [0-1]. The structure of the chromosome is detailed in figure~\ref{fig:abm_parameters}.
 
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decision are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
+We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
 
 The fitness used takes into account the number of archetypes that have been deduced by the Reasoner since we are interested in the promotion of the monomyth, as described in section~\ref{sec:lr}.
 
@@ -492,14 +493,14 @@ Allied, Trickster, Shapeshifter, Monomyth\}
 and $|A_{i}|$ the number of occurrences of that predicate generated by the Reasoner at the end of the simulation, we define the next three metrics to evaluate the fitness $F$:
 
 \begin{itemize}
-\item Amount of Monomyth Occurrences Found ($M$): Count the number of occurrences of the predicate 'monomyth', hence it stands for the most basic metric we can implement.
+\item Amount of Monomyth Occurrences Found ($M$): Counts the number of occurrences of the predicate `monomyth', hence it stands for the most basic metric we can implement.
 \begin{equation}
 F_{M} = \left| A_{Monomyth}\right|
 \label{eq:M}
 \end{equation}
 
 
-\item Amount of All Occurrences Found ($A$): Count the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
+\item Amount of All Occurrences Found ($A$): Counts the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
 \begin{equation}
 F_{A} = \sum _{i=0}^{T}\left| A_{i}\right|
 \label{eq:A}
@@ -624,7 +625,7 @@ player.
 
 \section*{Acknowledgments}
 Hidden for double blind review 
-%\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).}
+%\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).} NO OLVIDAR EL EPHEMECH Y EL BIOTIC DE ANTONIO!
 
 
 %
