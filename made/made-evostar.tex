@@ -384,7 +384,7 @@ but we will focus in the eight archetypes that conform the monomyth:
 \begin{enumerate}
 	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
 	\item The \textbf{Mentor} teaches and protects heroes and gives them gifts.
-	\item The \textbf{Threshold} Guardians are the  forces that the hero must overcome.
+	\item The \textbf{Threshold Guardians} are the  forces that the hero must overcome.
 	\item The \textbf{Herald} is the caller to the adventure for the hero.
 	\item The \textbf{Shapeshifter} changes (of archetype) along the journey.
 	\item The \textbf{Shadow} is the villain or antagonist; the dark side.
@@ -398,8 +398,7 @@ described in section~\ref{sec:abm}. The Reasoner uses a logical theory
 in PROLOG, that is a powerful approach since it gives us the
 possibility to compound predicates and use time-frameworks. The terms
 in our theory are shown in figure~\ref{fig:theory} in an ordered way
-following a dependency graph. The archetypes and other needed concepts
-are as follows: 
+following a dependency graph. The monomytic archetypes are open to interpretations and can be instantiated in many different ways inside a specific story, as many as different films, books, comics or videogames with a hero we could think about. For this reason, we have implemented our own interpretation of the Monomyth archetypes in ColorForms, that are described with other needed concepts as follows: 
 %
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{theory.pdf}
@@ -417,27 +416,33 @@ are as follows:
 \end{figure}
 
 \begin{enumerate}
-	\item \textbf{Conflict} is a sequence of events that succeed
+	\item We implement the \textbf{Conflict} as a sequence of events 
+	      that succeed
           in a certain moment where two characters take part (the
-          winner and the loser). In the {\sf ColorForm}s game, a
+          winner and the loser). A
           conflict might appear when a piece scares or displaces
           other, or when it takes a color spot that the other
-          desires. If two pieces are friends and one of them is displaced by a third one, the two friends have a conflict with it.
-	\item The \textbf{Journey} is the interval between conflicts
-          between two characters. The first conflict must be lost by
+          desires. If two pieces are friends and one of them is displaced by a third one, the two friends have a \textit{Conflict} with it.
+	\item In \textit{ColorForms}, a \textbf{Journey} is the time interval 
+		  between \textit{Conflicts} with the same characters. 
+          The first \textit{Conflict} must be lost by
           one of them (the \textbf{Hero}) and the second one has to be
           lost by the other (the \textbf{Shadow}), who must be `more
-          evil' than the Hero, that is, have helped less friends. 
-	\item A \textbf{Mentor} is a character that is a friend of the Hero during the Journey and helps them at least once. 
-	\item The \textbf{Threshold Guardian} will be defeated by the hero along the journey. 
-	\item A \textbf{Herald} is a friend of the hero in a Journey that has the initiator conflict.
-	\item An \textbf{Ally} helps the Hero in a Journey, either
-          giving the Hero an extra turn to accomplish their goals or
-          going along the Hero physically along the journey.
-	\item A \textbf{Shapeshifter} will play the Ally and the
-          Threshold Guardian archetypes in the same Journey. 
+          evil' than the \textit{Hero}, that is, have helped less friends. 
+	\item A \textbf{Mentor} in \textit{ColorForms} is a character that has high 
+		affinity with the \textit{Hero} during the \textit{Journey} and helps them at least once. 
+	\item The \textbf{Threshold Guardians} will be defeated by the \textit{Hero} 
+		along the \textit{Journey}. In \textit{ColourForms}, they are losers of conflicts against the \textit{Hero} along a \textit{Journey}.
+	\item A \textbf{Herald} is a friend of the \textit{Hero} in a \textit{Journey} that has 
+		the initiator conflict.
+	\item Our interpretation of \textbf{Ally} is a piece that
+	      helps the \textit{Hero} in a \textit{Journey}, either
+          giving the \textit{Hero} an extra turn to accomplish their goals or
+          going along the \textit{Hero} physically, staying aside in the board, along the \textit{Journey}.
+	\item The \textbf{Shapeshifter} in ColorForms will play the \textit{Ally} and the
+          \textit{Threshold Guardian} archetypes in the same \textit{Journey}. 
 	\item The \textbf{Trickster} is a character that accompanies
-          the Hero along the Journey joking and turning tricks. In our
+          the \textit{Hero} along the \textit{Journey} joking and turning tricks. In our
           implementation, to be trickier than other can imply to have
           more joy than them.
 \end{enumerate}
