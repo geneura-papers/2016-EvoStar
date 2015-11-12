@@ -68,8 +68,8 @@ personality while enhancing the quality of their backstories following
 artistic or literary guidelines. 
 In previous works, % recuerda double blind, no se pueden citar esos
                    % como propios - JJ
-we used multi agent systems in order to obtain stochastic but
-regulated inter-relations that became backstories; later, we have used
+we used multi agent systems in order to obtain stochastic, but
+regulated, inter-relations that became backstories; later, we have used
 genetic algorithms to promote the appearance of high level behaviors
 inside them. % Se puede eliminar del abstract.
 Our current work continues the previous research line and propose a
@@ -86,7 +86,7 @@ Different metrics have been tested in the experimental phase, from
 those that sum all the monomyth-related tropes to those that promote
 distribution of archetypes in the characters.  
 
-% Results are coming...
+% Results are coming... FERGU: eso, ponerlos
 
 \keywords{Procedural generation, monomyth, agent-based model, emergent behavior}
 \end{abstract}
@@ -97,7 +97,7 @@ distribution of archetypes in the characters.
 \section{Introduction}
 \label{sec:intro}
 
-Our present work defines and tests a system that uses a multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual world in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts.
+Our present work defines and tests a system that uses a multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual world in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts. %FERGU: esta frase como intro no me gusta. La movería de sitio. Tampoco he visto ningún paper empezando por "esta sección explica..." Prueba algo como "Los videojuegos y la literatura son muy importantes, así que haría falta algo así. Nosotros proponemos..."
 
 Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. This kind of games are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can roam freely through a virtual world. 
 
@@ -109,22 +109,25 @@ The different inter-relations between the NPCs generate events and the goal of o
 
 Backstories are the histories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research, we create them massively using social interactions between the NPCs.
 
-Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. From our point of view, an archetype is a role that a character plays in a given moment or period, regardless of the nature of the nature of their characteristics. Following this reasoning, a character could play many different archetypes in its life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
+Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. From our point of view, an archetype %FERGU: parece que somos nosotros los que hemos definido el concepto, y no es así
+is a role that a character plays in a given moment or period, regardless of the nature of the nature of their characteristics. Following this reasoning, a character could play many different archetypes in its life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
 
 The monomyth, commonly known as the hero's journey, is a pattern where
 different archetypes behave in a specific way and conform to ancient
-and modern myths from cultures all over the world: It is the story of
+and modern myths from cultures all over the world: It is the story of 
+%FERGU: Usas mucho los dos puntos para luego empezar una frase en mayúscula, eso está bien? Preferiría otro conector
 someone who is considered a hero, that has to deal with his/her
 shadow, who is waiting at the end of a journey, where different
 characters appear like mentors, allies or obstacles. The monomyth was
-studied by Joseph Campbell in The Hero with a Thousand
-Faces~\cite{campbell2008hero}, and later by Vogler in The writer's
-journey~\cite{vogler2007writer}. The monomyth has been typically
+studied by Joseph Campbell in `The Hero with a Thousand
+Faces'~\cite{campbell2008hero}, and later by Vogler in `The writer's
+journey'~\cite{vogler2007writer}. The monomyth has been typically
 applied to literature and traditional media, but it actually manifests
 also in modern videogames like Mass Effect or Skyrim
 \cite{knopf2013rationalist} among others. In videogames, the
 \textit{monomyth} is used to design the main plots that the player can
 empathize with: In his work \cite{bartle2004massively}, Bartle
+%FERGU: Lo mismo. dos puntos y mayúscula me suena raro
 identifies and examines the application of key elements of the
 monomyth to videogames, and discovers that players play virtual worlds
 as a mean for self-discovery, by subconsciously, following a
@@ -141,7 +144,7 @@ stories is not new, as remarked in previous works \cite{garcia2014my}
 drama. % double blind: anonimyze citations or make citations
        % impersonal - JJ
 In 2002, the Virtual Storyteller \cite{theune2002virtual} used agents
-that made up dialogue using techniques from improv theater, a plot
+that made up dialog using techniques from improv theater, a plot
 guide and a narrator. Our technique uses the same approach, but there
 is no plot guide. Instead, a Genetic Algorithm (GA) sets the
 mood of the backstories created by finding `archetypes'.  
@@ -149,7 +152,7 @@ Mei et al. created in 2005 a system called Thespian \cite{si2005thespian}, where
 In 2008, Peinado et al. studied in \cite{peinado2008revisiting} the
 Belief-Desire-Intention (BDI), a cognitive model that reinforces
 narrative causality insofar as motivations and where beliefs are
-causal links that enrich characters. DBI is a theory that is starting
+causal links that enrich characters. BDI is a theory that is starting
 to be considered a promising tool for modeling sophisticated
 characters, but it is not suitable for our research since we need to
 use more basic agents, easy to model and parametrize: As discussed by
@@ -160,7 +163,7 @@ worlds hard to analyze and evolve.
 
 In previous works we used Finite State Machines (FSMs) to model the
 agent behavior, but FSMs and its variants have limitations in
-developing game Artificial Intelligence (AI), for this reason in our
+developing game Artificial Intelligence (AI). For this reason in our
 present research we have used Behavior Trees (BT) instead, following
 Lim's arguments in \cite{lim2009ai}: BTs simplify the design of
 behavior by allowing the re-usability of tasks without increasing the
@@ -184,11 +187,15 @@ whose execution is parameterized by a set of integer and float values,
 a Logical Reasoner that evaluates the events generated by each
 simulation and a Genetic Algorithm (GA) to find the set of parameters
 with highest fitness. The LR uses a mixed imperative-declarative
+%FERGU: si es para el evostar, el fitness se sabe lo que es, si es para revista no lo has definido
 paradigm, following Denti's approach in \cite{denti2001tuprolog}  to
 make high level deductions from the simulation's events, that are also
 expressed as logical predicates, using a logical theory that is
 modeled from the monomyth. The three layered architecture proposed can
-be observed in figure~\ref{fig:3_layered}.
+be observed in Figure~\ref{fig:3_layered}. 
+%FERGU: Recuerda poner referencias a figuras, tablas y secciones en mayúscula
+%FERGU: también el clásico "The rest of the paper is structured as follows..."
+
 
 % Pending some review comments from the original document in drive
 
@@ -232,6 +239,7 @@ the monomyth.
 The proposed system is described in the Dataflow Diagram in figure
 \ref{fig:dataflow}. Different modules have been defined: The
 optimizer, the simulator, the reasoner, the narrator and the
+%FERGU: homogeneizar. Optimizer siempre en mayúscula en todo el paper
 customizer. The Optimizer, formerly the EC layer, uses a GA whose
 individuals are simulation configurations and returns the best
 individual found. The fitness function of each individual consists in
@@ -248,6 +256,8 @@ final names for the narration elements. The Customizer is in charge of
 assigning names and structures to the agnostic narration in order to
 apply a specific literary setting, for example, middle-age,
 futuristic, steampunk or Shakespearian. 
+%FERGU: Problema, mencionamos el Customizer pero no mostramos su uso en el paper
+%(para revista molaría)
 
 
 \subsection{ABM Layer: An agent-based model that generates simple events}
@@ -256,10 +266,12 @@ futuristic, steampunk or Shakespearian.
 The virtual environment that we propose in this work is called
 {\sf ColorForms}, and has been designed as a board-like game that focuses
 on the four independent, ontic dimensions that conform the
+%FERGU: ontic? existe? :P
 ludo-narrative design space described by Aarseth in his work
 \cite{aarseth2012narrative}: world, objects, agents and events. In our
 virtual environment, pieces will compete and collaborate in order to
-reach their desired colour. The narrative, as Aylett studied in
+reach their desired colour. %FERGU: quizas explicar el por qué. Algo como "this symbolizes ..."
+The narrative, as Aylett studied in
 \cite{aylett1999narrative}, emerges through small interactions between
 the characters. The main elements are described as follows:  
 
@@ -267,6 +279,7 @@ the characters. The main elements are described as follows:
 	\item[{\bf World}]: Our backstories need spatio-temporal
           dimensions, namely, a place where they occur and a time that
           sequences and orders the events. In Colourforms, we propose
+          %FERGU: homogenizar ColourForms, a veces es ColorForms y otras no usas el resaltado del texto
           to use a very simple map: the checkerboard, that consists of
           64 squares (8x8). The time is measured in virtual days. 
 	\item[{\bf Agents}]: Our agents are pieces that can occupy one
@@ -310,6 +323,8 @@ In our proposal, events are represented as logical predicates. Kim
 change, and most changes are changes in a substance (an individual, an
 object, a living thing or a system), that occur when 'it acquires a
 property it did not previously have, or loses a property it previously
+%FERGU: no me gusta nada entrecomillar frases de otros trabajos, sobre todo
+%si son tan cortas. Mejor explicalo con tus palabras, en serio
 had'. Formerly, Kim defined the events in his theory of the structured
 complexes using the canonical notation [x, P, t], where x is the
 substance, P is the property it exemplifies and t is the time. The
@@ -323,6 +338,7 @@ name, a signature (or arguments) and an interpretation, that is a
 description of the event in natural language. 
 
 Here we contemplate two types of predicates: Those that
+%FERGU: el :mayúscula ese
 have been generated by the agents in the virtual environment (world's
 facts, present in figure \ref{fig:predicates}) and those that are inferred using the Reasoner
 module, related to the monomyth (world's deductions, present in figure
@@ -344,6 +360,8 @@ when a condition is fulfilled it generates an event from the figure~\ref{fig:pre
 generates an event from figure \ref{fig:predicates}.d. Our implementation
 of behavior tree executes the tree in pre-order until a leaf node is
 evaluated as `success'. 
+%FERGU: la figura está MUY lejos en el paper, deberías
+%referenciar en orden
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{bt_autogen.pdf}
@@ -356,8 +374,12 @@ The Simulator takes an array of 52 values as input, maps them to the environment
 \subsection{LR layer: Logical reasoning to construct the monomyth}
 \label{sec:lr}
 
-As remarked in section~\ref{sec:intro}, the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not `rigid character roles' but `flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
-`There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', but we will focus in the eight archetypes that conform the monomyth:
+As remarked in section~\ref{sec:intro},
+%FERGU: pon todos los Section que referencies en mayúscula (así son las leyes de los papers)
+ the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not `rigid character roles' but `flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
+`There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', 
+%FERGU: lo de antes, evita estas frases entrecomilladas tan cortas
+but we will focus in the eight archetypes that conform the monomyth:
 
 \begin{enumerate}
 	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
@@ -404,7 +426,7 @@ are as follows:
 	\item The \textbf{Journey} is the interval between conflicts
           between two characters. The first conflict must be lost by
           one of them (the \textbf{Hero}) and the second one has to be
-          lost by the other (the \textbf{Shadow}), who must be 'more
+          lost by the other (the \textbf{Shadow}), who must be `more
           evil' than the Hero, that is, have helped less friends. 
 	\item A \textbf{Mentor} is a character that is a friend of the Hero during the Journey and helps them at least once. 
 	\item The \textbf{Threshold Guardian} will be defeated by the hero along the journey. 
@@ -471,6 +493,7 @@ Simulator in order to find the one with the best fitness, that is
 calculated in base of the predicates found by the Reasoner. The use of
 a GA is adequate since it is not possible to deduce the effects of the
 parameter values when the agents interact: The fitness is the result
+%FERGU: el :mayúscula. Además, no sé si el dos puntos frase está bien usado como conector (a lo mejor sí, que JJ confirme)
 of high level interactions or specific sequences of them (phenotype)
 that cannot be predicted. This uncertainty is increased by the
 stochastic nature of the simulation, since different executions of the
@@ -479,7 +502,7 @@ the videogame.
 
 An individual for our GA is a chromosome of 52 genes, where the first 5 are natural numbers in different ranges and the following 47 are real values in the range [0-1]. The structure of the chromosome is detailed in figure~\ref{fig:abm_parameters}.
 
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
+
 
 The fitness used takes into account the number of archetypes that have been deduced by the Reasoner since we are interested in the promotion of the monomyth, as described in section~\ref{sec:lr}.
 
@@ -529,8 +552,14 @@ The objective of this paper is to demonstrate that it is possible to create a mu
 
 % Parametrización del GA
 
-The experiments  we set the environment with the following parameters:
+We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
+%FERGU: he movido el párrafo de arriba de la sección anterior a esta
 
+The experiments  we set the environment with the following parameters:
+%FERGU: Esta frase reescríbela y pon referencia, no pongas :tabla porque 
+%a lo mejor se va a otra página (como pasaba en mi versión compilada).
+%En LaTeX intenta evitar el :figura :tabla etc. 
+%Usa siempre referencias a labels
 
 \begin{table}[h!tb]
 	\scriptsize
@@ -561,7 +590,7 @@ The experiments  we set the environment with the following parameters:
 		\label{tab:parameters_ga}
 	\end{center}
 \end{table}
-
+%FERGU: IMPORTANTE: no has explicado algunos parámetros, como el número de trials o el tiempo de razonamiento
 % Resultados experimentos
 
 % grafica de predicado monomito con los 3 fitness
