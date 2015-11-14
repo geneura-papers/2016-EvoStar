@@ -25,7 +25,10 @@
 %\title{Procedural generation of massive monomythic backstories using genetic algorithms, autonomous agents and logical reasoning}
 
 %This is too long and uses unknown words like ``monomythic''. My proposal:
-\title{The story of their lives: Masive procedural generation of backstories using evolved agent-based models}
+%RUBEN: Ok, but looking back to previous papers, it is not clear the novelty of our work. I keep your idea but I add the monomyth (or hero's journey) and the logical reasoning.
+
+\title{The story of their lives: Masive procedural generation of heroes' journeys using evolved agent-based models and logical reasoning}
+
 
 
 \titlerunning{The story of their lives}
@@ -86,8 +89,7 @@ backstories.
 Different metrics have been tested in the experimental phase, from
 those that sum all the monomyth-related tropes to those that promote
 distribution of archetypes in the characters.  
-
-% Results are coming... FERGU: eso, ponerlos
+Results confirm that the system can make the monomyth emerge and that the metric has to take into account facilitator predicates in order to guide the evolutionary process. 
 
 \keywords{Procedural generation, monomyth, agent-based model, emergent behavior}
 \end{abstract}
@@ -98,7 +100,7 @@ distribution of archetypes in the characters.
 \section{Introduction}
 \label{sec:intro}
 
-Our present work defines and tests a system that uses a multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual world in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts. %FERGU: esta frase como intro no me gusta. La movería de sitio. Tampoco he visto ningún paper empezando por "esta sección explica..." Prueba algo como "Los videojuegos y la literatura son muy importantes, así que haría falta algo así. Nosotros proponemos..."
+%Our present work defines and tests a system that uses a multi-paradigm three-layered architecture, where a Genetic algorithm optimizes the parameters of a virtual world in order to deduce complex logical predicates related to a popular literary pattern called the monomyth. The present section defines and explains the state-of-the-art researches regarding those concepts. %FERGU: esta frase como intro no me gusta. La movería de sitio. Tampoco he visto ningún paper empezando por "esta sección explica..." Prueba algo como "Los videojuegos y la literatura son muy importantes, así que haría falta algo así. Nosotros proponemos..."
 
 Non-player characters (NPC for further references) usually interact with the main player in order to challenge them, offer information to complete their goals or provide life-likeness to a virtual world. Following Szymanezyk et al. in \cite{szymanezyk2011individual}, crowds of NPCs enhance the game-play experience of open-world videogames. This kind of games are objective-oriented and open-landscaped videogames, following the classification by \cite{aarseth2005hunt}, where a player can explore freely a virtual world. 
 
@@ -107,14 +109,13 @@ Open worlds are usually created using Procedural Content Generation (PGC) techni
 Szymanezyk et al. in \cite{szymanezyk2011individual} remark that virtual humans composing a crowd are often modeled only in terms of individuals and that research in crowd behavior identifies that a large majority of persons in real crowds do not act in individualistic terms. Characters need to explore a social network in order to augment their believability and, as simulated crowds, need to consider group aspects, hence they propose to create a network-type data structure with the help of on-going sociological work.
 The different inter-relations between the NPCs generate events and the goal of our research is to use those events to generate quality backstories for the NPCs, that are an important part of the game narrative, as defined by Bateman et al. in \cite{bateman2007game}:
 
-Backstories are the histories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research, we create them massively using social interactions between the NPCs.
+Backstories are the stories leading up to the events of the game, and they give the player the information they need to immerse themselves in the fiction. Since backstories are relevant for the immersion of the game, in this research, we create them massively using social interactions between the NPCs.
 
-Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. An archetype is a role that a character plays in a given moment or period, regardless of the nature of the nature of their characteristics. Following this reasoning, a character could play many different archetypes in its life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
+Archetypes are recurring thematic and linguistic patterns in folklore and literature \cite{garry2005archetypes}. In videogames, archetypes are classically related to the nature of the characters (for example, thief, warrior or wizard), which reminds of the concept of stereotype, the unfair belief that all people or things with a particular characteristic are the same. An archetype is a role that a character plays in a given moment or period, regardless of the nature of their characteristics. A character could play many different archetypes in its life, even at the same time. But, what could be the minimum set of archetypes to design if we want to create interesting backstories? We found a good answer in the monomyth.
 
 The monomyth, commonly known as the hero's journey, is a pattern where
 different archetypes behave in a specific way and conform to ancient
-and modern myths from cultures all over the world: It is the story of 
-%FERGU: Usas mucho los dos puntos para luego empezar una frase en mayúscula, eso está bien? Preferiría otro conector
+and modern myths from cultures all over the world: it is the story of 
 someone who is considered a hero, that has to deal with his/her
 shadow, who is waiting at the end of a journey, where different
 characters appear like mentors, allies or obstacles. The monomyth was
@@ -125,8 +126,7 @@ applied to literature and traditional media, but it actually manifests
 also in modern videogames like Mass Effect or Skyrim
 \cite{knopf2013rationalist} among others. In videogames, the
 \textit{monomyth} is used to design the main plots that the player can
-empathize with: In his work \cite{bartle2004massively}, Bartle
-%FERGU: Lo mismo. dos puntos y mayúscula me suena raro
+empathize with: in his work \cite{bartle2004massively}, Bartle
 identifies and examines the application of key elements of the
 monomyth to videogames, and discovers that players play virtual worlds
 as a mean for self-discovery, by subconsciously, following a
@@ -153,7 +153,7 @@ narrative causality insofar as motivations and where beliefs are
 causal links that enrich characters. BDI is a theory that is starting
 to be considered a promising tool for modeling sophisticated
 characters, but it is not suitable for our research since we need to
-use more basic agents, easy to model and parametrize: As discussed by
+use more basic agents, easy to model and parametrize: as discussed by
 Sanchez and Lucas in \cite{sanchez2002exploring}, the analysis of
 relatively simple simulations using ABMs can, nonetheless, be quite
 complex, and in our case we use them in massively inhabited virtual
@@ -179,7 +179,7 @@ Our previous work proved that a hybrid
 methodology can be used to achieve the emergence of archetypes,
 according to the structure studied by Cioffi et al. in
 \cite{cioffi2012evolutionary}. Here we add a new
-layer in charge of evaluating the backstories: The Logical
+layer in charge of evaluating the backstories: the Logical
 Reasoning (LR). We use an ABM for the execution of the virtual world,
 whose execution is parameterized by a set of integer and float values,
 a Logical Reasoner that evaluates the events generated by each
@@ -191,7 +191,7 @@ make high level deductions from the simulation's events, that are also
 expressed as logical predicates, using a logical theory that is
 modeled from the monomyth. The three layered architecture proposed can
 be observed in Figure~\ref{fig:3_layered}. 
-%FERGU: Recuerda poner referencias a figuras, tablas y secciones en mayúscula
+%FERGU: recuerda poner referencias a figuras, tablas y secciones en mayúscula
 %FERGU: también el clásico "The rest of the paper is structured as follows..."
 
 
@@ -235,7 +235,7 @@ the monomyth.
 \end{figure}
 %
 The proposed system is described in the Dataflow Diagram in figure
-\ref{fig:dataflow}. Different modules have been defined: The
+\ref{fig:dataflow}. Different modules have been defined: the
 optimizer, the simulator, the reasoner, the narrator and the
 %FERGU: homogeneizar. Optimizer siempre en mayúscula en todo el paper
 customizer. The Optimizer, formerly the EC layer, uses a GA whose
@@ -258,13 +258,12 @@ futuristic, steampunk or Shakespearian.
 %(para revista molaría)
 
 
-\subsection{ABM Layer: An agent-based model that generates simple events}
+\subsection{ABM Layer: an agent-based model that generates simple events}
 \label{sec:abm}
 
 The virtual environment that we propose in this work is called
 {\sf ColorForms}, and has been designed as a board-like game that focuses
 on the four independent, ontic dimensions that conform the
-%FERGU: ontic? existe? :P
 ludo-narrative design space described by Aarseth in his work
 \cite{aarseth2012narrative}: world, objects, agents and events. In our
 virtual environment, pieces will compete and collaborate in order to
@@ -280,7 +279,7 @@ the characters. The main elements are described as follows:
           %FERGU: homogenizar ColourForms, a veces es ColorForms y otras no usas el resaltado del texto
           to use a very simple map: the checkerboard, that consists of
           64 squares (8x8). The time is measured in virtual days. 
-	\item[{\bf Agents}]: Our agents are pieces that can occupy one
+	\item[{\bf Agents}]: our agents are pieces that can occupy one
           cell each. There are three shapes for the pieces (circle,
           square and triangle) and a zero-sum game relation between
           them, rock-paper-scissors alike, in order to establish a
@@ -294,11 +293,11 @@ the characters. The main elements are described as follows:
           changed by the piece or by other pieces under certain
           circumstances and is used to improve the happiness: the
           piece is happier when the two colours are equal.  
-	\item[{\bf Objects}]: We use one type of object the
+	\item[{\bf Objects}]: we use one type of object the
           characters must compete or collaborate for: the color spot. In
           our environment, the agents can stain with the spot in order
           to become colored. The color spots  appear or disappear randomly. 
-	\item[{\bf Events}]: The characters interact between them
+	\item[{\bf Events}]: the characters interact between them
           and the environment, although the number of actions is very
           limited: move to a free adjacent cell, push another agent to
           a  % push to a what? - JJ
@@ -309,34 +308,24 @@ depending on the shape, interchange the background color
 As the we remarked in the introduction and following 
 \cite{szymanezyk2011individual}, characters need to explore a social
 network in order to augment their believability. The social component
-is defined in {\sf ColorForm}s by an affinity matrix: Each piece has
+is defined in {\sf ColorForm}s by an affinity matrix: each piece has
 an affinity with every other piece in the board, that will depend on
 their shape, background and foreground colors. This affinity is
 dynamic and will influence the decisions that piece makes; for
 instance, the happiness of the piece will be influenced by the ones with
 high affinity with it. 
 
-In our proposal, events are represented as logical predicates. Kim
-\cite{kim1976events} theorized that the term `event' usually implies a
-change, and most changes are changes in a substance (an individual, an
-object, a living thing or a system), that occur when 'it acquires a
-property it did not previously have, or loses a property it previously
-%FERGU: no me gusta nada entrecomillar frases de otros trabajos, sobre todo
-%si son tan cortas. Mejor explicalo con tus palabras, en serio
-had'. Formerly, Kim defined the events in his theory of the structured
-complexes using the canonical notation [x, P, t], where x is the
-substance, P is the property it exemplifies and t is the time. The
-existence condition implies that Event [x, P, t] exists just in case
+In our proposal, events are represented as logical predicates. Formerly, Kim defined the events in his theory of the structured
+complexes~\cite{kim1976events} using the canonical notation $[x, P, t]$, where $x$ is the
+substance, $P$ is the property it exemplifies and $t$ is the time. The
+existence condition implies that $Event [x, P, t]$ exists just in case
 that substance x has the property P at the time t. In our work, the
 events that compound the backstories are defined as meaningful logical
-predicates with notation Predicate (t, x\_0, /dots , x\_n) where t is
+predicates with notation $Predicate (t, x_0, \dots , x_n)$ where t is
 the time, and each x is an element of the world (a character, a cell,
 a moment, the property of an element or a value). Each predicate has a
 name, a signature (or arguments) and an interpretation, that is a
-description of the event in natural language. 
-
-Here we contemplate two types of predicates: Those that
-%FERGU: el :mayúscula ese
+description of the event in natural language. We contemplate two types of predicates: those that
 have been generated by the agents in the virtual environment (world's
 facts, present in figure \ref{fig:predicates}) and those that are inferred using the Reasoner
 module, related to the monomyth (world's deductions, present in figure
@@ -362,7 +351,7 @@ evaluated as 'success'.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{bt_autogen.pdf}
-	\caption{Proposed agents' behavior tree: Circular nodes represent conditions and rectangular nodes represent actions.)}
+	\caption{Proposed agents' behavior tree: circular nodes represent conditions and rectangular nodes represent actions.)}
 	\label{fig:bt_autogen}
 \end{figure}
 
@@ -377,7 +366,7 @@ evaluated as 'success'.
 The Simulator takes an array of 52 values as input, maps them to the environment internal variables and performs the execution of the virtual world by running sequentially the parametrized agents' behavior tree. Finally, when a specific number of virtual days is reached, the simulation finishes and the generated events are sent to the Reasoner for further analysis. The structure of the configuration array and the meaning of each element are described in figure~\ref{fig:abm_parameters}. As we will see in further sections, the configuration array of the Reasoner will be the chromosome in the Optimizer, in other words, the individual of the GA.
 
 
-\subsection{LR layer: Logical reasoning to construct the monomyth}
+\subsection{LR layer: logical reasoning to construct the monomyth}
 \label{sec:lr}
 
 As remarked in section~\ref{sec:intro},
@@ -385,31 +374,57 @@ As remarked in section~\ref{sec:intro},
  the monomyth is a pattern that conforms the quintessence of heroism in literature and is composed of different archetypes. Vogler in \cite{vogler2007writer} encountered that archetypes are not `rigid character roles' but `flexible character functions' performed to achieve certain effects in the story, hence the same character can play different archetypes along a story.
 `There are, of course, many more archetypes; as many as there are human qualities to dramatize in stories', 
 %FERGU: lo de antes, evita estas frases entrecomilladas tan cortas
-but we will focus in the eight archetypes that conform the monomyth:
+but we will focus in the eight archetypes that conform the monomyth: the \textbf{Hero}, the \textbf{Mentor}, the \textbf{Threshold Guardians}, the \textbf{Herald}, the \textbf{Shapeshifter}, the \textbf{Shadow}, the \textbf{Ally} and the \textbf{Trickster} (see Table~\ref{tab:archetypes} for detailed definitions).
 
-\begin{enumerate}
-	\item The \textbf{Hero} is willing to sacrifice his own needs on behalf of others.
-	\item The \textbf{Mentor} teaches and protects heroes and gives them gifts.
-	\item The \textbf{Threshold Guardians} are the  forces that the hero must overcome.
-	\item The \textbf{Herald} is the caller to the adventure for the hero.
-	\item The \textbf{Shapeshifter} changes (of archetype) along the journey.
-	\item The \textbf{Shadow} is the villain or antagonist; the dark side.
-	\item The \textbf{Ally} accompanies or helps the hero through the journey.
-	\item The \textbf{Trickster} is a mischief-makers.
-\end{enumerate}
+\begin{table}[h!tb]
+	\scriptsize
+	\begin{center}
+		\def\arraystretch{1.5}
+		\setlength\tabcolsep{0.1cm}
+		\begin{tabular}{| p{1.5cm} | p{3cm} | p{7cm} |}
+			\hline
+			\textbf{Trope} 
+						& \textbf{Brief definition} & \textbf{Interpretation in ColorForms} \\ \hline
+						
+			Conflict & (Not present in the definition of monomyth) & A sequence of events that succeed in a certain moment where two characters take part (the winner and the loser). A conflict might appear when a piece scares or displaces other, or when it takes a color spot that the other desires. If two pieces are friends and one of them is displaced by a third one, the two friends have a \textit{Conflict} with it. \\ \hline
+			
+			Journey & (not present in the definition of monomyth) & The time interval between \textit{Conflicts} with the same pieces. The first \textit{Conflict} must be lost by one of them (the \textbf{Hero}) and the second one has to be lost by the other (the \textbf{Shadow}), who must be `more evil' than the \textit{Hero}, that is, have helped less friends.\\ \hline
+			
+			Hero & The character that is willing to sacrifice his own needs on behalf of others. & The piece that loses the first conflict and wins the second one in a \textit{Conflict}.\\ \hline
+			
+			Mentor & The character that teaches and protects the \textit{Hero} and gives them gifts. & A piece that has high affinity with the \textit{Hero} during the \textit{Journey} and helps them at least once. \\ \hline
+			
+			Threshold Guardians & The  forces that the hero must overcome. & Losers of \textit{Conflicts} against the \textit{Hero} in a \textit{Journey} 
+			\\ \hline
+			
+			Herald & The caller to the adventure for the hero. &  A piece with high affinity with the \textit{Hero} in a \textit{Journey} and that lost the first \textit{Conflict} with the \textit{Shadow}. \\ \hline
+			
+			Shapeshifter & The character that changes along the journey. & A piece that plays \textit{Ally} and \textit{Threshold Guardian} archetypes in the same \textit{Journey}.
+			\\ \hline
+			
+			Shadow & The villain or antagonist; the dark side. & The character that wins the first conflict and loses the second one in a Journey. \\ \hline
+			
+			Ally & The character that accompanies or helps the \textit{Hero} through the \textit{Journey}. & A piece that gives the \textit{Hero} an extra turn to accomplish their goals or stays aside the \textit{Hero} in the board.\\ \hline
+			
+			Trickster & A mischief-maker. & A character that stays aside the \textit{Hero} in the board and is trickier than them (joking and turning tricks, in other words, having a higher level of Joy).\\ \hline
+			
+		\end{tabular}
+		\caption{Comparisson of theorical archetypes in the Monomytha and their interpretations in ColorForms.}
+		\label{tab:archetypes}
+	\end{center}
+\end{table}
 
-In our approach, we have taken the archetypes that conform the
-monomyth and tried to define them in terms of the world's events
+In our approach, we try to define the archetypes in terms of the world's events
 described in section~\ref{sec:abm}. The Reasoner uses a logical theory
 in PROLOG, that is a powerful approach since it gives us the
 possibility to compound predicates and use time-frameworks. The terms
 in our theory are shown in figure~\ref{fig:theory} in an ordered way
-following a dependency graph. The monomytic archetypes are open to interpretations and can be instantiated in many different ways inside a specific story, as many as different films, books, comics or videogames with a hero we could think about. For this reason, we have implemented our own interpretation of the Monomyth archetypes in ColorForms, that are described with other needed concepts as follows: 
+following a dependency graph. The monomytic archetypes are open to interpretations and can be instantiated in many different ways inside a specific story, as many as different films, books, comics or videogames with a hero we could think about. For this reason, we have implemented our own interpretation of the Monomyth archetypes in ColorForms, that are described in the third column of Table~\ref{tab:archetypes}. 
 %
-\begin{figure}[htb]
+\begin{figure}[h!tb]
 	\includegraphics[width=\textwidth]{theory.pdf}
 	\caption{Predicate dependencies in the proposed logical theory
-          of the monomyth: White nodes represent predicates generable
+          of the monomyth: white nodes represent predicates generable
           by the ABM layer and gray predicates (helpers) are inferred
           by the Reasoner. Dark-gray predicates (facilitators) conform
           the monomyth.} 
@@ -421,40 +436,9 @@ following a dependency graph. The monomytic archetypes are open to interpretatio
 	\label{fig:theory}
 \end{figure}
 
-\begin{enumerate}
-	\item We implement the \textbf{Conflict} as a sequence of events 
-	      that succeed
-          in a certain moment where two characters take part (the
-          winner and the loser). A
-          conflict might appear when a piece scares or displaces
-          other, or when it takes a color spot that the other
-          desires. If two pieces are friends and one of them is displaced by a third one, the two friends have a \textit{Conflict} with it.
-	\item In \textit{ColorForms}, a \textbf{Journey} is the time interval 
-		  between \textit{Conflicts} with the same characters. 
-          The first \textit{Conflict} must be lost by
-          one of them (the \textbf{Hero}) and the second one has to be
-          lost by the other (the \textbf{Shadow}), who must be `more
-          evil' than the \textit{Hero}, that is, have helped less friends. 
-	\item A \textbf{Mentor} in \textit{ColorForms} is a character that has high 
-		affinity with the \textit{Hero} during the \textit{Journey} and helps them at least once. 
-	\item The \textbf{Threshold Guardians} will be defeated by the \textit{Hero} 
-		along the \textit{Journey}. In \textit{ColourForms}, they are losers of conflicts against the \textit{Hero} along a \textit{Journey}.
-	\item A \textbf{Herald} is a friend of the \textit{Hero} in a \textit{Journey} that has 
-		the initiator conflict.
-	\item Our interpretation of \textbf{Ally} is a piece that
-	      helps the \textit{Hero} in a \textit{Journey}, either
-          giving the \textit{Hero} an extra turn to accomplish their goals or
-          going along the \textit{Hero} physically, staying aside in the board, along the \textit{Journey}.
-	\item The \textbf{Shapeshifter} in ColorForms will play the \textit{Ally} and the
-          \textit{Threshold Guardian} archetypes in the same \textit{Journey}. 
-	\item The \textbf{Trickster} is a character that accompanies
-          the \textit{Hero} along the \textit{Journey} joking and turning tricks. In our
-          implementation, to be trickier than other can imply to have
-          more joy than them.
-\end{enumerate}
 
 
-\subsection{EC layer: Genetic algorithms for the archetypes emergence}
+\subsection{EC layer: genetic algorithms for the archetypes emergence}
 \label{sec:ec}
 
 The objective of our work is to generate the archetypes present in the
@@ -498,8 +482,7 @@ The Optimizer module uses a GA to evolve configurations of the
 Simulator in order to find the one with the best fitness, that is
 calculated in base of the predicates found by the Reasoner. The use of
 a GA is adequate since it is not possible to deduce the effects of the
-parameter values when the agents interact: The fitness is the result
-%FERGU: el :mayúscula. Además, no sé si el dos puntos frase está bien usado como conector (a lo mejor sí, que JJ confirme)
+parameter values when the agents interact: the fitness is the result
 of high level interactions or specific sequences of them (phenotype)
 that cannot be predicted. This uncertainty is increased by the
 stochastic nature of the simulation, since different executions of the
@@ -522,20 +505,20 @@ Allied, Trickster, Shapeshifter, Monomyth\}
 and $|A_{i}|$ the number of occurrences of that predicate generated by the Reasoner at the end of the simulation, we define the next three metrics to evaluate the fitness $F$:
 
 \begin{itemize}
-\item Amount of Monomyth Occurrences Found ($M$): Counts the number of occurrences of the predicate `monomyth', hence it stands for the most basic metric we can implement.
+\item Amount of Monomyth Occurrences Found ($M$): counts the number of occurrences of the predicate `monomyth', hence it stands for the most basic metric we can implement.
 \begin{equation}
 F_{M} = \left| A_{Monomyth}\right|
 \label{eq:M}
 \end{equation}
 
 
-\item Amount of All Occurrences Found ($A$): Counts the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
+\item Amount of All Occurrences Found ($A$): counts the number of occurrences of every monomyth-implication predicate in the simulation, defined as `facilitators' in Section \ref{sec:lr}, and also shown as dark-gray nodes in figure~\ref{fig:theory}.
 \begin{equation}
 F_{A} = \sum _{i=0}^{T}\left| A_{i}\right|
 \label{eq:A}
 \end{equation}
 
-\item Amount of All Ocurrences Distributed by Predicates ($AD$): Counts the number of occurrences, but promotes the appearance of new archetypes. That is, the occurrence of two different predicates gets a bigger fitness than two occurrences of the same predicate. 
+\item Amount of All Ocurrences Distributed by Predicates ($AD$): counts the number of occurrences, but promotes the appearance of new archetypes. That is, the occurrence of two different predicates gets a bigger fitness than two occurrences of the same predicate. 
 \begin{equation}
 F_{AD} = \sum _{i=0}^{T} \log _{10} (\left|A_{i}\right| + 1)
 \label{eq:AD}
@@ -558,9 +541,7 @@ The objective of this paper is to demonstrate that it is possible to create a mu
 
 % Parametrización del GA
 
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}.
-
-The number of individuals in the populations is 30 and the termination condition is to reach 40 generations and the maximum time to deduce the predicates from the world's events is 300 seconds. To mitigate the effects of the noisy search space, the fitness of every individual is the average of 15 trials. The range for number of pieces is $[0-15]$ for each shape, hence the final solution can use $[0-45]$ pieces. The size of the world can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual days for each simulation is $[2-128]$.  These values have been selected after trials and error in order to have a good dataset for further analysis. These values have been selected empirically after preliminary tests, and are summarized in table~\ref{tab:parameters_ga}.
+We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}. The number of individuals in the populations is 30 and the termination condition is to reach 40 generations and the maximum time to deduce the predicates from the world's events is 300 seconds. To mitigate the effects of the noisy search space, the fitness of every individual is the average of 15 trials. The range for number of pieces is $[0-15]$ for each shape, hence the final solution can use $[0-45]$ pieces. The size of the world can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual days for each simulation is $[2-128]$.  These values have been selected after trials and error in order to have a good dataset for further analysis. These values have been selected empirically after preliminary tests, and are summarized in table~\ref{tab:parameters_ga}.
 
 \begin{table}[h!tb]
 	\scriptsize
@@ -595,11 +576,11 @@ The number of individuals in the populations is 30 and the termination condition
 
 % Resultados experimentos
 
-The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: Amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in table~\ref{fig:results}:
+The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in table~\ref{fig:results}:
 \begin{enumerate}
 	\item The predicate monomyth depends directly and indirectly on a huge amount of predicates (world's events, helpers and facilitators, as the dependecy graph in figure~\ref{fig:theory} reflects) hence we cannot search it directly, as seen in the graphs called 'Fitness M' and 'Monomyth in fitness M'. However, if we guide the evolutionary process by taking into account also the facilitator predicates, as A and D do, we can make the whole monomyth emerge with our system.
-	\item The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that the GA the monomyth punctually but loses it in favor of new appearances of the ally, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
-	\item Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: Allies, Guardians and Mentors have much more occurrences tan the rest. The Hero and the Shadow are the leading roles and they must appear only the necessary. Finally Shapeshifters and Tricksters are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favour the use of AD.         
+	\item The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that monomyth emerges punctually but the GA loses it in favor of new appearances of the \textit{Ally}, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
+	\item Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: \textit{Allies}, \textit{Threshold Guardians} and \textit{Mentors} have much more occurrences tan the rest. The \textit{Hero} and the \textit{Shadow} are the leading roles and they must appear only the necessary. Finally \textit{Shapeshifters} and \textit{Tricksters} are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favor the use of AD.         
 \end{enumerate}
 
 
@@ -653,7 +634,8 @@ player.
 
 
 % como trabajo futuro ...
-
+In future works we plan to improve the fixed Behaviour Tree structure by making it evolve using evolutionary computation, improve the narration engine and use human-guided metrics for the evolutionary process.
+ 
 
 \section*{Acknowledgments}
 Hidden for double blind review 
