@@ -75,19 +75,19 @@ trickster <- dataFitnessM$X30
 
 plot(generations, allied, main="Facilitators in fitness M", 
      ylab="occurrences of the archetype",
-     type="b", pch=0)
-lines(generations, guardian,type="b", pch=1)
-lines(generations, herald,type="b", pch=2)
-lines(generations, hero,type="b", pch=3)
-lines(generations, mentor,type="b", pch=4)
-lines(generations, shadow, type="b", pch=5)
-lines(generations, shapeshifter,type="b", pch=6)
+     type="b", pch=0, ylim=c(0,100))
+lines(generations, shapeshifter,type="b", pch=1)
+lines(generations, guardian,type="b", pch=2)
+lines(generations, herald,type="b", pch=3)
+lines(generations, hero,type="b", pch=4)
+lines(generations, mentor,type="b", pch=5)
+lines(generations, shadow, type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
-                             "shadow", "shapeshifter", "trickster"),
+legend("topleft" , legend=c("ally","shapeshifter", "guardian","herald", "hero", "mentor",
+                            "shadow", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.15
+       y.intersp=0.13
 )
 
 
@@ -107,18 +107,18 @@ trickster <- dataFitnessA$X30
 plot(generations, allied, main="Facilitators in fitness A", 
      ylab="occurrences of the archetype",
      type="b", pch=0)
-lines(generations, guardian,type="b", pch=1)
-lines(generations, herald,type="b", pch=2)
-lines(generations, hero,type="b", pch=3)
-lines(generations, mentor,type="b", pch=4)
-lines(generations, shadow, type="b", pch=5)
-lines(generations, shapeshifter,type="b", pch=6)
+lines(generations, shapeshifter,type="b", pch=1)
+lines(generations, guardian,type="b", pch=2)
+lines(generations, herald,type="b", pch=3)
+lines(generations, hero,type="b", pch=4)
+lines(generations, mentor,type="b", pch=5)
+lines(generations, shadow, type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
-                             "shadow", "shapeshifter", "trickster"),
+legend("topleft" , legend=c("ally","shapeshifter", "guardian","herald", "hero", "mentor",
+                            "shadow", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.15
+       y.intersp=0.13
 )
 
 
@@ -139,18 +139,18 @@ trickster <- dataFitnessAD$X30
 plot(generations, allied, main="Facilitators in fitness AD", 
      ylab="occurrences of the archetype",
      type="b", pch=0)
-lines(generations, guardian,type="b", pch=1)
-lines(generations, herald,type="b", pch=2)
-lines(generations, hero,type="b", pch=3)
-lines(generations, mentor,type="b", pch=4)
-lines(generations, shadow, type="b", pch=5)
-lines(generations, shapeshifter,type="b", pch=6)
+lines(generations, shapeshifter,type="b", pch=1)
+lines(generations, guardian,type="b", pch=2)
+lines(generations, herald,type="b", pch=3)
+lines(generations, hero,type="b", pch=4)
+lines(generations, mentor,type="b", pch=5)
+lines(generations, shadow, type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
-                           "shadow", "shapeshifter", "trickster"),
+legend("topleft" , legend=c("ally","shapeshifter", "guardian","herald", "hero", "mentor",
+                           "shadow", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.15
+       y.intersp=0.13
        )
 
 

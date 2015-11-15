@@ -404,9 +404,9 @@ but we will focus in the eight archetypes that conform the monomyth: the \textbf
 			
 			Shadow & The villain or antagonist; the dark side. & The character that wins the first conflict and loses the second one in a Journey. \\ \hline
 			
-			Ally & The character that accompanies or helps the \textit{Hero} through the \textit{Journey}. & A piece that gives the \textit{Hero} an extra turn to accomplish their goals or stays aside the \textit{Hero} in the board.\\ \hline
+			Ally & The character that accompanies or helps the \textit{Hero} through the \textit{Journey}. & A piece that gives the \textit{Hero} an extra turn to accomplish its goals or stays aside the \textit{Hero} in the board.\\ \hline
 			
-			Trickster & A mischief-maker. & A character that stays aside the \textit{Hero} in the board and is trickier than them (joking and turning tricks, in other words, having a higher level of Joy).\\ \hline
+			Trickster & A mischief-maker. & A piece that stays aside the \textit{Hero} in the board and is trickier than it (joking and turning tricks, in other words, having a higher level of Joy).\\ \hline
 			
 		\end{tabular}
 		\caption{Comparisson of theorical archetypes in the Monomytha and their interpretations in {\sf ColorForms}.}
@@ -545,7 +545,6 @@ More complicated metrics could be chosen, for example, using human interaction a
 The objective of this paper is to demonstrate that it is possible to create a multi-paradigm three-layered system (AC-LR-ABM) that is able to generate massive backstories following the monomyth guidelines. As secondary objectives, we try to test if the chosen metrics are valid to allow the emergence in the evolutionary process of the GA. 
 
 % Parametrización del GA
-
 We use a generational model, with selection by binary tournament and
 no elitism. Our mutation operator is polynomial and our crossover
 operator is \mbox{blx-$\alpha$}, both good elections when our genes
@@ -577,7 +576,7 @@ evaluation of an individual, we use explicit averaging
 			Selection             & binary tournament             \\ \hline
 			Mutation operator     & polynomial (theta = 20)       \\ \hline
 			Crossover operator    & blx-$\alpha$ ($\alpha$ = 0.5) \\ \hline
-			Termination condition & 40 generations                \\ \hline
+			Termination condition & 30 generations                \\ \hline
 			Fitness               & M / A / AD                    \\ \hline
 			\multicolumn{2}{|c|}{Gene ranges} \\ \hline
 			World size gene & 8 - 16 \\ \hline
@@ -596,12 +595,13 @@ evaluation of an individual, we use explicit averaging
 
 % Resultados experimentos
 
-The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in Table~\ref{fig:results}:
-\begin{enumerate}
-	\item The predicate monomyth depends directly and indirectly on a huge amount of predicates (world's events, helpers and facilitators, as the dependecy graph in Figure~\ref{fig:theory} reflects) hence we cannot search it directly, as seen in the graphs called 'Fitness M' and 'Monomyth in fitness M'. However, if we guide the evolutionary process by taking into account also the facilitator predicates, as A and D do, we can make the whole monomyth emerge with our system.
-	\item The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that monomyth emerges punctually but the GA loses it in favor of new appearances of the \textit{Ally}, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
-	\item Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: \textit{Allies}, \textit{Threshold Guardians} and \textit{Tricksters} have much more occurrences than the rest. The \textit{Hero} and the \textit{Shadow} are the leading roles and they must appear only the necessary. Finally \textit{Shapeshifters},  \textit{Mentors} and \textit{Heralds} are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favor the use of AD.         
-\end{enumerate}
+The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in Table~\ref{fig:results}.
+
+The predicate monomyth depends directly and indirectly on a huge amount of predicates (world's events, helpers and facilitators, as the dependecy graph in Figure~\ref{fig:theory} reflects) hence we cannot search it directly, as seen in the graphs called 'Fitness M' and 'Monomyth in fitness M'. However, if we guide the evolutionary process by taking into account also the facilitator predicates, as A and D do, we can make the whole monomyth emerge with our system.
+
+The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that monomyth emerges punctually but the GA loses it in favor of new appearances of the \textit{Ally}, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
+
+Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: \textit{Allies}, \textit{Threshold Guardians} and \textit{Tricksters} have much more occurrences than the rest. The \textit{Hero} and the \textit{Shadow} are the leading roles and they must appear only the necessary. Finally \textit{Shapeshifters},  \textit{Mentors} and \textit{Heralds} are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favor the use of AD.         
 
 
 % grafica de predicado monomito con los 3 fitness
@@ -624,7 +624,7 @@ The experiments are executed with the three fitness functions previously defined
 
 % el código fuente de los experimentos y del framework puede descargarse de ...
 
-The source code and the experiments are freely downloadable and modifiable from the official project's page~\footnote{Details omitted for double-blind reviewing}.
+The source code and the experiments are distributed under GPLv3 license, and are freely available at the official project's page~\footnote{Details omitted for double-blind reviewing}.
 
 \section{Conclusions}
 
@@ -654,9 +654,8 @@ be applied to massively generate backstories populated with
 archetypes; these archetypes have been  proved to be emotionally engaging for the videogame
 player. 
 
-
 % como trabajo futuro ...
-In future works we plan to improve the fixed Behaviour Tree structure by making it evolve using evolutionary computation, improve the narration engine and use human-guided metrics for the evolutionary process.
+In future works we plan to improve the fixed Behaviour Tree structure by making it evolve using evolutionary computation, improve the narration engine and use human-guided metrics for the evolutionary process. 
  
 
 \section*{Acknowledgments}
