@@ -1,23 +1,24 @@
 #install.packages("xlsx")
 require(xlsx)
+setwd("E:\\2_trabajo\\doctorado\\geneura-papers\\2016-EvoStar\\made\\data")
 
 par(mfrow=c(3,3))
 par(xlog=F)
 par(ylog=F)
 
-dataFitnessM = read.xlsx2(
+dataFitnessM = read.xlsx(
   "experiment_Evostar2016_1_MONOMYTH_20151109174632.35.xlsx", 
   2, startRow=3, header = F,
   colClasses="numeric",
   stringsAsFactors=FALSE)
 
-dataFitnessA = read.xlsx2(
+dataFitnessA = read.xlsx(
   "experiment_Evostar2016_1_ALL_20151101211245.807.xlsx", 
   2, startRow=3, header = F,
   colClasses="numeric",
   stringsAsFactors=FALSE)
 
-dataFitnessAD = read.xlsx2(
+dataFitnessAD = read.xlsx(
   "experiment_Evostar2016_3_ALL_20151101211411.487.xlsx", 
   2, startRow=3, header = F,
   colClasses="numeric",
@@ -66,7 +67,7 @@ generations <- dataFitnessM$X1
 allied <- dataFitnessM$X10
 guardian <- dataFitnessM$X14
 herald <- dataFitnessM$X16
-hero <- dataFitnessA$X18
+hero <- dataFitnessM$X18
 mentor <- dataFitnessM$X22
 shadow <- dataFitnessM$X26
 shapeshifter <- dataFitnessM$X28
@@ -74,7 +75,7 @@ trickster <- dataFitnessM$X30
 
 plot(generations, allied, main="Facilitators in fitness M", 
      ylab="occurrences of the archetype",
-     type="b", pch=0, ylim =c(0,4))
+     type="b", pch=0)
 lines(generations, guardian,type="b", pch=1)
 lines(generations, herald,type="b", pch=2)
 lines(generations, hero,type="b", pch=3)
@@ -82,15 +83,16 @@ lines(generations, mentor,type="b", pch=4)
 lines(generations, shadow, type="b", pch=5)
 lines(generations, shapeshifter,type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend('topleft', legend=c("allied","guardian","hero", "mentor",
-                           "shadow", "shapeshifter", "trickster"),
+legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
+                             "shadow", "shapeshifter", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.3
+       y.intersp=0.15
 )
 
 
-
+print(hero)
+print(generations)
 
 generations <- dataFitnessA$X1
 allied <- dataFitnessA$X10
@@ -112,11 +114,11 @@ lines(generations, mentor,type="b", pch=4)
 lines(generations, shadow, type="b", pch=5)
 lines(generations, shapeshifter,type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend('topleft', legend=c("allied","guardian","hero", "mentor",
-                           "shadow", "shapeshifter", "trickster"),
+legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
+                             "shadow", "shapeshifter", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.3
+       y.intersp=0.15
 )
 
 
@@ -144,11 +146,11 @@ lines(generations, mentor,type="b", pch=4)
 lines(generations, shadow, type="b", pch=5)
 lines(generations, shapeshifter,type="b", pch=6)
 lines(generations, trickster, type="b", pch=7)
-legend('topleft', legend=c("allied","guardian","hero", "mentor",
+legend("topleft", legend=c("ally","guardian","herald", "hero", "mentor",
                            "shadow", "shapeshifter", "trickster"),
        bty = "n", 
        pch=c(0,1,2,3,4,5,6,7),
-       y.intersp=0.3
+       y.intersp=0.15
        )
 
 
