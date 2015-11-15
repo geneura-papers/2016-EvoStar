@@ -546,7 +546,22 @@ The objective of this paper is to demonstrate that it is possible to create a mu
 
 % Parametrización del GA
 
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}. The number of individuals in the populations is 30 and the termination condition is to reach 40 generations and the maximum time to deduce the predicates from the world's events is 300 seconds. To mitigate the effects of the noisy search space, the fitness of every individual is the average of 15 trials. The range for number of pieces is $[0-15]$ for each shape, hence the final solution can use $[0-45]$ pieces. The size of the world can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual days for each simulation is $[2-128]$.  These values have been selected after trials and error in order to have a good dataset for further analysis. These values have been selected empirically after preliminary tests, and are summarized in Table~\ref{tab:parameters_ga}.
+We use a generational model, with selection by binary tournament and
+no elitism. Our mutation operator is polynomial and our crossover
+operator is \mbox{blx-$\alpha$}, both good elections when our genes
+are coded as numerical values. All these decisions are supported by
+Eiben and Smith in their book \cite{eiben2010whatis}. The number of
+individuals in the populations is 30, the termination condition is to
+reach 40 generations and the maximum time to deduce the predicates
+from the world's events is 300 seconds. To reduce uncertainty in the
+evaluation of an individual, we use explicit averaging
+\cite{Jin2005303}, using the average of 15 trials.
+ The range for the number of pieces is $[0-15]$ for each shape, hence
+ the final solution can have $[0-45]$ pieces. The size of the world
+ can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual
+ days for each simulation is $[2-128]$. These values have been selected empirically after
+ preliminary tests, and are summarized in
+ Table~\ref{tab:parameters_ga}. 
 
 \begin{table}[h!tb]
 	\scriptsize
@@ -591,14 +606,15 @@ The experiments are executed with the three fitness functions previously defined
 
 % grafica de predicado monomito con los 3 fitness
 
-\begin{figure}[h!tbp]
+\begin{figure}[h!tb]
 	\includegraphics[width=\textwidth]{results.pdf}
-	\caption{Execution of the system with the three fitness
-          functions tested. The first column belongs to M (promotion
+	\caption{Graph showing the results of running {\sf ColorForms}
+          with the three different fitness
+          functions; the first column belongs to M (promotion
           of the monomyth), the second column to A (promotion of the
           facilitators) and the third column to AD (promotion of the
           distribution of facilitators). The first row shows the
-          evolution of the best individual, the second one shows the
+          evolution of the best individual, the second one the
           number of occurrences of the monomyth found and the third
           one the number of occurrences of the facilitators.} 
 	\label{fig:results}
