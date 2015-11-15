@@ -404,9 +404,9 @@ but we will focus in the eight archetypes that conform the monomyth: the \textbf
 			
 			Shadow & The villain or antagonist; the dark side. & The character that wins the first conflict and loses the second one in a Journey. \\ \hline
 			
-			Ally & The character that accompanies or helps the \textit{Hero} through the \textit{Journey}. & A piece that gives the \textit{Hero} an extra turn to accomplish their goals or stays aside the \textit{Hero} in the board.\\ \hline
+			Ally & The character that accompanies or helps the \textit{Hero} through the \textit{Journey}. & A piece that gives the \textit{Hero} an extra turn to accomplish its goals or stays aside the \textit{Hero} in the board.\\ \hline
 			
-			Trickster & A mischief-maker. & A character that stays aside the \textit{Hero} in the board and is trickier than them (joking and turning tricks, in other words, having a higher level of Joy).\\ \hline
+			Trickster & A mischief-maker. & A piece that stays aside the \textit{Hero} in the board and is trickier than it (joking and turning tricks, in other words, having a higher level of Joy).\\ \hline
 			
 		\end{tabular}
 		\caption{Comparisson of theorical archetypes in the Monomytha and their interpretations in {\sf ColorForms}.}
@@ -540,7 +540,7 @@ The objective of this paper is to demonstrate that it is possible to create a mu
 
 % Parametrización del GA
 
-We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}. The number of individuals in the populations is 30 and the termination condition is to reach 40 generations and the maximum time to deduce the predicates from the world's events is 300 seconds. To mitigate the effects of the noisy search space, the fitness of every individual is the average of 15 trials. The range for number of pieces is $[0-15]$ for each shape, hence the final solution can use $[0-45]$ pieces. The size of the world can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual days for each simulation is $[2-128]$.  These values have been selected after trials and error in order to have a good dataset for further analysis. These values have been selected empirically after preliminary tests, and are summarized in Table~\ref{tab:parameters_ga}.
+We use a generational model, with selection by binary tournament and no elitism. Our mutation operator is polynomial and our crossover operator is \mbox{blx-$\alpha$}, both good elections when our genes are coded as numerical values. All these decisions are supported by Eiben and Smith in their book \cite{eiben2010whatis}. The number of individuals in the populations is 30 and the termination condition is to reach 30 generations and the maximum time to deduce the predicates from the world's events is 300 seconds. To mitigate the effects of the noisy search space, the fitness of every individual is the average of 15 trials. The range for number of pieces is $[0-15]$ for each shape, hence the final solution can use $[0-45]$ pieces. The size of the world can vary from $8x8$ (64 cells) to $16x16$ (256). The range of virtual days for each simulation is $[2-128]$.  These values have been selected empirically after preliminary tests, and are summarized in Table~\ref{tab:parameters_ga}.
 
 \begin{table}[h!tb]
 	\scriptsize
@@ -556,7 +556,7 @@ We use a generational model, with selection by binary tournament and no elitism.
 			Selection             & binary tournament             \\ \hline
 			Mutation operator     & polynomial (theta = 20)       \\ \hline
 			Crossover operator    & blx-$\alpha$ ($\alpha$ = 0.5) \\ \hline
-			Termination condition & 40 generations                \\ \hline
+			Termination condition & 30 generations                \\ \hline
 			Fitness               & M / A / AD                    \\ \hline
 			\multicolumn{2}{|c|}{Gene ranges} \\ \hline
 			World size gene & 8 - 16 \\ \hline
