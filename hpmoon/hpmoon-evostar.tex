@@ -471,7 +471,7 @@ and Overlapping methods. % Evaluations instead of generations should
   Baseline, and a bullet ($\bullet$) indicates there is not difference
   between Disjoint and Overlapping.} 
 % Disjoint takes twice as many generations as baseline and obtains
-% less solutions?  - JJ
+% less solutions?  - JJ FERGU: per island, not in total.
 \label{tab:gens}
 \end{table}
 
@@ -483,33 +483,36 @@ and distributed algorithms imply. This can be applied in dMOEAs dividing the
 chromosome in different parts, each one modified in a different
 island. This paper compares a baseline distributed NSGA-II with two
 different strategies to separate the chromosome (disjoint or overlapping
-parts). Results show that these methods can achieve better results
-than the baseline, being the relation of the number of islands used
-and the length of the chromosome a key factor to decide to take
-advantage of these methods. This can be explained because of the time
-reduction in crossover and mutation in the chromosomes. 
-% Is that all? Some explanation on why it works, if it proves your
-% hypothesis, and so on so forth- JJ
+parts), using a high number of islands. Results show that these 
+methods can achieve better quality metrics
+than the baseline in the same amount of time. This can be explained 
+because of the time reduction in crossover and mutation in the chromosomes,
+producing a higher number of generations and more modifications of the 
+solutions of the PF in each sub-population, and therefore improving
+quality of the global PF.
 
-In future work, other MOEAs, such as SPEA will be compared, with new
-configurations of population size and chromosome lengths. Also, a real
-distributed system (such as a GRID or cluster) with more different
-quantities of islands/processors, will be used to compare the different
-methods. Also, a scalability study will be performed, being the
-transmission time between islands a relevant issue to
-study. New benchmarks and real problems will also be  used to validate
+Results also show that when increasing the number of islands, the overlapping 
+method significantly improves the results with respect to the disjoint method.
+Therefore, the relation between the number of islands used, the global population size,
+and the length of the chromosome may be a key factor to decide if using the 
+overlapping method or the disjoint one. Studying this factor with more types 
+of problems, and new configurations of population size and chromosome lengths will be addressed in the future.
+
+
+Also, a real distributed system (such as a GRID or cluster) with more different
+quantities of islands/processors, will be used to perform a scalability study of the different
+methods, being the transmission time between islands a relevant issue to
+address. New benchmarks and real problems will also be  used to validate
 our approach. 
 
+% Is that all? Some explanation on why it works, if it proves your
+% hypothesis, and so on so forth- JJ FERGU: modified conclusions
 
-\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO Y EL DE MARIBEL EN INGLES!!!!
+
+\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
 Hidden for double blind review 
-%\scriptsize{This work has been supported in part by SIPESCA (Programa
-%Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02
-%(Spanish Ministry of Economy and Competitivity), SPIP2014-01437
-%(Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica
-%Andaluza Centro de Estudios Andaluces en la IX Convocatoria de
-%Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project
-%(CEI-BIOTIC Granada).} 
+
+%This work has been supported by the project with reference PRY142/14, which has been granted by Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces in the call IX Convocatoria de Proyectos de Investigación'. Also, by TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).} 
 
 
 %
