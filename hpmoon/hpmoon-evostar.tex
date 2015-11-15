@@ -8,7 +8,6 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{subfigure}
-%\usepackage{subfig}
 \usepackage{url}
 \usepackage{caption}
 
@@ -22,10 +21,11 @@
 \mainmatter  % start of an individual contribution
 
 % first the title is needed
-\title{Dividing chromosomes in NSGA-II island model} %TITULO PROVISIONAL
+\title{Addressing high dimensional multi-objective optimization
+  problems by islands with overlapping search spaces} %TITULO PROVISIONAL
 
 % a short form should be given in case it is too long for the running head
-\titlerunning{}
+\titlerunning{Addressing high dimensional multi-objective optimization problems}
 
 % the name(s) of the author(s) follow(s) next
 %
@@ -34,7 +34,7 @@
 % the running heads and the author index.
 %
 %\author{P. Garc\'ia-S\'anchez \and J. Ortega \and
-%  J. Gonz\'alez\inst{1}}
+%  J. Gonz\'alez\inst{1} \and P. A. Castillo \and J.J. Merelo}
 \author{A. U. Thor\inst{1}}
 % ¿Se puede ayudar aquí?
 %
@@ -46,7 +46,7 @@
 % unless you accept that it will be published
 %\institute{Dept. of Computer Architecture and Technology, University
 %of Granada, Spain}
-\instutte{MIT, Midgardian Institute of Technology}
+\institute{MIT, Midgardian Institute of Technology}
 
 %
 % NB: a more complex sample for affiliations and the mapping to the
@@ -64,6 +64,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ABSTRACT   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \begin{abstract}
+Large-scale multi-objective optimization problems with many decision variables have 
+recently attracted the attention of researchers as many data mining applications involving high 
+dimensional patterns can be leveraged using them. Current parallel and distributed computer architectures can provide the required computing 
+capabilities to cope with these problems once efficient procedures are available. In this 
+paper we propose a cooperative coevolutionary island-model procedure based on the parallel 
+execution of sub-populations, whose individuals explore different domains of the 
+decision variables space. More specifically, the individuals belonging to the same 
+sub-population (island) explore the same subset of decision variables. Two alternatives to 
+distribute the decision variables among the different sub-populations have been 
+considered and compared here. In the first approach, individuals in different 
+sub-population explore disjoint subsets of decision variables (i.e. the chromosomes are 
+divided into disjoints subsets). Otherwise, in the second alternative there are some 
+overlapping among the variables explored by individuals in different sub-populations. 
+The analysis of the obtained experimental results, by using different 
+metrics, shows that coevolutionary approaches provide statistically significant 
+improvements with respect to the base algorithm, being the relation of the number of 
+islands (subpopulations) to the length of the chromosome (number of decision 
+variables) a relevant factor to determine the more efficient alternative to distribute the 
+decision variables.
 
 \keywords{Multi-objective algorithms, NSGA-II, Island model, distributed evolutionary algorithms}
 \end{abstract}
@@ -75,60 +94,60 @@
 
 Evolutionary Algorithms (EAs) are inherently parallelizable, as each
 individual can be considered as an independent unit
-\cite{Alba13parallel}, and therefore, they can improve the
-computational performance over their non-parallel
-versions. Multi-Objective Evolutionary Algorithms (MOEAs) are a
-sub-set of... Also, as this kind of algorithms may be computationally
+\cite{Alba13parallel}, and therefore, the
+computational performance can be improved over their non-parallel
+versions. This can also be applied to Multi-Objective Evolutionary 
+Algorithms (MOEAs). Besides, as this kind of algorithms may be computationally
 expensive, several parallelization methods have been proposed
 \cite{Luna15Survey}. However, as MOEAs deal with whole solution sets
 called Pareto Fronts (PFs), different distribution and sharing
 mechanisms need to be addressed. Classic approaches, such as the
 global parallel EAs (Master-Slave), or the spatially structured
-algorithms (Island model or Cellullar EAs) deal with the individuals
-as independent units of information, and ...  In island based models
-blablabla .   % this is a lot of boilerplate - JJ
+algorithms (Island model or Cellular EAs) have been applied successfully in the past.   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
 
-MOEAs have gained attention in the last years, mostly because their application in real-world problems. Usually these problems require a higher number of decission variables. Larger individuals require extra time for crossover, mutation and transmission. Dividing the search space...
-Co-evolution model is a dimension-distributed model where a
+MOEAs have gained attention in the last years, mostly because their application in real-world problems \cite{Luna15Survey,Mukhopadhyay14Survey}. Usually these problems require a higher number of decision variables, and these larger individuals require a significant extra time for crossover, mutation and transmission. Therefore, dividing the decision space (that is, the chromosome) may improve high performance and solution quality. In this aspect, the co-evolution model is a dimension-distributed model where a
 high-dimensional problem is divided into lower dimensional problems
-\cite{Gong15models}. However, usually there exist interdependences
-among the elements of the solutions, so... In this paper, several of
-these ideas are taken into account to compare different approaches in
-chromosome division BLABLA 
+\cite{Gong15models}, and evolved separately. Also, applying parallelism techniques in EAs not only implies a reduction in the execution time, 
+but developing new and more efficient search models \cite{Luna15Survey}.  The idea of dividing the decision space has been
+studied in \cite{Kimovski15Parallel}. In that work, different workers
+evolve sub-populations created and recombined by a master process,
+which performs different recombination alternatives from the parts returned by
+worker processes. A high dimensional problem was used to compare these
+alternatives. In \cite{Dorronsoro13superlinear}, a distributed coevolutionary island model was used.  In both previous works
+significant speedups were attained, although only a low number of nodes were used (8). However, when increasing the number of islands, the division of each section of the chromosome becomes smaller, and the scalability may be affected by obtaining lower quality solutions in the same amount of time.
+%In this paper, several of these ideas are taken into account to compare different approaches in
+%chromosome division in distributed island MOEAs. 
 
-The hypothesis of this paper is to demonstrate that dividing the
-chromosome search space by applying crossover and mutation in
-different sections in each island can improve the quality of the
-solutions in the same time. %computing time? - JJ
- Two different approaches have been
-compared with a baseline version of a distributed NSGA-II. Results
-show that this technique can improve different quality indicators in
+The hypothesis of this paper is that using overlapped sections of the chromosome in a coevolutionary multi-objective island-based algorithm can improve the quality of the
+solutions in the same computing time when the number of islands increases. To demonstrate this, a new overlapping islands scheme will be compared with a baseline version of a distributed NSGA-II \cite{Deb00NSGAII} and with a coevolutionary disjoint section approach, in different benchmarks problems and with different large number of islands. Results show that this new technique can improve different quality indicators in
 the same amount of time. 
+
+The rest of the paper is structured as follows: after a background in parallelization in MOEAs, 
+ the compared algorithms and the used methodology (Section \ref{sec:met}) are presented. 
+Then, the results of the experiments are shown (Section \ref{sec:res}), followed by conclusions and suggestions for future work lines.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  STATE OF THE ART  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \section{State of the Art}
-\label{sec:SoA}
+\label{sec:soa}
 
-%make it a narrative. - JJ
+%make it a narrative. - JJ FERGU: I know, I know, it was still pending :) TODO
 Distributed and parallel Evolutionary Algorithms have been used since
-the early 2000s \cite{ELQUESEA} to leverage the capabilities of
+the early 2000s \cite{Talbi08Parallel} to leverage the capabilities of new common parallel computer architectures, such as
 clusters or grids. However, distributing MOEAs is not as easy as it is
-in
-single-objective EAs, as the %unfinished
-. Some authors have focused in
-Master-Slave approaches to parallelize MOEAs. For example, Durillo et
+in single-objective EAs, as they have to deal with a whole set of dependent solutions, the Pareto Front, that should be managed in several steps of the algorithm. %unfinished Pablo: Done
+Some authors have focused on Master-Slave approaches to parallelize this kind of EAs. For example, Durillo et
 al. \cite{Durillo08masterslave} compared different master-slave
 approaches to save time when running the EA. The method proposed by
-Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending of
+Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending on
 the computation power.  
 
-Dividing the decision or search space of EAs in different islands is
-not a novel idea \cite{ALGUNOANTIGUO}. However, when using
-multi-objective EAs ... 
+%Dividing the decision or search space of EAs in different islands is
+%not a novel idea \cite{ALGUNOANTIGUO}. However, when using
+%multi-objective EAs ... 
 
-First approaches for distributed MOEAs were studied in
+First approaches for distributed MOEAs (dMOEAs) were studied in
 \cite{Deb03distributed}. In that work, the dominance of solutions is
 divided in the islands using a transformation of coordinates. Authors
 concluded that dividing the search space is a good idea, but achieve
@@ -136,29 +155,34 @@ this is not trivial. Other ideas for dividing the search space include
 objective separation in different processors \cite{Xiao03specialized},
 or divide in two populations: one for elite and other search
 \cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a
-Barabasi-Albert island topology and selection based in migrate
-individuals from a not-crowded area and acceptance based in
-diversity. But the idea of dividing the decission space has been
-studied in \cite{Kimovski15Parallel}. In this work, different workers
-evolve sub-populations created and recombinated by a master process,
-which performs different recombination alternatives from the parts by
-worker processes. A high dimensional problem was used to compare these
-alternatives. Although a low number of workers were used (8),
-significant speedups were attained. A more similar approach to the one
-presented here was studied by Dorronsoro et al. in
-\cite{Dorronsoro13superlinear}. They obtained super-linear performance
-BLABLABLABLA. Kimovski et al. \cite{Kimovski15Parallel} uses a
-master-slave method that splits the population to several processors,
+Barabasi-Albert island topology and selection based on migrating
+individuals from a not-crowded area and acceptance based on
+diversity. 
+
+More similar approaches to the one presented here were studied in the
+ next two works, also using cooperative coevolution for high-dimensional problems. Dorronsoro et al. in
+\cite{Dorronsoro13superlinear} obtained super-linear performance
+in several instances using cooperative coevolution, focusing each island on a portion of the chromosome. However, in some instances the parallel version not always 
+improved the sequential version.  Kimovski et al. \cite{Kimovski15Parallel} proposed a
+master-slave method that splits the population into several processors,
 each one running in parallel a MOEA that only affects some portion of
-the individuals. After certain number of generations, the master
-process receive all the sub-populations to be combined. Different
+the individuals. After a certain number of generations, the master
+process receives all the sub-populations to be combined. Different
 combination alternatives in this step are compared. Up to 8 processors
-were used in the experimental setup. However, our approach do not
+were used in the experimental setup. Our approach in this paper does not
 broadcast all solutions to all islands for recombination, as previous
 works, but only one solution to a random island, needing less
 communication time. Besides, the maximum number of islands of
 Dorronsoro or Kimovsky approaches was 8, while in this paper we have
 used up to 128 islands. 
+
+Lately, some researchers \cite{cheng2015adaptive} have focused on
+working on solution space, dividing the Pareto front in different
+clusters in order to model it. This {\em divide and conquer} approach
+is readily paralellizable and, in the sense of giving the
+responsibility of different parts of the search space to different
+modules, is similar to the one presented in this paper. We will
+describe how we have tested our approach in the next Section.
 
 
 
@@ -168,31 +192,73 @@ used up to 128 islands.
 %
 \section{Methodology and experimental setup}
 \label{sec:met}
+This section describes the quality indicators used and the methods
+compared. The chosen quality indicators,
+% which were presented in \cite{} give a reference for this metric. - JJ FERGU: abajo
+are:
 
+\begin{itemize}
+\item Hypervolume (HV): measures the area formed by all non-dominated solutions found with, respect to a reference point. Higher values imply better quality of the PF.
+\item Inverted Generational distance (IGD): calculates the distance of the obtained set of solutions to the optimal PF. Therefore, this metric requires the optimal PF found in the literature, or the theoretical one. In this metric, the lower the better. %Pablo: theoretical?
+\item Spread (S): Measures the spread between solutions, taking into account the euclidean distance between consecutive solutions. As in previous metric, the lower value, the better, as it implies solutions distributed along all the PF.
+\end{itemize}
+
+These metrics have been used extensively, especially in some of the papers
+presented previously in Section \ref{sec:soa}.
 
 
 % --------------------------------------------------------------
 
 \subsection{Baseline algorithm}
 
-At the end of the run, all PFs of all island are aggregated in a new one and the metrics are calculated.
+This algorithm is a regular NSGA-II algorithm distributed along a
+number $P$ of islands. After a fixed number of generations, one
+individual is migrated to another random island. At the end of the
+run, all PFs of all islands are aggregated in a new one to compute the
+quality measures.
+% some justification on why this was chosen - JJ
 
-\subsection{Disjoint Algorithm}
+% And some liaison to next subsection - JJ
 
-In this approach, each individual of size $L$ is split into $P$ chunks of size $L/P$. Every island $p$ only performs crossover and mutation on the $p_{th}$ part of the individuals.  As in the baseline, every certain number of generations, an individual is migrated to another random island.  In the new island, this individual will be crossed and mutated as the other individuals of the island. Note that, on the contrary of another works such as \cite{EL QUE SEA} all the islands deal with complete chromosomes for fitness calculation, so our approach can deal with no decomposable problems. Figure \ref{fig:disjoint} describes this approach, with $P=5$ islands.
+\subsection{Coevolutionary algorithms compared}
+Two different coevolutionary methods have also been used. In both
+methods, each individual is splitted in different chunks, and every
+island performs crossover and mutation in specific chunks of the
+individuals.  As in the baseline, every 
+certain number of generations, an individual is migrated to another
+random island.  In the new island, this individual will be considered as one of the others in the island, crossed and
+mutated in the same way, depending of the island identifier. Note that, on the
+contrary of other works such as the ones described
+\cite{Talbi08Parallel} all the islands deal with complete chromosomes
+for fitness calculation, so our approach can deal with no decomposable
+problems. 
+
+\subsubsection{Coevolution with disjoint islands} 
+In this approach, each individual of size $L$ is split into $P$ chunks
+of size $L/P$. Every island $p$ only performs crossover and mutation
+on the $p_{th}$ part of the individuals. Figure \ref{fig:disjoint} describes this approach, with
+$P=5$ islands.  
 
 \begin{figure}
 \includegraphics[width=10cm]{islandDisjoint.jpg}
-\caption{Disjoint algorithm: every island $p$ only modifies the $p_{th}$ part (in grey) of the individuals.}
+\caption{Disjoint algorithm: every island $p$ only modifies the $p_{th}$ components (in grey) of the individuals.}
+\label{fig:disjoint}
 \end{figure}
 
-\subsection{Overlapped Algorithm}
-This approach is similar to the previous one, but every island also uses the $p+1$ and $p-1$ (module size) chunks of the individual for crossover and migration. Therefore, some kind of overlapping of the crossed and mutated parts exist between islands. Figure \ref{fig:overlapped} shows the affected parts of the individuals in each island.
+\subsubsection{Coevolution with overlapping islands}
+This approach is similar to the previous one, but every island also
+uses the $p+1$ and $p-1$ (module size) chunks of the individual for
+crossover and migration. Therefore, some kind of overlapping of the
+crossed and mutated parts exists between islands. Figure
+\ref{fig:overlapping} shows the affected parts of the individuals in
+each island. 
 
  
 \begin{figure}
 \includegraphics[width=10cm]{islandNoDisjoint.jpg}
-\caption{Overlapped algorithm: every island $p$ modifies the  $p+1$, $p_{th}$ and $p-1$  parts (in grey) of the individuals.}
+\caption{Overlapping algorithm: every island $p$ modifies the  $p+1$,
+  $p_{th}$ and $p-1$  components (in grey) of the individuals.}
+\label{fig:overlapping}
 \end{figure}
 
 % --------------------------------------------------------------
@@ -203,19 +269,26 @@ This approach is similar to the previous one, but every island also uses the $p+
 \section{Experiments and Results}
 \label{sec:res}
 
-The three approaches have been launched with a different combination of chromosome lengths ($L$): 512 and 2048. Also, different number of islands ($P$) have been compared: 8, 16 and 128. This maximum number of islands have been also used in previous work in the literature \cite{Martens13asynchronous}.
+The three approaches have been run with two different 
+chromosome lengths ($L$): 512 and 2048. Different number of
+islands ($P$) have also been compared: 8, 32 and 128. This maximum number
+of islands have also been  used in previous work in the literature
+\cite{Martens13asynchronous}. The crossover and mutation chosen, SBX
+and polynomial, have been used previously by other authors in
+\cite{Durillo08masterslave}. 
 
-The chosen problems to evaluate are the ZDT. This benchmark has been chosen because it has been previously used in different works of the literature \cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}.
+ZDT \cite{zdt2000a} has been chosen as a benchmark, since it is the most widely
+used in this area
+\cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}. The
+optimal PF distribution used for comparison has 1000
+solutions \footnote{Optimal PFs are available at:
+  \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}.}. 
 
-Different metrics have been used to calculate the quality of the obtained PFs in each configuration.
 
-\begin{itemize}
-\item Hypervolume (HV):
-\item Inverted Generational distance (IGD):
-\item Spread (S):
-\end{itemize}
 
-The termination criterion used is the time. 25 seconds for dimension 512 and 100 for 2048. JUSTIFICAR
+
+
+The termination criterion used is the execution time: 25 seconds for dimension 512 and 100 (four times more) for 2048. We have used the time instead the number of evaluations firstly because our hypothesis argue that the time saved in crossover in mutation can be spent on improving the sub-populations and more operations and migrations can be achieved. Also, we are using different number of islands (with different sub-population sizes) that could lead to different execution times, so it would be difficult to compare different times and quality solutions at the same time.
 
 \begin{table}
 \begin{center}
@@ -224,7 +297,7 @@ The termination criterion used is the time. 25 seconds for dimension 512 and 100
 {\em Parameter Name} & {\em Value} \\ \hline
 Number of islands ($P$) & 8, 32 and 128 \\ \hline
 Chromosome size ($L$) & 512 and 2048 \\ \hline
-Execution time (s) & 25000 (for 512) and 100000 (for 2048) \\ \hline \hline
+Execution time (s) & 25 (for 512) and 100 (for 2048) \\ \hline \hline
 Global population size ($N$) & 1024 \\ \hline
 Selection type & Binary Tournament Selection \\ \hline
 Replacement type & Generational \\ \hline %FERGU: tiene sentido cuando hablamos de NSGA2?
@@ -241,11 +314,13 @@ Runs per configuration & 30 \\ \hline
 \end{center}
 \end{table}
 
-The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16.
+%%%FERGU: NO OLVIDAR PONER EL REPOSITORIO!!!!!!!!!!!!!!!!!!!!!!
 
-The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}.
+The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://ANONYMOUS-REPOSITORY}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
 
-The results are shown in Table \ref{tab:results}.
+
+
+Different metrics, explained in the previous section, have been used to calculate the quality of the obtained PFs in each configuration. As some of the metrics require a reference point to be calculated (such as HV), the point (1,9) has been chosen as reference, as none of the generated PFs in all runs are dominated by it. Metrics are then normalized with respect to that point. A Kruskall-Wallis significance test has been performed to the metrics of all runs of the configurations, as the Kolmogorov-Smirnov test detected non-normal distributions. The average results for each configuration are shown in Table \ref{tab:results}.
 
 \begin{table}
 \centering
@@ -255,23 +330,23 @@ The results are shown in Table \ref{tab:results}.
  
 	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
 \multicolumn{10}{|c|}{512 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{10}{|c|}{ZDT1}																												\\ \hline
-8	&	0.870	&	0.961	&		0.943			&	0.775	&	0.546		&	0.720	*		&	0.019	&	0.000		&	0.004			\\
-32	&	0.803	&	0.887	&		0.957			&	0.815	&	0.837	*	&	0.621			&	0.033	&	0.014		&	0.001			\\
-128	&	0.744	&	0.687	&		0.827			&	0.850	&	0.874	*	&	0.839	*		&	0.045	&	0.054		&	0.024			\\ \hline
+8	&	0.870	&	\textbf{0.961}	&		0.943			&	0.775	&	\textbf{0.546}		&	0.720	*		&	0.019	&	\textbf{0.0004}		&	0.004			\\
+32	&	0.803	&	0.887	&		\textbf{0.957}			&	0.815	&	0.837	*	&	\textbf{0.621}			&	0.033	&	0.014		&	\textbf{0.001}			\\
+128	&	0.744	&	0.687	&		\textbf{0.827}			&	0.850	&	0.874	*	&	\textbf{0.839}	*		&	0.045	&	0.054		&	\textbf{0.024}			\\ \hline
 \multicolumn{10}{|c|}{ZDT2}																												\\ \hline
-8	&	0.787	&	0.919	&		0.878			&	0.913	&	0.646		&	0.907	*		&	0.035	&	0.001		&	0.011			\\
-32	&	0.744	&	0.890	&		0.917			&	0.950	&	0.754		&	0.627			&	0.048	&	0.007		&	0.002			\\
-128	&	0.693	&	0.592	&		0.765			&	0.971	&	0.944		&	0.917		$\bullet$	&	0.062	&	0.089		&	0.039			\\ \hline
+8	&	0.787	&	\textbf{0.919}	&		0.878			&	0.913	&	\textbf{0.646}		&	0.907	*		&	0.035	&	\textbf{0.001}		&	0.011			\\
+32	&	0.744	&	0.890	&		\textbf{0.917}			&	0.950	&	0.754		&	\textbf{0.627}			&	0.048	&	0.007		&	\textbf{0.002}			\\
+128	&	0.693	&	0.592	&		\textbf{0.765}			&	0.971	&	\textbf{0.944}		&	\textbf{0.917}		$\bullet$	&	0.062	&	0.089		&	\textbf{0.039}			\\ \hline
 \multicolumn{10}{|c|}{ZDT3}																												\\ \hline
-8	&	0.894	&	0.976	&		0.965			&	0.895	&	0.832		&	0.922	*		&	0.012	&	0.001		&	0.003			\\
-32	&	0.829	&	0.902	&		0.972			&	0.877	&	0.851		&	0.835			&	0.019	&	0.011		&	0.001			\\
-128	&	0.770	&	0.726	&		0.865			&	0.891	&	0.845		&	0.845		$\bullet$	&	0.026	&	0.029		&	0.015			\\ \hline
+8	&	0.894	&	\textbf{0.976}	&		0.965			&	0.895	&	\textbf{0.832}		&	0.922	*		&	0.012	&	\textbf{0.001}		&	0.003			\\
+32	&	0.829	&	0.902	&		\textbf{0.972}			&	0.877	&	0.851		&	\textbf{0.835}			&	0.019	&	0.011		&	\textbf{0.001}			\\
+128	&	0.770	&	0.726	&		\textbf{0.865}			&	0.891	&	\textbf{0.845}		&	\textbf{0.845}		$\bullet$	&	0.026	&	0.029		&	\textbf{0.015}			\\ \hline
 \multicolumn{10}{|c|}{ZDT6}																												\\ \hline
-8	&	0.224	&	0.503	&		0.331			&	0.992	&	1.008	*	&	0.993	*	$\bullet$	&	0.192	&	0.070		&	0.145			\\
-32	&	0.192	&	0.396	&		0.454			&	0.998	&	0.998	*	&	0.980	*	$\bullet$	&	0.206	&	0.118		&	0.091			\\
-128	&	0.157	&	0.114	&		0.214			&	1.004	&	0.985		&	0.979		$\bullet$	&	0.221	&	0.238		&	0.195			\\ \hline
+8	&	0.224	&	\textbf{0.503}	&		0.331			&	0.992	&	1.008	*	&	0.993	*	$\bullet$	&	0.192	&	\textbf{0.070}		&	0.145			\\
+32	&	0.192	&	0.396	&		\textbf{0.454}			&	0.998	&	0.998	*	&	0.980	*	$\bullet$	&	0.206	&	0.118		&	\textbf{0.091}			\\
+128	&	0.157	&	0.114	&		\textbf{0.214}			&	1.004	&	\textbf{0.985}		&	\textbf{0.979}		$\bullet$	&	0.221	&	0.238		&	\textbf{0.195}			\\ \hline
 																												
 																												
 																												
@@ -279,39 +354,73 @@ The results are shown in Table \ref{tab:results}.
 																												
 	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
 \multicolumn{10}{|c|}{2048 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{10}{|c|}{ZDT1}																												\\ \hline
-8	&	0.754	&	0.948	&		0.889			&	0.844	&	0.587		&	0.807	*		&	0.044	&	0.003		&	0.015			\\
-32	&	0.679	&	0.928	&		0.942			&	0.854	&	0.714		&	0.646			&	0.061	&	0.006		&	0.004			\\
-128	&	0.660	&	0.765	&		0.907			&	0.865	&	0.860	*	&	0.802			&	0.065	&	0.036		&	0.010			\\ \hline
+8	&	0.754	&	\textbf{0.948}	&		0.889			&	0.844	&	\textbf{0.587}		&	0.807	*		&	0.044	&	\textbf{0.003}		&	0.015			\\
+32	&	0.679	&	0.928	&		\textbf{0.942}			&	0.854	&	0.714		&	\textbf{0.646}			&	0.061	&	0.006		&	\textbf{0.004}			\\
+128	&	0.660	&	0.765	&		\textbf{0.907}			&	0.865	&	0.860	*	&	\textbf{0.802}			&	0.065	&	0.036		&	\textbf{0.010}			\\ \hline
 \multicolumn{10}{|c|}{ZDT2}																												\\ \hline
-8	&	0.641	&	0.877	&		0.794			&	0.965	&	0.942		&	0.969	*	$\bullet$	&	0.078	&	0.011		&	0.033			\\
-32	&	0.605	&	0.898	&		0.885		$\bullet$	&	0.980	&	0.704		&	0.755		$\bullet$	&	0.088	&	0.006		&	0.009		$\bullet$	\\
-128	&	0.560	&	0.689	&		0.830			&	0.984	&	0.929		&	0.870			&	0.101	&	0.060		&	0.021			\\ \hline
+8	&	0.641	&	\textbf{0.877}	&		0.794			&	0.965	&	\textbf{0.942}		&	0.969	*	$\bullet$	&	0.078	&	\textbf{0.011}		&	0.033			\\
+32	&	0.605	&	\textbf{0.898}	&\textbf{0.885}$\bullet$&	0.980	&	\textbf{0.704}		&	\textbf{0.755}		$\bullet$	&	0.088	&	\textbf{0.006}		&	\textbf{0.009}		$\bullet$	\\
+128	&	0.560	&	0.689	&		\textbf{0.830}			&	0.984	&	0.929		&	\textbf{0.870}			&	0.101	&	0.060		&	\textbf{0.021}			\\ \hline
 \multicolumn{10}{|c|}{ZDT3}																												\\ \hline
-8	&	0.773	&	0.969	&		0.922			&	0.910	&	0.865		&	0.919		$\bullet$	&	0.026	&	0.002		&	0.009			\\
-32	&	0.713	&	0.937	&		0.966			&	0.903	&	0.796		&	0.839			&	0.032	&	0.007		&	0.002			\\
-128	&	0.691	&	0.817	&		0.935			&	0.902	&	0.839		&	0.812		$\bullet$	&	0.035	&	0.020		&	0.007			\\ \hline
+8	&	0.773	&	\textbf{0.969}	&		0.922			&	0.910	&	\textbf{0.865}		&	\textbf{0.919}		$\bullet$	&	0.026	&	\textbf{0.002}		&	0.009			\\
+32	&	0.713	&	0.937	&		\textbf{0.966}			&	0.903	&	\textbf{0.796}		&	0.839			&	0.032	&	0.007		&	\textbf{0.002}			\\
+128	&	0.691	&	0.817	&		\textbf{0.935}			&	0.902	&	\textbf{0.839}		&	\textbf{0.812}		$\bullet$	&	0.035	&	0.020		&	\textbf{0.007}			\\ \hline
 \multicolumn{10}{|c|}{ZDT6}																												\\ \hline
-8	&	0.136	&	0.334	&		0.231			&	0.995	&	1.002		&	0.996	*	$\bullet$	&	0.230	&	0.144		&	0.189			\\
-32	&	0.113	&	0.394	&		0.327			&	0.996	&	0.975		&	0.990	*	$\bullet$	&	0.240	&	0.118		&	0.147			\\
-128	&	0.101	&	0.165	&		0.267			&	0.997	&	0.985		&	0.979		$\bullet$	&	0.245	&	0.216		&	0.172			\\ \hline
+8	&	0.136	&	\textbf{0.334}	&		0.231			&	0.995	&	1.002		&	0.996	*	$\bullet$	&	0.230	&	\textbf{0.144}		&	0.189			\\
+32	&	0.113	&	\textbf{0.394}	&		0.327			&	0.996	&	0.975		&	0.990	*	$\bullet$	&	0.240	&	\textbf{0.118}		&	0.147			\\
+128	&	0.101	&	0.165	&		\textbf{0.267}			&	0.997	&	\textbf{0.985}		&	\textbf{0.979}		$\bullet$	&	0.245	&	0.216		&	\textbf{0.172}			\\ \hline
 
 
 \end{tabular}
 }
-\caption{Quality metrics obtained after 30 runs per configuration, for the three methods compared: Baseline, Disjoint  and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
+\caption{Quality metrics obtained after 30 runs per configuration, for
+  the three methods compared: Baseline, Disjoint  and Overlapping. An
+  asterisk (*) means that there is not significant difference with
+  respect to Baseline, and a bullet ($\bullet$) indicates there is not
+  difference between Disjoint and Overlapping. Best values are marked in bold font.} 
 \label{tab:results}
 \end{table}
 
-Results show that... Table \ref{tab:gens} shows the generations and average solutions per island obtained in each method. 
+At a first glance results show that dividing the chromosome produces
+an improvement in all the quality indicators in all the
+configurations, with respect to the baseline. Also, results show that
+all the quality indicators lowers when the number of islands is
+increased, as the subpopulations are smaller. This is consistent with
+the claim by Durillo in \cite{Dorronsoro13superlinear}, who found that
+cooperative coevolutionary MOEAs work better on bigger populations
+(more than 100 individuals). Paying attention to the disjoint and
+overlapping methods, only when using 8 islands the disjoint method
+always attain better metrics, and even more times with the 2048 chromosome
+length. This can be explained because only 1/8 of the individual is
+changed in each island, while in the overlapping, 3/8 of the island
+may be more similar to the baseline configuration. Therefore, there exist some kind
+of limit point where one method will be preferable to another,
+depending the number of islands, population size and length. 
+
+This can be explained also comparing the number of generations and
+average solutions per island. Table \ref{tab:gens} shows these values
+obtained in each method. It is clear that in the same amount of time,
+the disjoint and overlapping method needs more generations than the
+baseline. This is even clearer with $L=$2048, where almost 10 times
+the number of generations is attained, and therefore, more migrations
+and crossovers/mutations can be achieved. Surprisingly, the average
+number of solutions of PFs per island in the baseline configuration is significantly
+higher in some configurations (mostly with 128 islands), but their
+combination in the final PF never attains higher values than Disjoint
+and Overlapping methods. % Evaluations instead of generations should
+                         % have been used. Generations will have
+                         % different number of evaluations per
+                         % island.
 
 \begin{table}
+\centering
 \begin{tabular}{|c||c|c|c||c|c|c||}
 \hline
 	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
 \multicolumn{7}{|c|}{512 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{7}{|c|}{ZDT1}																			\\ \hline
 8	&	112.933	&	453.333		&	225.233			&	118.733	&	137.000		&	141.467		$\bullet$	\\
 32	&	111.333	&	851.933		&	561.667			&	69.433	&	33.067		&	73.833	*		\\
@@ -334,8 +443,8 @@ Results show that... Table \ref{tab:gens} shows the generations and average solu
 																			
 																			
 	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
-\multicolumn{7}{|c|}{512 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapped			&	Baseline	&	Disjoint		&	Overlapped			\\ \hline
+\multicolumn{7}{|c|}{2048 dimensions}																			\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
 \multicolumn{7}{|c|}{ZDT1}																			\\ \hline
 8	&	118.333	&	574.100		&	262.700			&	136.167	&	126.267		&	136.267	*	$\bullet$	\\
 32	&	115.567	&	1195.800		&	721.733			&	103.867	&	35.000		&	60.267			\\
@@ -356,15 +465,55 @@ Results show that... Table \ref{tab:gens} shows the generations and average solu
 
 
 \end{tabular}
-\caption{Number of generations and average number of solutions per island obtained after 30 runs per configuration, for the three methods compared: Baseline , Disjoint and Overlapped. An asterisk (*) means that there is not significative difference with respect to Baseline, and a bullet ($\bullet$) indicates there is not difference beetween Disjoint and Overlapped.}
+\caption{Number of generations and average number of solutions per
+  island obtained after 30 runs per configuration, for the three
+  methods compared: Baseline, Disjoint and Overlapping. An asterisk
+  (*) means that there is not significant difference with respect to
+  Baseline, and a bullet ($\bullet$) indicates there is not difference
+  between Disjoint and Overlapping.} 
+% Disjoint takes twice as many generations as baseline and obtains
+% less solutions?  - JJ FERGU: per island, not in total.
+\label{tab:gens}
 \end{table}
 
 \section{Conclusions}
 
+High-performance problems that require a large number of decision
+variables can leverage the division of the decision space that parallel
+and distributed algorithms imply. This can be applied in dMOEAs dividing the
+chromosome in different parts, each one modified in a different
+island. This paper compares a baseline distributed NSGA-II with two
+different strategies to separate the chromosome (disjoint or overlapping
+parts), using a high number of islands. Results show that these 
+methods can achieve better quality metrics
+than the baseline in the same amount of time. This can be explained 
+because of the time reduction in crossover and mutation in the chromosomes,
+producing a higher number of generations and more modifications of the 
+solutions of the PF in each sub-population, and therefore improving
+quality of the global PF.
 
-\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO!!!!
+Results also show that when increasing the number of islands, the overlapping 
+method significantly improves the results with respect to the disjoint method.
+Therefore, the relation between the number of islands used, the global population size,
+and the length of the chromosome may be a key factor to decide if using the 
+overlapping method or the disjoint one. Studying this factor with more types 
+of problems, and new configurations of population size and chromosome lengths will be addressed in the future.
+
+
+Also, a real distributed system (such as a GRID or cluster) with more different
+quantities of islands/processors, will be used to perform a scalability study of the different
+methods, being the transmission time between islands a relevant issue to
+address. New benchmarks and real problems will also be  used to validate
+our approach. 
+
+% Is that all? Some explanation on why it works, if it proves your
+% hypothesis, and so on so forth- JJ FERGU: modified conclusions
+
+
+\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
 Hidden for double blind review 
-%\scriptsize{This work has been supported in part by SIPESCA (Programa Operativo FEDER de Andaluc\'ia 2007-2013), TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico), PRY142/14 (Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigaci\'on) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).}
+
+%This work has been supported by the project with reference PRY142/14, which has been granted by Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces in the call IX Convocatoria de Proyectos de Investigación'. Also, by TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).} 
 
 
 %
