@@ -575,12 +575,13 @@ We use a generational model, with selection by binary tournament and no elitism.
 
 % Resultados experimentos
 
-The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in Table~\ref{fig:results}:
-\begin{enumerate}
-	\item The predicate monomyth depends directly and indirectly on a huge amount of predicates (world's events, helpers and facilitators, as the dependecy graph in Figure~\ref{fig:theory} reflects) hence we cannot search it directly, as seen in the graphs called 'Fitness M' and 'Monomyth in fitness M'. However, if we guide the evolutionary process by taking into account also the facilitator predicates, as A and D do, we can make the whole monomyth emerge with our system.
-	\item The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that monomyth emerges punctually but the GA loses it in favor of new appearances of the \textit{Ally}, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
-	\item Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: \textit{Allies}, \textit{Threshold Guardians} and \textit{Tricksters} have much more occurrences than the rest. The \textit{Hero} and the \textit{Shadow} are the leading roles and they must appear only the necessary. Finally \textit{Shapeshifters},  \textit{Mentors} and \textit{Heralds} are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favor the use of AD.         
-\end{enumerate}
+The experiments are executed with the three fitness functions previously defined in section~\ref{sec:ec}: amount of Monomyth Occurrences Found (M), Amount of Monomyth Occurrences Found ($M$) and Amount of All Ocurrences Distributed by Predicates ($AD$). The results obtained can be seen in Table~\ref{fig:results}.
+
+The predicate monomyth depends directly and indirectly on a huge amount of predicates (world's events, helpers and facilitators, as the dependecy graph in Figure~\ref{fig:theory} reflects) hence we cannot search it directly, as seen in the graphs called 'Fitness M' and 'Monomyth in fitness M'. However, if we guide the evolutionary process by taking into account also the facilitator predicates, as A and D do, we can make the whole monomyth emerge with our system.
+
+The fitness AD gets better solutions than fitness A, since we promote the appearance of new the predicates (and all of them are necessary for the monomyth). In graph 'Monomyth fitness A' we can observe that monomyth emerges punctually but the GA loses it in favor of new appearances of the \textit{Ally}, as the graph 'facilitarors in fitness A' shows; nevertheless, it does not happen in AD, as shown in 'Monomyth in fitness AD', where the number of monomyths fluctuates but keep a tendency.
+
+Regarding the facilitators found, their rate of appearance is aligned with the real applications of the monomyth: \textit{Allies}, \textit{Threshold Guardians} and \textit{Tricksters} have much more occurrences than the rest. The \textit{Hero} and the \textit{Shadow} are the leading roles and they must appear only the necessary. Finally \textit{Shapeshifters},  \textit{Mentors} and \textit{Heralds} are uncommon characters that depends on predicates that are hard to satisfy. These appearance rates also confirms that our logical model for the monomyth is aligned with the one described by Vogler. However, the fitness AD promotes less difference in the number of appearances than fitness A. As we are not interested in the number of specific archetypes but in the number of monomyths found, we favor the use of AD.         
 
 
 % grafica de predicado monomito con los 3 fitness
@@ -602,7 +603,7 @@ The experiments are executed with the three fitness functions previously defined
 
 % el código fuente de los experimentos y del framework puede descargarse de ...
 
-The source code and the experiments are freely downloadable and modifiable from the official project's page~\footnote{Details omitted for double-blind reviewing}.
+The source code and the experiments are distributed under GPLv3 license, and are freely available at the official project's page~\footnote{Details omitted for double-blind reviewing}.
 
 \section{Conclusions}
 
@@ -629,7 +630,7 @@ occurrences. Moreover, rewarding the diversity of archetypes leads to
 better solutions. Results demonstrate that it is possible to make the
 monomyth emerge and massively generate backstories populated with
 archetypes that are proved emotionally engaging for the videogame
-player. 
+player.
 
 
 % como trabajo futuro ...
