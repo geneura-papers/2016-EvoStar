@@ -80,7 +80,7 @@ The analysis of the obtained experimental results, by using different
 metrics, shows that coevolutionary approaches provide statistically significant 
 improvements with respect to the base algorithm, being the relation of the number of 
 islands (subpopulations) to the length of the chromosome (number of decision 
-variables) a relevant factor to determine the more efficient alternative to distribute the 
+variables) a relevant factor to determine the most efficient alternative to distribute the 
 decision variables.
 
 \keywords{Multi-objective algorithms, NSGA-II, Island model, distributed evolutionary algorithms}
@@ -235,11 +235,10 @@ problems.
 \subsubsection{Coevolution with disjoint islands} 
 In this approach, each individual of size $L$ is split into $P$ chunks
 of size $L/P$. Every island $p$ only performs crossover and mutation
-on the $p_{th}$ part of the individuals. Figure \ref{fig:disjoint} describes this approach, with
-$P=5$ islands.  
+on the $p_{th}$ part of the individuals. Figure \ref{fig:disjoint} describes this approach.  
 
 \begin{figure}
-\includegraphics[width=10cm]{islandDisjoint.jpg}
+\includegraphics[width=12cm]{islandDisjoint.jpg}
 \caption{Disjoint algorithm: every island $p$ only modifies the $p_{th}$ components (in grey) of the individuals.}
 \label{fig:disjoint}
 \end{figure}
@@ -254,7 +253,7 @@ each island.
 
  
 \begin{figure}
-\includegraphics[width=10cm]{islandNoDisjoint.jpg}
+\includegraphics[width=12cm]{islandNoDisjoint.jpg}
 \caption{Overlapping algorithm: every island $p$ modifies the  $p+1$,
   $p_{th}$ and $p-1$  components (in grey) of the individuals.}
 \label{fig:overlapping}
@@ -479,8 +478,8 @@ and Overlapping methods. % Evaluations instead of generations should
 
 High-performance problems that require a large number of decision
 variables can leverage the division of the decision space that parallel
-and distributed algorithms imply. This can be applied in dMOEAs dividing the
-chromosome in different parts, each one modified in a different
+and distributed algorithms imply. This can be done in dMOEAs by dividing the
+chromosome into different parts, each one modified by a different
 island. This paper compares a baseline distributed NSGA-II with two
 different strategies to separate the chromosome (disjoint or overlapping
 parts), using a high number of islands. Results show that these 
@@ -499,7 +498,7 @@ overlapping method or the disjoint one. Studying this factor with more types
 of problems, and new configurations of population size and chromosome lengths will be addressed in the future.
 
 
-Also, a real distributed system (such as a GRID or cluster) with more different
+Also, distributed implementations in several systems (such as a GRID or cluster) with more different
 quantities of islands/processors, will be used to perform a scalability study of the different
 methods, being the transmission time between islands a relevant issue to
 address. New benchmarks and real problems will also be  used to validate
