@@ -24,7 +24,7 @@
 \title{Addressing high dimensional multi-objective optimization problems by coevolutionary islands with overlapping search spaces} %TITULO PROVISIONAL
 
 % a short form should be given in case it is too long for the running head
-\titlerunning{Addressing high dimensional multi-objective optimization problems}
+%\titlerunning{Addressing high dimensional multi-objective optimization problems}
 
 % the name(s) of the author(s) follow(s) next
 %
@@ -32,20 +32,20 @@
 % their surnames. This ensures that the names appear correctly in
 % the running heads and the author index.
 %
-%\author{P. Garc\'ia-S\'anchez \and J. Ortega \and
-%  J. Gonz\'alez\inst{1} \and P. A. Castillo \and J.J. Merelo}
-\author{A. U. Thor\inst{1}}
-% ¿Se puede ayudar aquí?
+\author{P. Garc\'ia-S\'anchez \and J. Ortega \and
+  J. Gonz\'alez \and P. A. Castillo \and J.J. Merelo \inst{1}}
+%\author{A. U. Thor\inst{1}}
+
 %
 %\authorrunning{P. Garc\'ia-S\'anchez et al.}
-\authorrunning{A. U. Thor}
+
 % (feature abused for this document to repeat the title also on left hand pages)
 
 % the affiliations are given next; don't give your e-mail address
 % unless you accept that it will be published
-%\institute{Dept. of Computer Architecture and Technology, University
-%of Granada, Spain}
-\institute{MIT, Midgardian Institute of Technology}
+\institute{Dept. of Computer Architecture and Technology, University
+of Granada, Spain}
+%\institute{MIT, Midgardian Institute of Technology}
 
 %
 % NB: a more complex sample for affiliations and the mapping to the
@@ -100,9 +100,14 @@ Algorithms (MOEAs). Besides, as this kind of algorithms may be computationally
 expensive, several parallelization methods have been proposed
 \cite{Luna15Survey}. However, as MOEAs deal with whole solution sets
 called Pareto Fronts (PFs), different distribution and sharing
-mechanisms need to be addressed. Classic approaches, such as the
+mechanisms need to be addressed, as there exist a tension between 
+the speedup achievable from parallelization and the need to globally 
+recombine results to accurately identify the PF \cite{Branke04Parallelizingcone}.
+
+
+Classic approaches, such as the
 global parallel EAs (Master-Slave), or the spatially structured
-algorithms (Island model or Cellular EAs) have been applied successfully in the past.   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
+algorithms (Island model or Cellular EAs) have been applied successfully in the past \cite{Folino03cellular,Alba02Parallelism}.   % this is a lot of boilerplate - JJ FERGU: Yes, I stil lhave to rewrite it
 
 MOEAs have gained attention in the last years, mostly because their application in real-world problems \cite{Luna15Survey,Mukhopadhyay14Survey}. Usually these problems require a higher number of decision variables, and these larger individuals require a significant extra time for crossover, mutation and transmission. Therefore, dividing the decision space (that is, the chromosome) may improve high performance and solution quality. In this aspect, the co-evolution model is a dimension-distributed model where a
 high-dimensional problem is divided into lower dimensional problems
@@ -153,8 +158,8 @@ concluded that dividing the search space is a good idea, but achieve
 this is not trivial. Other ideas for dividing the search space include
 objective separation in different processors \cite{Xiao03specialized},
 or divide in two populations: one for elite and other search
-\cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} used a
-Barabasi-Albert island topology and selection based on migrating
+\cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} generated a
+Barabasi-Albert network as the island topology, and selection based on migrating
 individuals from a not-crowded area and acceptance based on
 diversity. 
 
@@ -221,9 +226,10 @@ quality measures.
 
 \subsection{Coevolutionary algorithms compared}
 Two different coevolutionary methods have also been used. In both
-methods, each individual is splitted in different chunks, and every
-island performs crossover and mutation in specific chunks of the
-individuals.  As in the baseline, every 
+methods, each island only performs crossover and mutation in specific sections of the
+individuals.
+
+As in the baseline, every 
 certain number of generations, an individual is migrated to another
 random island.  In the new island, this individual will be considered as one of the others in the island, crossed and
 mutated in the same way, depending of the island identifier. Note that, on the
@@ -312,9 +318,7 @@ Runs per configuration & 30 \\ \hline
 \end{center}
 \end{table}
 
-%%%FERGU: NO OLVIDAR PONER EL REPOSITORIO!!!!!!!!!!!!!!!!!!!!!!
-
-The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://ANONYMOUS-REPOSITORY}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
+The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://https://github.com/hpmoon/hpmoon-islands}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
 
 
 
@@ -509,9 +513,13 @@ our approach.
 
 
 \section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
-Hidden for double blind review 
 
-%This work has been supported by the project with reference PRY142/14, which has been granted by Fundaci\'on P\'ublica Andaluza Centro de Estudios Andaluces in the call IX Convocatoria de Proyectos de Investigación'. Also, by TIN2011-28627-C04-02 (Spanish Ministry of Economy and Competitivity), SPIP2014-01437 (Direcci\'on General de Tr\'afico) and PYR-2014-17 GENIL project (CEI-BIOTIC Granada).} 
+This work has been supported in part by projects 
+TIN2014-56494-C4-3-P and TIN2012-32039 (Spanish Ministry of Economy and Competitivity), 
+PROY-PP2015-06 (Plan Propio 2015 UGR), 
+PETRA (SPIP2014-01437, funded by Dirección General de Tráfico),
+PYR-2014-17 (GENIL project, awarded by CEI-BIOTIC Granada), and 
+MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigación).
 
 
 %
