@@ -16,6 +16,8 @@
 
 \providecommand{\tabularnewline}{\\}
 
+
+
 \begin{document}
 
 \mainmatter  % start of an individual contribution
@@ -58,7 +60,8 @@ of Granada, Spain}
 
 
 \maketitle
-
+\thispagestyle{empty}
+\pagestyle{empty}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ABSTRACT   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -318,7 +321,7 @@ Runs per configuration & 30 \\ \hline
 \end{center}
 \end{table}
 
-The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://https://github.com/hpmoon/hpmoon-islands}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
+The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
 
 
 
@@ -527,7 +530,7 @@ MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la I
 
 
 \bibliographystyle{splncs}
-\bibliography{hpmoon-evostar}
+\bibliography{garcia-sanchez}
 
 
 \end{document}
