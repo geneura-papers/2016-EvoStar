@@ -21,7 +21,7 @@
 \mainmatter  % start of an individual contribution
 
 % first the title is needed
-\title{Addressing high dimensional multi-objective optimization problems by coevolutionary islands with overlapping search spaces} %TITULO PROVISIONAL
+\title{Tratando problemas de optimización multi-objetivo usando islas coevolutivas con solapamiento de espacios de búsqueda} %TITULO PROVISIONAL
 
 % a short form should be given in case it is too long for the running head
 %\titlerunning{Addressing high dimensional multi-objective optimization problems}
@@ -78,7 +78,7 @@ En este artículo se propone un procedimiento de modelo de isla-coevolutiva coope
 \section{Introduction}
 
 
-Los algoritmos evolutivos (AE) son inherentemente paralelizables, ya que cada individuo puede ser considerado como una unidad independiente \cite{Alba13parallel}, y por lo tanto, el rendimiento computacional se puede mejorar con respecto a sus versiones no paralelas. Esto también se puede aplicar a los algoritmos evolutivos multi-objetivo (Multi-objective Evolutionary Algorithms, MOEAs). Además, como este tipo de algoritmos puede ser computacionalmente costoso, se han propuesto varios métodos de paralelización \cite{Luna15Survey}. Sin embargo, debido a que los MOEAs trabajan sobre conjuntos completos de soluciones, llamados frentes de Pareto (FPs), se deben abordar diferentes mecanismos de distribución y de intercambio, ya que no existe una relación entre el aumento de velocidad alcanzable de paralelización y la necesidad de recombinar resultados globalmente para identificar con precisión el FP \cite{Branke04Parallelizingcone}.
+Los Algoritmos Evolutivos (AE) son inherentemente paralelizables, ya que cada individuo puede ser considerado como una unidad independiente \cite{Alba13parallel}, y por lo tanto, el rendimiento computacional se puede mejorar con respecto a sus versiones no paralelas. Esto también se puede aplicar a los algoritmos evolutivos multi-objetivo (Multi-objective Evolutionary Algorithms, MOEAs). Además, como este tipo de algoritmos puede ser computacionalmente costoso, se han propuesto varios métodos de paralelización \cite{Luna15Survey}. Sin embargo, debido a que los MOEAs trabajan sobre conjuntos completos de soluciones, llamados frentes de Pareto (FPs), se deben abordar diferentes mecanismos de distribución y de intercambio, ya que no existe una relación entre el aumento de velocidad alcanzable de paralelización y la necesidad de recombinar resultados globalmente para identificar con precisión el FP \cite{Branke04Parallelizingcone}.
 
 
 
@@ -112,72 +112,28 @@ Then, the results of the experiments are shown (Section \ref{sec:res}), followed
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  STATE OF THE ART  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\section{State of the Art}
+\section{Estado del arte}
 \label{sec:soa}
 
-%make it a narrative. - JJ FERGU: I know, I know, it was still pending :) TODO
-Distributed and parallel Evolutionary Algorithms have been used since
-the early 2000s \cite{Talbi08Parallel} to leverage the capabilities of new common parallel computer architectures, such as
-clusters or grids. However, distributing MOEAs is not as easy as it is
-in single-objective EAs, as they have to deal with a whole set of dependent solutions, the Pareto Front, that should be managed in several steps of the algorithm. %unfinished Pablo: Done
-Some authors have focused on Master-Slave approaches to parallelize this kind of EAs. For example, Durillo et
-al. \cite{Durillo08masterslave} compared different master-slave
-approaches to save time when running the EA. The method proposed by
-Hiroyasu \cite{Hiroyasu07discussion} generates offspring depending on
-the computation power.  
 
-%Dividing the decision or search space of EAs in different islands is
-%not a novel idea \cite{ALGUNOANTIGUO}. However, when using
-%multi-objective EAs ... 
 
-First approaches for distributed MOEAs (dMOEAs) were studied in
-\cite{Deb03distributed}. In that work, the dominance of solutions is
-divided in the islands using a transformation of coordinates. Authors
-concluded that dividing the search space is a good idea, but achieve
-this is not trivial. Other ideas for dividing the search space include
-objective separation in different processors \cite{Xiao03specialized},
-or divide in two populations: one for elite and other search
-\cite{Wang09parallel}. Martens, in \cite{Martens13asynchronous} generated a
-Barabasi-Albert network as the island topology, and selection based on migrating
-individuals from a not-crowded area and acceptance based on
-diversity. 
 
-More similar approaches to the one presented here were studied in the
- next two works, also using cooperative coevolution for high-dimensional problems. Dorronsoro et al. in
-\cite{Dorronsoro13superlinear} obtained super-linear performance
-in several instances using cooperative coevolution, focusing each island on a portion of the chromosome. However, in some instances the parallel version not always 
-improved the sequential version.  Kimovski et al. \cite{Kimovski15Parallel} proposed a
-master-slave method that splits the population into several processors,
-each one running in parallel a MOEA that only affects some portion of
-the individuals. After a certain number of generations, the master
-process receives all the sub-populations to be combined. Different
-combination alternatives in this step are compared. Up to 8 processors
-were used in the experimental setup. Our approach in this paper does not
-broadcast all solutions to all islands for recombination, as previous
-works, but only one solution to a random island, needing less
-communication time. Besides, the maximum number of islands of
-Dorronsoro or Kimovsky approaches was 8, while in this paper we have
-used up to 128 islands. 
+Los algoritmos evolutivos paralelos y distribuidos se han utilizado desde la década de los 2000 \cite{Talbi08Parallel} para aprovechar las capacidades de las nuevas arquitecturas de computadores paralelos, tales como los clusters o grids. Sin embargo, la distribución de MOEAs no es tan fácil como lo es en los EA de un solo objetivo, ya que tienen que hacer frente a toda una serie de soluciones dependientes, el Frente de Pareto, que debe ser gestionado en varios pasos del algoritmo. Algunos autores se han centrado en aproximaciones Maestro-Esclavo para paralelizar este tipo de EA. Por ejemplo, Durillo et al. \cite{Durillo08masterslave} comparó diferentes métodos maestro-esclavo para ahorrar tiempo cuando se ejecuta el AE. El método propuesto por Hiroyasu \cite{Hiroyasu07discussion}, en su caso, genera descendencia en función de la potencia de cálculo.
 
-Lately, some researchers \cite{cheng2015adaptive} have focused on
-working on solution space, dividing the Pareto front in different
-clusters in order to model it. This {\em divide and conquer} approach
-is readily paralellizable and, in the sense of giving the
-responsibility of different parts of the search space to different
-modules, is similar to the one presented in this paper. We will
-describe how we have tested our approach in the next Section.
+
+Los primeros enfoques para MOEAs distribuidos (dMOEAs) fueron estudiados en \cite{ Deb03distributed}. En ese trabajo, la dominancia de las soluciones se divide en las islas utilizando una transformación de coordenadas. Los autores concluyeron que dividir el espacio de búsqueda es una buena idea, pero lograr esto no es trivial. Otras ideas para dividir el espacio de búsqueda incluyen la separación de objetivos en diferentes procesadores \cite{ Xiao03specialized}, o dividir en dos poblaciones: una para la élite y otra para búsqueda \cite{ Wang09parallel}. Martens, en \cite{Martens13asynchronous} genera una red Barabasi-Albert como la topología de la isla, y usa un método de selección basado en la migración de individuos de una zona no-crowded y aceptación basada en la diversidad. %%TODO COMO SE TRADUCE CROWDED?
+
+Enfoques má similares al que se presenta en este artículo se estudiaron en los siguientes dos trabajos, utilizando también la coevolución cooperativa para los problemas de alta dimensionalidad. Dorronsoro et al. en \cite{Dorronsoro13superlinear} obtuvo un rendimiento super-lineal en varios casos, centrándose cada isla en una porción del cromosoma. Sin embargo, en algunos casos la versión paralela no siempre mejoró la versión secuencial. Kimovski et al. \cite{Kimovski15Parallel} propuso un método maestro-esclavo que divide la población en varios procesadores, cada uno ejecutando en un MOEA paralelo que sólo afecta a una parte de los individuos. Después de un cierto número de generaciones, el proceso maestro recibe todas las subpoblaciones, que se combinan. Se compararon diferentes alternativas de combinación en este paso y se usaron hasta 8 procesadores en la configuración experimental. Nuestro enfoque en este artículo no transmite todas las soluciones a todas las islas para la recombinación, como en los trabajos anteriores, sino sólo una solución a una isla al azar, necesitando así menos tiempo de comunicación. Además, el número máximo de islas de enfoques Dorronsoro o Kimovsky fue de 8, mientras que en este trabajo se han utilizado hasta 128 islas.
+
+Últimamente, algunos investigadores \cite{cheng2015adaptive} se han centrado en trabajar sobre el espacio de soluciones, dividiendo el frente de Pareto en diferentes grupos con el fin de modelarlo. Este enfoque {\em divide y vencerás}  es fácilmente paralelizable y, en el sentido de dar la responsabilidad de diferentes partes del espacio de búsqueda usando diferentes módulos, es similar a la presentada en este documento. Describiremos cómo hemos probado nuestro enfoque en la siguiente sección.
 
 
 
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  METHODOLOGY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Methodology and experimental setup}
+\section{Metodología y configuración experimental}
 \label{sec:met}
 This section describes the quality indicators used and the methods
 compared. The chosen quality indicators,
-% which were presented in \cite{} give a reference for this metric. - JJ FERGU: abajo
 are:
 
 \begin{itemize}
@@ -186,292 +142,155 @@ are:
 \item Spread (S): Measures the spread between solutions, taking into account the euclidean distance between consecutive solutions. As in previous metric, the lower value, the better, as it implies solutions distributed along all the PF.
 \end{itemize}
 
-These metrics have been used extensively, especially in some of the papers
-presented previously in Section \ref{sec:soa}.
+
+En esta sección se describen los indicadores de calidad utilizados y los métodos comparados. Los indicadores de calidad elegidos han sido: 
+
+\begin{itemize} 
+\item Hipervolumen (HV): mide el área formada por todas las soluciones no dominadas encontradas con respecto a un punto de referencia. Valores altos implican una mejor calidad de la PF. 
+\item Distancia generacional invertida (DGI): calcula la distancia del conjunto obtenido de soluciones al FP óptimo. Sin embargo, esta métrica requiere conocer el FO óptimo encontrado en la literatura, o al teórico. En este indicador, menor es la mejor. P
+\item Dispersión (Spread, S): Mide la diferencia entre las soluciones, teniendo en cuenta la distancia euclídea entre las soluciones consecutivas. Al igual que en métrica anterior, valores más bajos son mejores, ya que implica soluciones distribuidas a lo largo de todo el FP. 
+\end{itemize}
+
+Estas métricas han sido usadas extensívamente, especialmente en algunos de los papers descritos anteriormente en la sección \ref{sec:soa}.
+
 
 
 % --------------------------------------------------------------
 
-\subsection{Baseline algorithm}
+\subsection{Algoritmo base}
 
 This algorithm is a regular NSGA-II algorithm distributed along a
 number $P$ of islands. After a fixed number of generations, one
 individual is migrated to another random island. At the end of the
 run, all PFs of all islands are aggregated in a new one to compute the
 quality measures.
-% some justification on why this was chosen - JJ
 
-% And some liaison to next subsection - JJ
+Este algoritmo es un algoritmo normal NSGA-II distribuido a lo largo de un número $P$ de islas. Después de un número fijo de generaciones, un individuo se migra a otra isla al azar. Al final de la ejecución, todos los FP de todas las islas se agrupan en una nueva para calcular las medidas de calidad. 
 
-\subsection{Coevolutionary algorithms compared}
-Two different coevolutionary methods have also been used. In both
-methods, each island only performs crossover and mutation in specific sections of the
-individuals.
+\subsection {Algoritmos coevolutivos comparados} 
+También se han utilizado dos métodos  coevolutivos diferentes. En ambos métodos, cada isla sólo realiza cruce y mutación en secciones específicas de los individuos. 
 
-As in the baseline, every 
-certain number of generations, an individual is migrated to another
-random island.  In the new island, this individual will be considered as one of the others in the island, crossed and
-mutated in the same way, depending of the island identifier. Note that, on the
-contrary of other works such as the ones described
-\cite{Talbi08Parallel} all the islands deal with complete chromosomes
-for fitness calculation, so our approach can deal with no decomposable
-problems. 
+Al igual que en el algoritmo base, cada cierto número de generaciones, un individuo se migra a otra isla al azar. En la nueva isla, este individuo será considerado como uno de los demás, cruzado y mutado de la misma manera, en función del identificador de isla. Hay que tener en cuenta que, al contrario de otros trabajos como los que se describen en \cite {Talbi08Parallel} todas las islas tratan con los cromosomas completos para el cálculo del fitness, por lo que nuestro enfoque puede hacer frente con problemas no descomponibles. 
 
-\subsubsection{Coevolution with disjoint islands} 
-In this approach, each individual of size $L$ is split into $P$ chunks
-of size $L/P$. Every island $p$ only performs crossover and mutation
-on the $p_{th}$ part of the individuals. Figure \ref{fig:disjoint} describes this approach.  
+\subsubsection{Coevolución con islas disjuntos} En este enfoque, cada individuo de tamaño $L$ se divide en $P$ trozos de tamaño de $L/P$. Cada isla $p$ sólo realiza cruce y mutación en la $p_{th}$ parte de los individuos. La figura \ref{fig:disjoint} describe este enfoque.
+
+
+
+
+ 
 
 \begin{figure}
 \includegraphics[width=12cm]{islandDisjoint.jpg}
-\caption{Disjoint algorithm: every island $p$ only modifies the $p_{th}$ components (in grey) of the individuals.}
+\caption{Algoritmo disjunto: cada isla $p$ solo modifica el $p_{th}$ componente (en gris) de los individuos.}
 \label{fig:disjoint}
 \end{figure}
 
-\subsubsection{Coevolution with overlapping islands}
-This approach is similar to the previous one, but every island also
-uses the $p+1$ and $p-1$ (module size) chunks of the individual for
-crossover and migration. Therefore, some kind of overlapping of the
-crossed and mutated parts exists between islands. Figure
-\ref{fig:overlapping} shows the affected parts of the individuals in
-each island. 
+\subsubsection{Coevolución con islas solapadas}
+
+Este enfoque es similar al anterior, pero cada isla también utiliza las secciones $p+1$ y $p-1$ (módulo el tamaño) del individuo para el cruce y la mutación. Por lo tanto, existe cierto tipo de solapamiento de las secciones cruzadas y mutadas entre las islas. La figura \ref{fig:overlapping} muestra las partes afectadas de los individuos en cada isla.
+
+
+
 
  
 \begin{figure}
 \includegraphics[width=12cm]{islandNoDisjoint.jpg}
-\caption{Overlapping algorithm: every island $p$ modifies the  $p+1$,
-  $p_{th}$ and $p-1$  components (in grey) of the individuals.}
+\caption{Algoritmo de solapamiento: cada isla $p$ modifica los componentes  $p+1$,
+  $p_{th}$ y $p-1$   (en gris) de los individuos.}
 \label{fig:overlapping}
 \end{figure}
 
 % --------------------------------------------------------------
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%  EXPERIMENTS AND RESULTS  %%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Experiments and Results}
+\section{Experimentos y resultados}
 \label{sec:res}
 
-The three approaches have been run with two different 
-chromosome lengths ($L$): 512 and 2048. Different number of
-islands ($P$) have also been compared: 8, 32 and 128. This maximum number
-of islands have also been  used in previous work in the literature
-\cite{Martens13asynchronous}. The crossover and mutation chosen, SBX
-and polynomial, have been used previously by other authors in
-\cite{Durillo08masterslave}. 
+Los tres métodos han sido probados con dos longitudes diferentes de cromosomas ($L$): 512 y 2048. También se han comparado con distintos números de islas ($P$): 8, 32 y 128. Este número máximo de islas también se han utilizado en trabajos anteriores en la literatura \cite{ Martens13asynchronous}. El cruce y mutación elegidos, SBX y polinomial, también se han utilizado anteriormente por otros autores en \cite{Durillo08masterslave}. 
 
-ZDT \cite{zdt2000a} has been chosen as a benchmark, since it is the most widely
-used in this area
-\cite{Deb03distributed,Martens13asynchronous,Wang09parallel,Durillo08masterslave}. The
-optimal PF distribution used for comparison has 1000
-solutions \footnote{Optimal PFs are available at:
-  \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}.}. 
+ZDT \cite{zdt2000a} ha sido elegido como benchmark, ya que es el más utilizado en este área \cite{Deb03distributed, Martens13asynchronous, Wang09parallel, Durillo08masterslave}. La distribución óptima de los PFs utilizados para la comparativa de las métricas de calidad tiene 1000 soluciones  \footnote{Los FP óptimos están disponibles en: \url{http://www.tik.ee.ethz.ch/sop/download/supplementary/testproblems/}}.
+
+
+El criterio de parada utilizado es el tiempo de ejecución: 25 segundos para 512 dimensiones   y 100 (cuatro veces más) para 2048. Hemos utilizado el tiempo en lugar del número de evaluaciones en primer lugar porque nuestra hipótesis sostiene que el tiempo ahorrado en el cruce y la mutación se puede gastar en la mejora de las sub-poblaciones y se pueden lograr más operaciones y migraciones. Además, estamos utilizando diferente número de islas (con diferentes tamaños de sub-población) que podrían dar lugar a diferentes tiempos de ejecución, por lo que sería difícil comparar diferentes tiempos y  calidad de soluciones al mismo tiempo.
 
 
 
 
-
-The termination criterion used is the execution time: 25 seconds for dimension 512 and 100 (four times more) for 2048. We have used the time instead the number of evaluations firstly because our hypothesis argue that the time saved in crossover in mutation can be spent on improving the sub-populations and more operations and migrations can be achieved. Also, we are using different number of islands (with different sub-population sizes) that could lead to different execution times, so it would be difficult to compare different times and quality solutions at the same time.
 
 \begin{table}
 \begin{center}
 \begin{tabular}{|c|c|}
 \hline
-{\em Parameter Name} & {\em Value} \\ \hline
-Number of islands ($P$) & 8, 32 and 128 \\ \hline
-Chromosome size ($L$) & 512 and 2048 \\ \hline
-Execution time (s) & 25 (for 512) and 100 (for 2048) \\ \hline \hline
-Global population size ($N$) & 1024 \\ \hline
-Selection type & Binary Tournament Selection \\ \hline
-Replacement type & Generational \\ \hline %FERGU: tiene sentido cuando hablamos de NSGA2?
-Crossover type & SBX \\ \hline
-Mutation  type & Polynomial\\ \hline
-Mutation probability & 1/$L$ \\ \hline
-Generations between migration & 5 \\ \hline
-Individuals per migration & 1 \\ \hline
-Selection for migration & Binary Tournament\\ \hline
-Runs per configuration & 30 \\ \hline
+{\em Nombre del parámetro} & {\em Valor} \\ \hline
+Número de islas ($P$) & 8, 32 y 128 \\ \hline
+Tamaño del cromosoma ($L$) & 512 y 2048 \\ \hline
+Tiempo de ejecución (s) & 25 (for 512) y 100 (for 2048) \\ \hline \hline
+Tamaño global de la población ($N$) & 1024 \\ \hline
+Tipo de selección & Selección por torneo binario \\ \hline
+Tipo de remplazo & Generacional \\ \hline 
+Tipo de cruce & SBX \\ \hline
+Tipo de mutación   & Polinomial\\ \hline
+Probabilidad de mutación & 1/$L$ \\ \hline
+Generaciones entre migraciones & 5 \\ \hline
+Individuos por migración & 1 \\ \hline
+Selección para migración & Torneo binario\\ \hline
+Ejecuciones por configuración & 30 \\ \hline
 \end{tabular}
-\caption{Parameters and operators used in the experiments.}
+\caption{Parámetros y operadores usados en los experimentos.}
 \label{tab:parameters}
 \end{center}
 \end{table}
 
-The ECJ framework \cite{ECJ} has been used to run the experiments. Specific operators have been developed as new modules for ECJ, and they can be downloaded from our GitHub repository under a LGPL V3 License \footnote{\url{https://https://github.com/hpmoon/hpmoon-islands}}. The island model has been executed synchronously, using the ECJ Internal Island Model, in a CentOS 5.4 machine with Intel(R) Xeon(R) CPU E5520 @2.27GHz, 16 GB RAM, with Java Version 1.6.0\_16. As in this paper we only focus on the behaviour of our model in a single machine scenario (the islands share the same memory and processor), the migration time will not be as important factor as in a real distributed system. This task will be addressed in future works. %Pablo: no sé si decir esto aquí
+Se ha utilizado el framework \cite{ECJ} para realizar los experimentos. Se han desarrollado operadores específicos como nuevos módulos para ECJ, y se pueden descargar desde nuestro repositorio GitHub bajo una licencia LGPL v3 \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}. El modelo de la isla se ha ejecutado de forma síncrona, utilizando el sistema de intercambio de ECJ, en un cluster con PONER LOS NODOS TODO Java Versión 1.6.0 \_16.
+
+Se han utilizado diversas métricas, explicadas en la sección anterior, para calcular la calidad de los PFs obtenidos en cada configuración. Como algunas de las métricas requieren un punto de referencia para calcularse (como el HV), el punto (1,9) ha sido elegido como referencia, ya que ninguna de los PF generados en todas las ejecuciones están dominados por ella. Las métricas se normalizaron a continuación con respecto a ese punto. El test de signficancia de Kruskall-Wallis se ha utilizado para comparar todas las métricas de todas las ejecuiones de cada  configuración, ya que el test de Kolmogorov-Smirnov detectó distribuciones no normales. Los resultados promedio para cada configuración se muestran en la tabla \ref{tab:results}.
 
 
-
-Different metrics, explained in the previous section, have been used to calculate the quality of the obtained PFs in each configuration. As some of the metrics require a reference point to be calculated (such as HV), the point (1,9) has been chosen as reference, as none of the generated PFs in all runs are dominated by it. Metrics are then normalized with respect to that point. A Kruskall-Wallis significance test has been performed to the metrics of all runs of the configurations, as the Kolmogorov-Smirnov test detected non-normal distributions. The average results for each configuration are shown in Table \ref{tab:results}.
 
 \begin{table}
 \centering
 \resizebox{12cm}{!}{
-\begin{tabular}{|c||c|c|c||c|c|c||c|c|c||}
-\hline %PON EL 0.000 a 0.0004
- 
-	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
-\multicolumn{10}{|c|}{512 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
-\multicolumn{10}{|c|}{ZDT1}																												\\ \hline
-8	&	0.870	&	\textbf{0.961}	&		0.943			&	0.775	&	\textbf{0.546}		&	0.720	*		&	0.019	&	\textbf{0.0004}		&	0.004			\\
-32	&	0.803	&	0.887	&		\textbf{0.957}			&	0.815	&	0.837	*	&	\textbf{0.621}			&	0.033	&	0.014		&	\textbf{0.001}			\\
-128	&	0.744	&	0.687	&		\textbf{0.827}			&	0.850	&	0.874	*	&	\textbf{0.839}	*		&	0.045	&	0.054		&	\textbf{0.024}			\\ \hline
-\multicolumn{10}{|c|}{ZDT2}																												\\ \hline
-8	&	0.787	&	\textbf{0.919}	&		0.878			&	0.913	&	\textbf{0.646}		&	0.907	*		&	0.035	&	\textbf{0.001}		&	0.011			\\
-32	&	0.744	&	0.890	&		\textbf{0.917}			&	0.950	&	0.754		&	\textbf{0.627}			&	0.048	&	0.007		&	\textbf{0.002}			\\
-128	&	0.693	&	0.592	&		\textbf{0.765}			&	0.971	&	\textbf{0.944}		&	\textbf{0.917}		$\bullet$	&	0.062	&	0.089		&	\textbf{0.039}			\\ \hline
-\multicolumn{10}{|c|}{ZDT3}																												\\ \hline
-8	&	0.894	&	\textbf{0.976}	&		0.965			&	0.895	&	\textbf{0.832}		&	0.922	*		&	0.012	&	\textbf{0.001}		&	0.003			\\
-32	&	0.829	&	0.902	&		\textbf{0.972}			&	0.877	&	0.851		&	\textbf{0.835}			&	0.019	&	0.011		&	\textbf{0.001}			\\
-128	&	0.770	&	0.726	&		\textbf{0.865}			&	0.891	&	\textbf{0.845}		&	\textbf{0.845}		$\bullet$	&	0.026	&	0.029		&	\textbf{0.015}			\\ \hline
-\multicolumn{10}{|c|}{ZDT6}																												\\ \hline
-8	&	0.224	&	\textbf{0.503}	&		0.331			&	0.992	&	1.008	*	&	0.993	*	$\bullet$	&	0.192	&	\textbf{0.070}		&	0.145			\\
-32	&	0.192	&	0.396	&		\textbf{0.454}			&	0.998	&	0.998	*	&	0.980	*	$\bullet$	&	0.206	&	0.118		&	\textbf{0.091}			\\
-128	&	0.157	&	0.114	&		\textbf{0.214}			&	1.004	&	\textbf{0.985}		&	\textbf{0.979}		$\bullet$	&	0.221	&	0.238		&	\textbf{0.195}			\\ \hline
-																												
-																												
-																												
-																												
-																												
-	&	\multicolumn{3}{|c|}{HV}								&	\multicolumn{3}{|c|}{Spread}								&	\multicolumn{3}{|c|}{IGD}								\\ \hline
-\multicolumn{10}{|c|}{2048 dimensions}																												\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
-\multicolumn{10}{|c|}{ZDT1}																												\\ \hline
-8	&	0.754	&	\textbf{0.948}	&		0.889			&	0.844	&	\textbf{0.587}		&	0.807	*		&	0.044	&	\textbf{0.003}		&	0.015			\\
-32	&	0.679	&	0.928	&		\textbf{0.942}			&	0.854	&	0.714		&	\textbf{0.646}			&	0.061	&	0.006		&	\textbf{0.004}			\\
-128	&	0.660	&	0.765	&		\textbf{0.907}			&	0.865	&	0.860	*	&	\textbf{0.802}			&	0.065	&	0.036		&	\textbf{0.010}			\\ \hline
-\multicolumn{10}{|c|}{ZDT2}																												\\ \hline
-8	&	0.641	&	\textbf{0.877}	&		0.794			&	0.965	&	\textbf{0.942}		&	0.969	*	$\bullet$	&	0.078	&	\textbf{0.011}		&	0.033			\\
-32	&	0.605	&	\textbf{0.898}	&\textbf{0.885}$\bullet$&	0.980	&	\textbf{0.704}		&	\textbf{0.755}		$\bullet$	&	0.088	&	\textbf{0.006}		&	\textbf{0.009}		$\bullet$	\\
-128	&	0.560	&	0.689	&		\textbf{0.830}			&	0.984	&	0.929		&	\textbf{0.870}			&	0.101	&	0.060		&	\textbf{0.021}			\\ \hline
-\multicolumn{10}{|c|}{ZDT3}																												\\ \hline
-8	&	0.773	&	\textbf{0.969}	&		0.922			&	0.910	&	\textbf{0.865}		&	\textbf{0.919}		$\bullet$	&	0.026	&	\textbf{0.002}		&	0.009			\\
-32	&	0.713	&	0.937	&		\textbf{0.966}			&	0.903	&	\textbf{0.796}		&	0.839			&	0.032	&	0.007		&	\textbf{0.002}			\\
-128	&	0.691	&	0.817	&		\textbf{0.935}			&	0.902	&	\textbf{0.839}		&	\textbf{0.812}		$\bullet$	&	0.035	&	0.020		&	\textbf{0.007}			\\ \hline
-\multicolumn{10}{|c|}{ZDT6}																												\\ \hline
-8	&	0.136	&	\textbf{0.334}	&		0.231			&	0.995	&	1.002		&	0.996	*	$\bullet$	&	0.230	&	\textbf{0.144}		&	0.189			\\
-32	&	0.113	&	\textbf{0.394}	&		0.327			&	0.996	&	0.975		&	0.990	*	$\bullet$	&	0.240	&	\textbf{0.118}		&	0.147			\\
-128	&	0.101	&	0.165	&		\textbf{0.267}			&	0.997	&	\textbf{0.985}		&	\textbf{0.979}		$\bullet$	&	0.245	&	0.216		&	\textbf{0.172}			\\ \hline
-
-
+\begin{tabular}{|c||c|c|c|c||c|c|c|c||c|c|c|c||}
+\hline
+	&	\multicolumn{4}{|c|}{HV}							&	\multicolumn{4}{|c|}{Spread}							&	\multicolumn{4}{|c|}{IGD}										\\ \hline
+\multicolumn{13}{|c|}{2048 dimensions}																												\\ \hline
+\#Islands	&	Baseline	&	Disjoint	&	Overlapped	&	Adaptative	&	Baseline	&	Disjoint	&	Overlapped	&	Adaptive	&	Baseline	&	Disjoint	&	Overlapped	&	Adaptive				\\ \hline
+\multicolumn{13}{|c|}{ZDT1}																												\\ \hline
+8	&	0,891	&	0,953	&	0,937	&	-1,000	&	0,681	&	0,635	&	0,661	&	-1,000	&	0,015	&	0,002	&	0,005	&	-1,000				\\
+16	&	0,884	&	0,850	&	0,942	&	-1,000	&	0,705	&	0,908	&	0,670	&	-1,000	&	0,016	&	0,022	&	0,004	&	-1,000				\\
+32	&	0,851	&	0,674	&	0,859	&	0,900	&	0,754	&	0,868	&	0,826	&	0,763	&	0,023	&	0,062	&	0,020	&	0,012				\\
+64	&	0,800	&	0,608	&	0,697	&	0,824	&	0,808	&	0,880	&	0,861	&	0,823	&	0,033	&	0,078	&	0,056	&	0,027				\\
+128	&	0,735	&	0,582	&	0,613	&	0,745	&	0,841	&	0,888	&	0,878	&	0,865	&	0,047	&	0,084	&	0,075	&	0,043				\\
+\multicolumn{13}{|c|}{ZDT2}																												\\ \hline
+8	&	0,832	&	0,895	&	0,869	&	-1,000	&	0,849	&	0,886	&	0,853	&	-1,000	&	0,023	&	0,006	&	0,013	&	-1,000				\\
+16	&	0,831	&	0,833	&	0,884	&	-1,000	&	0,810	&	1,001	&	0,802	&	-1,000	&	0,023	&	0,022	&	0,009	&	-1,000				\\
+32	&	0,800	&	0,628	&	0,800	&	0,817	&	0,848	&	0,974	&	0,983	&	0,908	&	0,031	&	0,082	&	0,032	&	0,027				\\
+64	&	0,729	&	0,491	&	0,623	&	0,716	&	0,909	&	0,967	&	0,979	&	0,997	&	0,052	&	0,121	&	0,084	&	0,055				\\
+128	&	0,630	&	0,441	&	0,500	&	0,614	&	0,957	&	0,989	&	0,978	&	0,994	&	0,080	&	0,136	&	0,119	&	0,085				\\
+\multicolumn{13}{|c|}{ZDT3}																												\\ \hline
+8	&	0,917	&	0,971	&	0,960	&	-1,000	&	0,843	&	0,854	&	0,868	&	-1,000	&	0,009	&	0,001	&	0,004	&	-1,000				\\
+16	&	0,911	&	0,876	&	0,963	&	-1,000	&	0,864	&	0,899	&	0,837	&	-1,000	&	0,010	&	0,014	&	0,003	&	-1,000				\\
+32	&	0,884	&	0,710	&	0,883	&	0,931	&	0,856	&	0,870	&	0,842	&	0,842	&	0,013	&	0,032	&	0,013	&	0,008				\\
+64	&	0,828	&	0,645	&	0,728	&	0,854	&	0,878	&	0,896	&	0,871	&	0,873	&	0,019	&	0,040	&	0,030	&	0,016				\\
+128	&	0,770	&	0,620	&	0,651	&	0,773	&	0,887	&	0,901	&	0,890	&	0,885	&	0,026	&	0,043	&	0,039	&	0,025				\\
+\multicolumn{13}{|c|}{ZDT6}																												\\ \hline
+8	&	0,271	&	0,398	&	0,323	&	-1,000	&	0,982	&	0,982	&	0,994	&	-1,000	&	0,171	&	0,115	&	0,149	&	-1,000				\\
+16	&	0,275	&	0,295	&	0,354	&	-1,000	&	0,981	&	0,970	&	1,006	&	-1,000	&	0,170	&	0,161	&	0,136	&	-1,000				\\
+32	&	0,239	&	0,123	&	0,240	&	0,254	&	0,989	&	0,991	&	0,982	&	0,999	&	0,186	&	0,235	&	0,185	&	0,179				\\
+64	&	0,184	&	0,068	&	0,125	&	0,178	&	0,985	&	0,982	&	0,992	&	0,995	&	0,209	&	0,259	&	0,235	&	0,212				\\
+128	&	0,128	&	0,051	&	0,071	&	0,124	&	0,991	&	0,992	&	0,988	&	1,003	&	0,233	&	0,266	&	0,257	&	0,235				\\ \hline
 \end{tabular}
 }
-\caption{Quality metrics obtained after 30 runs per configuration, for
-  the three methods compared: Baseline, Disjoint  and Overlapping. An
-  asterisk (*) means that there is not significant difference with
-  respect to Baseline, and a bullet ($\bullet$) indicates there is not
-  difference between Disjoint and Overlapping. Best values are marked in bold font.} 
-\label{tab:results}
+\caption{Resultados}
 \end{table}
 
-At a first glance results show that dividing the chromosome produces
-an improvement in all the quality indicators in all the
-configurations, with respect to the baseline. Also, results show that
-all the quality indicators lowers when the number of islands is
-increased, as the subpopulations are smaller. This is consistent with
-the claim by Durillo in \cite{Dorronsoro13superlinear}, who found that
-cooperative coevolutionary MOEAs work better on bigger populations
-(more than 100 individuals). Paying attention to the disjoint and
-overlapping methods, only when using 8 islands the disjoint method
-always attain better metrics, and even more times with the 2048 chromosome
-length. This can be explained because only 1/8 of the individual is
-changed in each island, while in the overlapping, 3/8 of the island
-may be more similar to the baseline configuration. Therefore, there exist some kind
-of limit point where one method will be preferable to another,
-depending the number of islands, population size and length. 
-
-This can be explained also comparing the number of generations and
-average solutions per island. Table \ref{tab:gens} shows these values
-obtained in each method. It is clear that in the same amount of time,
-the disjoint and overlapping method needs more generations than the
-baseline. This is even clearer with $L=$2048, where almost 10 times
-the number of generations is attained, and therefore, more migrations
-and crossovers/mutations can be achieved. Surprisingly, the average
-number of solutions of PFs per island in the baseline configuration is significantly
-higher in some configurations (mostly with 128 islands), but their
-combination in the final PF never attains higher values than Disjoint
-and Overlapping methods. % Evaluations instead of generations should
-                         % have been used. Generations will have
-                         % different number of evaluations per
-                         % island.
-
-\begin{table}
-\centering
-\begin{tabular}{|c||c|c|c||c|c|c||}
-\hline
-	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
-\multicolumn{7}{|c|}{512 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
-\multicolumn{7}{|c|}{ZDT1}																			\\ \hline
-8	&	112.933	&	453.333		&	225.233			&	118.733	&	137.000		&	141.467		$\bullet$	\\
-32	&	111.333	&	851.933		&	561.667			&	69.433	&	33.067		&	73.833	*		\\
-128	&	126.433	&	607.200		&	606.533			&	62.367	&	18.200		&	25.567			\\ \hline
-\multicolumn{7}{|c|}{ZDT2}																			\\ \hline
-8	&	110.333	&	426.033		&	222.667			&	42.233	&	122.500		&	101.367			\\
-32	&	113.300	&	801.800		&	595.267			&	28.800	&	26.600	*	&	62.367			\\
-128	&	134.300	&	615.467		&	595.733		$\bullet$	&	20.300	&	11.433		&	13.200		$\bullet$	\\ \hline
-\multicolumn{7}{|c|}{ZDT3}																			\\ \hline
-8	&	106.967	&	449.533		&	227.467			&	143.933	&	138.167	*	&	160.967	*		\\
-32	&	113.500	&	819.533		&	554.767			&	90.033	&	38.200		&	69.767			\\
-128	&	122.633	&	630.533		&	596.300			&	70.167	&	17.933		&	25.133			\\ \hline
-\multicolumn{7}{|c|}{ZDT6}																			\\ \hline
-8	&	109.767	&	435.800		&	215.833			&	16.933	&	35.533		&	17.367	*		\\
-32	&	113.267	&	720.233		&	518.733			&	15.800	&	11.233		&	15.100	*	$\bullet$	\\
-128	&	131.333	&	597.200		&	569.500			&	15.367	&	8.467		&	8.533	 	$\bullet$	\\ \hline
-																			
-																			
-																			
-																			
-																			
-	&	\multicolumn{3}{|c|}{Generations}								&	\multicolumn{3}{|c|}{Avg. solutions per island}								\\ \hline
-\multicolumn{7}{|c|}{2048 dimensions}																			\\ \hline
-\#Islands	&	Baseline	&	Disjoint	&		Overlapping			&	Baseline	&	Disjoint		&	Overlapping			\\ \hline
-\multicolumn{7}{|c|}{ZDT1}																			\\ \hline
-8	&	118.333	&	574.100		&	262.700			&	136.167	&	126.267		&	136.267	*	$\bullet$	\\
-32	&	115.567	&	1195.800		&	721.733			&	103.867	&	35.000		&	60.267			\\
-128	&	141.067	&	1266.700		&	1170.767			&	98.000	&	20.167		&	30.467			\\ \hline
-\multicolumn{7}{|c|}{ZDT2}																			\\ \hline
-8	&	111.833	&	584.233		&	265.933			&	32.100	&	86.600		&	78.067		$\bullet$	\\
-32	&	121.367	&	1278.700		&	757.667			&	25.600	&	41.833		&	45.133		$\bullet$	\\
-128	&	143.567	&	1306.700		&	1133.367			&	22.967	&	12.767		&	20.800	*		\\ \hline
-\multicolumn{7}{|c|}{ZDT3}																			\\ \hline
-8	&	111.700	&	589.800		&	265.567			&	167.633	&	129.333		&	144.000			\\
-32	&	117.633	&	1154.133		&	772.633			&	129.167	&	36.667		&	72.767			\\
-128	&	136.267	&	1379.067		&	1128.467			&	105.767	&	19.367		&	29.400			\\ \hline
-\multicolumn{7}{|c|}{ZDT6}																			\\ \hline
-8	&	116.867	&	585.333		&	267.133			&	22.867	&	27.267	*	&	32.600			\\
-32	&	118.533	&	1082.633		&	684.500			&	22.133	&	12.067		&	16.633		$\bullet$	\\
-128	&	162.267	&	1296.733		&	1102.867			&	20.167	&	7.400		&	9.267		$\bullet$	\\ \hline
 
 
 
-\end{tabular}
-\caption{Number of generations and average number of solutions per
-  island obtained after 30 runs per configuration, for the three
-  methods compared: Baseline, Disjoint and Overlapping. An asterisk
-  (*) means that there is not significant difference with respect to
-  Baseline, and a bullet ($\bullet$) indicates there is not difference
-  between Disjoint and Overlapping.} 
-% Disjoint takes twice as many generations as baseline and obtains
-% less solutions?  - JJ FERGU: per island, not in total.
-\label{tab:gens}
-\end{table}
 
-\section{Conclusions}
+\section{Conclusiones}
 
-High-performance problems that require a large number of decision
-variables can leverage the division of the decision space that parallel
-and distributed algorithms imply. This can be done in dMOEAs by dividing the
-chromosome into different parts, each one modified by a different
-island. This paper compares a baseline distributed NSGA-II with two
-different strategies to separate the chromosome (disjoint or overlapping
-parts), using a high number of islands. Results show that these 
-methods can achieve better quality metrics
-than the baseline in the same amount of time. This can be explained 
-because of the time reduction in crossover and mutation in the chromosomes,
-producing a higher number of generations and more modifications of the 
-solutions of the PF in each sub-population, and therefore improving
-quality of the global PF.
+Los problemas de alto rendimiento que requieren un gran número de variables de decisión pueden aprovechar la división del espacio de decisión que los algoritmos paralelos y distribuidos ofrecen. Esto se realizarse en dMOEAs dividiendo el cromosoma en diferentes partes, cada uno modificado por una isla diferente. Este trabajo compara un algoritmo distribuido NSGA-II como base respecto a 3 estrategias diferentes para separar los cromosomas (secciones disjuntas, superpuestas y superpuestas adaptativas), utilizando un gran número de islas. Los resultados muestran que estos métodos pueden lograr mejores métricas de calidad respecto al algoritmo base en la misma cantidad de tiempo. Esto puede explicarse debido a la reducción en el tiempo de cruce y mutación en los cromosomas, produciendo un mayor número de generaciones y más modificaciones de las soluciones del FP en cada sub-población, y por lo tanto mejorando la calidad del FP global.
+
+
 
 Results also show that when increasing the number of islands, the overlapping 
 method significantly improves the results with respect to the disjoint method.
@@ -487,11 +306,9 @@ methods, being the transmission time between islands a relevant issue to
 address. New benchmarks and real problems will also be  used to validate
 our approach. 
 
-% Is that all? Some explanation on why it works, if it proves your
-% hypothesis, and so on so forth- JJ FERGU: modified conclusions
 
 
-\section*{Acknowledgments} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
+\section*{Agradecimientos} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
 
 This work has been supported in part by projects 
 TIN2014-56494-C4-3-P and TIN2012-32039 (Spanish Ministry of Economy and Competitivity), 
