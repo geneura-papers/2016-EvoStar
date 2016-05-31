@@ -34,7 +34,7 @@
 % the running heads and the author index.
 %
 %\author{Pablo Garc\'ia-S\'anchez \and Julio Ortega \and   Jesús Gonz\'alez \and Pedro A. Castillo \and Juan J. Merelo \inst{1}}
-\author{Secret}
+\author{C. T. Hulhu}
 
 %
 %\authorrunning{P. Garc\'ia-S\'anchez et al.}
@@ -44,7 +44,7 @@
 % the affiliations are given next; don't give your e-mail address
 % unless you accept that it will be published
 %\institute{Dept. of Computer Architecture and Technology, University of Granada, Spain}
-\institute{Secret}
+\institute{Dept. of Dark Sciences, University of Miskatonik, Arkham, Massachusetts, USA}
 %\institute{MIT, Midgardian Institute of Technology}
 
 %
@@ -108,7 +108,7 @@ Los primeros enfoques para MOEAs distribuidos (dMOEAs) fueron estudiados en \cit
 
 Enfoques más similares al que se presenta en este artículo se estudiaron en \cite{Dorronsoro13superlinear,Kimovski15Parallel}, utilizando también la coevolución cooperativa para  problemas de alta dimensionalidad. Dorronsoro et al. en \cite{Dorronsoro13superlinear} obtuvo un rendimiento super-lineal en varios casos, centrándose cada isla en una porción del cromosoma. Sin embargo, en algunos casos la versión paralela no siempre mejoró la versión secuencial. Kimovski et al. \cite{Kimovski15Parallel} propuso un método maestro-esclavo que divide la población en varios procesadores, cada uno ejecutando en un MOEA paralelo que sólo afecta a una parte de los individuos. Después de un cierto número de generaciones, el proceso maestro recibe todas las sub-poblaciones, que se combinan. Se compararon diferentes alternativas de combinación en este paso y se usaron hasta 8 procesadores en la configuración experimental. Nuestro enfoque en este artículo no transmite todas las soluciones a todas las islas para la recombinación, como en los trabajos anteriores, sino sólo una solución a una isla al azar, necesitando así menos tiempo de comunicación. Además, el número máximo de islas de enfoques Dorronsoro o Kimovsky fue de 8, mientras que en este trabajo se han utilizado hasta 128 islas.
 
-Recientemente, algunos investigadores \cite{cheng2015adaptive} se han centrado en trabajar sobre el espacio de soluciones, dividiendo el frente de Pareto en diferentes grupos con el fin de modelarlo. Este enfoque {\em divide y vencerás}  es fácilmente paralelizable y, en el sentido de dar la responsabilidad de diferentes partes del espacio de búsqueda usando diferentes módulos, es similar a la presentada en este trabajo. A continuación describiremos cómo hemos probado nuestro enfoque en la siguiente sección.
+Recientemente, algunos investigadores \cite{cheng2015adaptive} se han centrado en trabajar sobre el espacio de soluciones, dividiendo el frente de Pareto en diferentes grupos con el fin de modelarlo. Este enfoque {\em divide y vencerás}  es fácilmente paralelizable y, en el sentido de dar la responsabilidad de diferentes partes del espacio de búsqueda usando diferentes módulos, es similar a la presentada en este trabajo. Una versión preliminar usando un solo procesador y un número más limitado de islas y métodos fue presentada por los autores en \cite{Garcia16hpmoonANONYMOUS}. A continuación describiremos cómo hemos probado nuestro nuevo enfoque en la siguiente sección, usando un cluster real, y un mayor número de islas.
 
 
 
@@ -123,7 +123,7 @@ En esta sección se describen los indicadores de calidad utilizados y los métodos
 \begin{itemize} 
 \item Hipervolumen (HV): mide el área formada por todas las soluciones no dominadas encontradas con respecto a un punto de referencia. Valores altos implican una mejor calidad del FP. 
 \item Distancia generacional invertida (DGI): calcula la distancia del conjunto obtenido de soluciones al FP óptimo. Sin embargo, esta métrica requiere conocer el FP óptimo encontrado en la literatura, o al teórico. En este indicador, valores más bajos son mejores. 
-\item Dispersión (Spread, S): Mide la diferencia entre las soluciones, teniendo en cuenta la distancia euclídea entre las soluciones consecutivas. Al igual que en métrica anterior, valores más bajos son mejores, ya que implica soluciones distribuidas a lo largo de todo el FP. 
+\item Dispersión (Spread, S): Mide la dispersión entre las soluciones, teniendo en cuenta la distancia euclídea entre las soluciones consecutivas. Al igual que en métrica anterior, valores más bajos son mejores, ya que implica soluciones distribuidas a lo largo de todo el FP. 
 \end{itemize}
 
 Estas métricas han sido usadas ampliamente, y descritas con más profundidad en algunos de los artículos descritos anteriormente en la sección \ref{sec:soa}.
@@ -143,7 +143,7 @@ Se han utilizado tres métodos  coevolutivos diferentes. En estos métodos, cada i
 
 Al igual que en el algoritmo base, cada cierto número de generaciones, un individuo se migra a otra isla al azar. En la nueva isla, este individuo será considerado al igual que los demás, cruzado y mutado de la misma manera, en función del identificador de isla. Hay que tener en cuenta que, al contrario de otros trabajos como los que se describen en \cite{Talbi08Parallel} todas las islas tratan con los cromosomas completos para el cálculo del fitness, por lo que nuestro enfoque puede hacer frente con problemas no descomponibles. 
 
-\subsubsection{Coevolución con islas disjuntos (D)} En este enfoque, cada individuo de tamaño $L$ se divide en $P$ trozos de tamaño de $L/P$. Cada isla $p$ sólo realiza cruce y mutación en la $p_{th}$ parte de los individuos. La Figura \ref{fig:disjoint} describe este enfoque.
+\subsubsection{Coevolución con islas disjuntos (D)} En este enfoque, cada individuo de tamaño $L$ se divide en $P$ trozos de tamaño de $L/P$. Cada isla $p$ sólo realiza cruce y mutación en la $p_{th}$ parte de los individuos. La Figura \ref{fig:islands} (a) describe este enfoque.
 
 
 
@@ -151,30 +151,22 @@ Al igual que en el algoritmo base, cada cierto número de generaciones, un indivi
  
 
 \begin{figure}
-\includegraphics[width=12cm]{islandDisjoint.jpg}
-\caption{Algoritmo disjunto: cada isla $p$ solo modifica el componente $p_{th}$ (en gris) de los individuos.}
-\label{fig:disjoint}
+\includegraphics[width=12cm]{bothIslands.jpg}
+\caption{En el algoritmo disjunto (a) cada isla $p$ solo modifica el fragmento $p_{th}$ (en gris) de los individuos, mientras que en el algoritmo disjunto adaptativo (b) modifica el fragmento $p$ y los $c$ a su izquierda y derecha. En este caso $c=1$, por lo que es equivalente al algoritmo disjunto.}
+\label{fig:islands}
 \end{figure}
 
 \subsubsection{Coevolución con islas solapadas (S)}
 
-Este enfoque es similar al anterior, pero cada isla también utiliza las secciones $p+1$ y $p-1$ (módulo el tamaño) del individuo para el cruce y la mutación. Por lo tanto, existe cierto tipo de solapamiento de las secciones cruzadas y mutadas entre las islas. La Figura \ref{fig:overlapping} muestra las partes afectadas de los individuos en cada isla.
+Este enfoque es similar al anterior, pero cada isla también utiliza las secciones $p+1$ y $p-1$ (módulo el tamaño) del individuo para el cruce y la mutación. Por lo tanto, existe cierto tipo de solapamiento de las secciones cruzadas y mutadas entre las islas. %La Figura \ref{fig:overlapping} muestra las partes afectadas de los individuos en cada isla.
 
 \subsubsection{Coevolución con islas solapadas con tamaño adaptativo (SA)}
 
-Al igual que el anterior, las secciones a abordar están solapadas, pero en lugar de usar una sección extra a cada lado ($p+1$ y $p-1$), utiliza $c$ fragmentos más a cada lado ($p+c$ y $p-c$), siendo el valor máximo de $c$ un valor dependiente del tamaño del cromosoma. %La figura \ref{fig:adaptive} muestra las partes afectadas de los individuos en cada isla.
+Al igual que el anterior, las secciones a abordar están solapadas, pero en lugar de usar una sección extra a cada lado ($p+1$ y $p-1$), utiliza $c$ fragmentos más a cada lado ($p+c$ y $p-c$), siendo el valor máximo de $c$ un valor dependiente del tamaño del cromosoma. La figura \ref{fig:islands} (b) muestra las partes afectadas de los individuos en cada isla.
 
 
 
 
-
- 
-\begin{figure}
-\includegraphics[width=12cm]{islandNoDisjoint.jpg}
-\caption{Algoritmo de solapamiento: cada isla $p$ modifica los componentes  $p+1$,
-  $p_{th}$ y $p-1$   (en gris) de los individuos.}
-\label{fig:overlapping}
-\end{figure}
 
 % --------------------------------------------------------------
 \section{Experimentos y resultados}
@@ -230,33 +222,33 @@ Se han utilizado diversas métricas, explicadas en la sección anterior, para calc
 \resizebox{12cm}{!}{
 \begin{tabular}{|c||c|c|c|c||c|c|c|c||c|c|c|c||}
 \hline
-	&	\multicolumn{4}{|c|}{HV}										&	\multicolumn{4}{|c|}{Spread}											&	\multicolumn{4}{|c|}{IGD}										\\ \hline
-%\multicolumn{13}{|c|}{2048 dimensions}																																			\\ \hline
-\#Islas	&	B	&	D		&	S		&	A		&	B		&	D		&	S		&	A		&	B	&	D	&	S	&	A				\\ \hline
-\multicolumn{13}{|c|}{ZDT1}																																			\\ \hline
-8	&	0.891	&	0.953		&	0.937		&	Equiv. D		&	0.681		&	0.635		&	0.661		&	Equiv. D		&	0.015	&	0.002	&	0.005	&	Equiv. D				\\
-16	&	0.884	&	0.850		&	0.942		&	Equiv. S		&	0.705		&	0.908		&	0.670		&	Equiv. S		&	0.016	&	0.022	&	0.004	&	Equiv. S				\\
-32	&	0.851	&	0.674		&	0.859	B	&	0.900		&	0.754		&	0.868		&	0.826		&	0.763		&	0.023	&	0.062	&	0.020	&	0.012				\\
-64	&	0.800	&	0.608		&	0.697		&	0.824	B	&	0.808		&	0.880		&	0.861		&	0.823		&	0.033	&	0.078	&	0.056	&	0.027				\\
-128	&	0.735	&	0.582		&	0.613		&	0.745		&	0.841		&	0.888		&	0.878		&	0.865		&	0.047	&	0.084	&	0.075	&	0.043				\\ \hline
-\multicolumn{13}{|c|}{ZDT2}																																			\\ \hline
-8	&	0.832	&	0.895		&	0.869		&	Equiv. D		&	0.849		&	0.886		&	0.853	D	&	Equiv. D		&	0.023	&	0.006	&	0.013	&	Equiv. D				\\
-16	&	0.831	&	0.833	B	&	0.884		&	Equiv. S		&	0.810		&	1.001		&	0.802		&	Equiv. S		&	0.023	&	0.022	&	0.009	&	Equiv. S				\\
-32	&	0.800	&	0.628		&	0.800	B	&	0.817		&	0.848		&	0.974		&	0.983		&	0.908		&	0.031	&	0.082	&	0.032	&	0.027				\\
-64	&	0.729	&	0.491		&	0.623		&	0.716		&	0.909		&	0.967		&	0.979		&	0.997		&	0.052	&	0.121	&	0.084	&	0.055				\\
-128	&	0.630	&	0.441		&	0.500		&	0.614	B	&	0.957		&	0.989		&	0.978		&	0.994		&	0.080	&	0.136	&	0.119	&	0.085				\\ \hline
-\multicolumn{13}{|c|}{ZDT3}																																			\\ \hline
-8	&	0.917	&	0.971		&	0.960		&	Equiv. D		&	0.843		&	0.854		&	0.868	D	&	Equiv. D		&	0.009	&	0.001	&	0.004	&	Equiv. D				\\
-16	&	0.911	&	0.876	B	&	0.963		&	Equiv. S		&	0.864		&	0.899		&	0.837		&	Equiv. S		&	0.010	&	0.014	&	0.003	&	Equiv. S				\\
-32	&	0.884	&	0.710		&	0.883	B	&	0.931		&	0.856		&	0.870		&	0.842		&	0.842		&	0.013	&	0.032	&	0.013	&	0.008				\\
-64	&	0.828	&	0.645		&	0.728		&	0.854		&	0.878		&	0.896		&	0.871		&	0.873		&	0.019	&	0.040	&	0.030	&	0.016				\\
-128	&	0.770	&	0.620		&	0.651		&	0.773	B	&	0.887		&	0.901		&	0.890		&	0.885		&	0.026	&	0.043	&	0.039	&	0.025				\\ \hline
-\multicolumn{13}{|c|}{ZDT6}																																			\\ \hline
-8	&	0.271	&	0.398		&	0.323		&	Equiv. D		&	0.982		&	0.982	B	&	0.994	B	&	Equiv. D		&	0.171	&	0.115	&	0.149	&	Equiv. D				\\
-16	&	0.275	&	0.295	B	&	0.354		&	Equiv. S		&	0.981		&	0.970		&	1.006		&	Equiv. S		&	0.170	&	0.161	&	0.136	&	Equiv. S				\\
-32	&	0.239	&	0.123		&	0.240		&	0.254		&	0.989		&	0.991		&	0.982		&	0.999		&	0.186	&	0.235	&	0.185	&	0.179				\\
-64	&	0.184	&	0.068		&	0.125		&	0.178	B	&	0.985		&	0.982		&	0.992		&	0.995		&	0.209	&	0.259	&	0.235	&	0.212				\\
-128	&	0.128	&	0.051		&	0.071		&	0.124	B	&	0.991		&	0.992		&	0.988		&	1.003		&	0.233	&	0.266	&	0.257	&	0.235				\\ \hline
+	&	\multicolumn{4}{|c|}{HV}													&	\multicolumn{4}{|c|}{Spread}														&	\multicolumn{4}{|c|}{IGD}														\\ \hline
+%\multicolumn{13}{|c|}{2048 dimensions}																																													\\ \hline
+\#Islas	&	B		&	D		&	S			&	A			&	B		&	D			&	S			&	A			&	B		&	D		&	S		&	A					\\ \hline
+\multicolumn{13}{|c|}{ZDT1}																																													\\ \hline
+8	&	0.891		& \textbf{	0.953	}	&	0.937			&	Equiv. D			& \textbf{	0.681	}	& \textbf{	0.635	}	B	&	0.661		D	&	Equiv. D			&	0.015		& \textbf{	0.002	}	&	0.005		&	Equiv. D					\\
+16	&	0.884		&	0.850		& \textbf{	0.942	}		&	Equiv. S			& \textbf{	0.705	}	&	0.908			& \textbf{	0.670	}	B	&	Equiv. S			&	0.016		&	0.022		& \textbf{	0.004	}	&	Equiv. S					\\
+32	&	0.851		&	0.674		&	0.859		B	& \textbf{	0.900	}		& \textbf{	0.754	}	&	0.868			&	0.826		D	& \textbf{	0.763	}	B	&	0.023		&	0.062		&	0.020	B	& \textbf{	0.012	}				\\
+64	& \textbf{	0.800	}	&	0.608		&	0.697			& \textbf{	0.824	}	B	& \textbf{	0.808	}	&	0.880			& \textbf{	0.861	}	B	& \textbf{	0.823	}	B	&	0.033		&	0.078		&	0.056		& \textbf{	0.027	}				\\
+128	&	0.735		&	0.582		&	0.613			& \textbf{	0.745	}		& \textbf{	0.841	}	&	0.888			&	0.878		D	&	0.865		S	&	0.047		&	0.084		&	0.075		& \textbf{	0.043	}				\\ \hline
+\multicolumn{13}{|c|}{ZDT2}																																													\\ \hline
+8	&	0.832		& \textbf{	0.895	}	&	0.869			&	Equiv. D			& \textbf{	0.849	}	& \textbf{	0.886	}	B	&	0.853		D	&	Equiv. D			&	0.023		& \textbf{	0.006	}	&	0.013		&	Equiv. D					\\
+16	&	0.831		&	0.833	B	& \textbf{	0.884	}		&	Equiv. S			& \textbf{	0.810	}	&	1.001			& \textbf{	0.802	}	B	&	Equiv. S			&	0.023		&	0.022	B	& \textbf{	0.009	}	&	Equiv. S					\\
+32	&	0.800		&	0.628		&	0.800		B	& \textbf{	0.817	}		& \textbf{	0.848	}	&	0.974			&	0.983		D	&	0.908			&	0.031		&	0.082		&	0.032	B	& \textbf{	0.027	}				\\
+64	& \textbf{	0.729	}	&	0.491		&	0.623			&	0.716			& \textbf{	0.909	}	&	0.967			&	0.979		D	& \textbf{	0.997	}	BD	& \textbf{	0.052	}	&	0.121		&	0.084		& \textbf{	0.055	}	B			\\
+128	& \textbf{	0.630	}	&	0.441		&	0.500			& \textbf{	0.614	}	B	& \textbf{	0.957	}	&	0.989			&	0.978		D	& \textbf{	0.994	}	BS	& \textbf{	0.080	}	&	0.136		&	0.119		& \textbf{	0.085	}	B			\\ \hline
+\multicolumn{13}{|c|}{ZDT3}																																													\\ \hline
+8	&	0.917		& \textbf{	0.971	}	&	0.960			&	Equiv. D			& \textbf{	0.843	}	& \textbf{	0.854	}	B	&	0.868		D	&	Equiv. D			&	0.009		& \textbf{	0.001	}	&	0.004		&	Equiv. D					\\
+16	&	0.911		&	0.876	B	& \textbf{	0.963	}		&	Equiv. S			& \textbf{	0.864	}	&	0.899		B	& \textbf{	0.837	}	B	&	Equiv. S			&	0.010		&	0.014		& \textbf{	0.003	}	&	Equiv. S					\\
+32	&	0.884		&	0.710		&	0.883		B	& \textbf{	0.931	}		& \textbf{	0.856	}	& \textbf{	0.870	}	B	& \textbf{	0.842	}	B	& \textbf{	0.842	}	BDS	&	0.013		&	0.032		&	0.013	B	& \textbf{	0.008	}				\\
+64	&	0.828		&	0.645		&	0.728			& \textbf{	0.854	}		& \textbf{	0.878	}	& \textbf{	0.896	}	B	& \textbf{	0.871	}	BD	& \textbf{	0.873	}	BDS	& \textbf{	0.019	}	&	0.040		&	0.030		& \textbf{	0.016	}	B			\\
+128	& \textbf{	0.770	}	&	0.620		&	0.651			& \textbf{	0.773	}	B	& \textbf{	0.887	}	& \textbf{	0.901	}	B	& \textbf{	0.890	}	BD	& \textbf{	0.885	}	BDS	& \textbf{	0.026	}	&	0.043		&	0.039		& \textbf{	0.025	}	B			\\ \hline
+\multicolumn{13}{|c|}{ZDT6}																																													\\ \hline
+8	&	0.271		& \textbf{	0.398	}	&	0.323			&	Equiv. D			& \textbf{	0.982	}	& \textbf{	0.982	}	B	&	0.994			&	Equiv. D			&	0.171		& \textbf{	0.115	}	&	0.149		&	Equiv. D					\\
+16	&	0.275		&	0.295	B	& \textbf{	0.354	}		&	Equiv. S			& \textbf{	0.981	}	& \textbf{	0.970	}	B	&	1.006			&	Equiv. S			&	0.170		&	0.161	B	& \textbf{	0.136	}	&	Equiv. S					\\
+32	&	0.239		&	0.123		&	0.240			& \textbf{	0.254	}		& \textbf{	0.989	}	& \textbf{	0.991	}	B	& \textbf{	0.982	}	BD	& \textbf{	0.999	}	BD	&	0.186		&	0.235		&	0.185	B	& \textbf{	0.179	}				\\
+64	& \textbf{	0.184	}	&	0.068		&	0.125			& \textbf{	0.178	}	B	& \textbf{	0.985	}	& \textbf{	0.982	}	B	& \textbf{	0.992	}	B	& \textbf{	0.995	}	BS	& \textbf{	0.209	}	&	0.259		&	0.235		&	0.212					\\
+128	& \textbf{	0.128	}	&	0.051		&	0.071			& \textbf{	0.124	}	B	& \textbf{	0.991	}	& \textbf{	0.992	}	B	& \textbf{	0.988	}	BD	&	1.003			& \textbf{	0.233	}	&	0.266		&	0.257		& \textbf{	0.235	}	B			\\ \hline
 
 
 \end{tabular}
@@ -277,17 +269,15 @@ Los problemas de alto rendimiento que requieren un gran número de variables de d
 
 Los resultados también muestran que al aumentar el número de islas, los métodos con solapamiento mejoran significativamente los resultados con respecto al método disjunto, siendo el solapamiento adaptativo el más indicado para números mayores de islas. Por lo tanto, la relación entre el número de islas utilizado, el tamaño de la población mundial, y la longitud del cromosoma  es un factor clave para decidir si se utiliza el método disjunto o los de solapamiento. El estudio de este factor con más tipos de problemas, y nuevas configuraciones de tamaño y longitudes de cromosomas y población también se abordarán en el futuro.
 
-Además, se planea probar estas implementaciones distribuidas en otros sistemas (como por ejemplo, clústers heterogéneos) con distintos números de islas/procesadores, para llevar a cabo un estudio de escalabilidad de los diferentes métodos más completo, siendo el tiempo de transmisión entre las islas es un tema relevante para abordar. También se plantea abordar otros benchmarks y problemas reales para validar el enfoque propuesto en este trabajo.
+Además, se planea probar estas implementaciones distribuidas en otros sistemas (como por ejemplo, clústers heterogéneos) con distintos números de islas/procesadores, para llevar a cabo un estudio de escalabilidad de los diferentes métodos más completo, siendo el tiempo de transmisión entre las islas un tema relevante para abordar. También se plantea abordar otros benchmarks y problemas reales para validar el enfoque propuesto en este trabajo.
 
 
 
 
 
-\section*{Agradecimientos} %PONER EL DEL NUEVOOOOOO  (epehemech y Julio)
+\section*{Agradecimientos} 
 
-Trabajo financiado en parte por los proyectos TIN2014-56494-C4-3-P y TIN2012-32039 (Ministerio de Economía y Competitividad), 
-PROY-PP2015-06 (Plan Propio 2015 UGR),  y
-MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigación).
+Trabajo financiado en parte por los proyectos ...%TIN2014-56494-C4-3-P y TIN2015-67020-P (Ministerio de Economía y Competitividad), PROY-PP2015-06 (Plan Propio 2015 UGR),  y MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigación).
 
 
 %
