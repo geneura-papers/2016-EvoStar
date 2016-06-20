@@ -33,18 +33,18 @@
 % their surnames. This ensures that the names appear correctly in
 % the running heads and the author index.
 %
-%\author{Pablo Garc\'ia-S\'anchez \and Julio Ortega \and   Jesús Gonz\'alez \and Pedro A. Castillo \and Juan J. Merelo \inst{1}}
-\author{C. T. Hulhu}
+\author{Pablo Garc\'ia-S\'anchez \and Julio Ortega \and   Jesús Gonz\'alez \and \\ Pedro A. Castillo \and Juan J. Merelo \inst{1}}
+%\author{C. T. Hulhu}
 
 %
-%\authorrunning{P. Garc\'ia-S\'anchez et al.}
+\authorrunning{P. Garc\'ia-S\'anchez et al.}
 
 % (feature abused for this document to repeat the title also on left hand pages)
 
 % the affiliations are given next; don't give your e-mail address
 % unless you accept that it will be published
-%\institute{Dept. of Computer Architecture and Technology, University of Granada, Spain}
-\institute{Dept. of Dark Sciences, University of Miskatonik, Arkham, Massachusetts, USA}
+\institute{Dept. de Arquitectura y Tecnología de Computadores, Universidad de Granada}
+%\institute{Dept. of Dark Sciences, University of Miskatonik, Arkham, Massachusetts, USA}
 %\institute{MIT, Midgardian Institute of Technology}
 
 %
@@ -79,7 +79,7 @@ Los problemas de optimización multi-objetivo a gran escala con muchas variables 
 
 Los Algoritmos Evolutivos (AE) son inherentemente paralelizables, ya que cada individuo puede ser considerado como una unidad independiente \cite{Alba13parallel}, y por lo tanto, el rendimiento computacional se puede mejorar con respecto a sus versiones no paralelas. Esto también se puede aplicar a los algoritmos evolutivos multi-objetivo (Multi-objective Evolutionary Algorithms, MOEAs). Además, como este tipo de algoritmos puede ser computacionalmente costoso, se han propuesto varios métodos de paralelización \cite{Luna15Survey}. Sin embargo, debido a que los MOEAs trabajan sobre conjuntos completos de soluciones, llamados frentes de Pareto (FPs), se deben abordar diferentes mecanismos de distribución y de intercambio, ya que no existe una relación entre el aumento de velocidad  de paralelización alcanzable y la necesidad de recombinar resultados globalmente, para identificar con precisión el FP \cite{Branke04Parallelizingcone}. Los enfoques clásicos, tales como los AEs paralelos globales (Master-Slave), o los algoritmos espacialmente estructurados (modelo AE isla o celular) han sido aplicados con éxito en el pasado \cite{Folino03cellular,Alba02Parallelism}. 
 
-Los MOEAs han ganado la atención en los últimos años, sobre todo debido a su aplicación en problemas reales \cite{Luna15Survey,Mukhopadhyay14Survey}. Por lo general, estos problemas requieren un mayor número de variables de decisión, y estos individuos más grandes requieren un tiempo extra significativo para cruce, mutación y migración. Por lo tanto, dividiendo el espacio de decisión (es decir, el cromosoma) se puede mejorar el rendimiento y calidad de la solución. En este aspecto, el modelo de co-evolución es un modelo de dimensión distribuida en el que un problema de alta dimensionalidad se divide en problemas de dimensiones inferiores \cite{Gong15models}, que evolucionan por separado. Además, la aplicación de técnicas de paralelismo en los AE no sólo implica una reducción en el tiempo de ejecución, sino en el desarrollo de nuevos y más eficientes modelos de búsqueda \cite{Luna15Survey}. La idea de dividir el espacio de decisión ha sido estudiado en \cite{Kimovski15Parallel}, donde los procesos esclavos evolucionan diferentes sub-poblaciones,  creadas y recombinadas por un proceso maestro, que realiza diferentes alternativas de recombinación de los fragmentos devueltos por los procesos de trabajo. En \cite{Dorronsoro13superlinear}, se utilizó un modelo de islas coevolutivo distribuido. En ambos trabajos se han alcanzado importantes aceleraciones, aunque se utilizó un bajo número de nodos (8). Sin embargo, al aumentar el número de islas, la división de cada sección del cromosoma se hace más pequeña, y se puede afectar la escalabilidad por la obtención de soluciones de menor calidad en la misma cantidad de tiempo.
+Los MOEAs han ganado la atención en los últimos años, sobre todo debido a su aplicación en problemas reales \cite{Luna15Survey,Mukhopadhyay14Survey}. Por lo general, estos problemas requieren un mayor número de variables de decisión, y estos individuos más grandes requieren un tiempo extra significativo para cruce, mutación y migración. Por lo tanto, dividiendo el espacio de decisión (es decir, el cromosoma) se puede mejorar el rendimiento y calidad de la solución. En este aspecto, el modelo de coevolución es un modelo de dimensión distribuida en el que un problema de alta dimensionalidad se divide en problemas de dimensiones inferiores \cite{Gong15models}, que evolucionan por separado. Además, la aplicación de técnicas de paralelismo en los AE no sólo implica una reducción en el tiempo de ejecución, sino en el desarrollo de nuevos y más eficientes modelos de búsqueda \cite{Luna15Survey}. La idea de dividir el espacio de decisión ha sido estudiado en \cite{Kimovski15Parallel}, donde los procesos esclavos evolucionan diferentes sub-poblaciones,  creadas y recombinadas por un proceso maestro, que realiza diferentes alternativas de recombinación de los fragmentos devueltos por los procesos de trabajo. En \cite{Dorronsoro13superlinear}, se utilizó un modelo de islas coevolutivo distribuido. En ambos trabajos se han alcanzado importantes aceleraciones, aunque se utilizó un bajo número de nodos (8). Sin embargo, al aumentar el número de islas, la división de cada sección del cromosoma se hace más pequeña, y se puede afectar la escalabilidad por la obtención de soluciones de menor calidad en la misma cantidad de tiempo.
 
 La hipótesis de este trabajo consiste en que el uso de secciones solapadas de los cromosomas en un algoritmo multi-objetivo coevolutivo basado en islas puede mejorar la calidad de las soluciones en el mismo tiempo de cálculo cuando el número de islas aumenta. Para demostrar esto, se compara un nuevo esquema de superposición de las islas con una versión base de un algoritmo  NSGA-II \cite{Deb00NSGAII} distribuido, con un enfoque  coevolutivo basado en conjuntos disjuntos,  con diferentes problemas y con diferentes números de islas. Los resultados muestran que esta nueva técnica puede mejorar diferentes indicadores de calidad  en la misma cantidad de tiempo.
 
@@ -97,14 +97,14 @@ A continuación, se presentan los resultados de los experimentos (Sección \ref{se
 
 
 
-Los algoritmos evolutivos paralelos y distribuidos se han utilizado desde la década de los 2000 \cite{Talbi08Parallel} para aprovechar las capacidades de las nuevas arquitecturas de computadores paralelos, tales como los clusters o grids. Sin embargo, la distribución de MOEAs no es tan fácil como lo es en los EA de un solo objetivo, ya que tienen que hacer frente a toda una serie de soluciones dependientes, el Frente de Pareto, que debe ser gestionado en varios pasos del algoritmo. Algunos autores se han centrado en aproximaciones Maestro-Esclavo para paralelizar este tipo de EA. Por ejemplo, Durillo et al. \cite{Durillo08masterslave} comparó diferentes métodos maestro-esclavo para ahorrar tiempo cuando se ejecuta el AE. Por otro lado, método propuesto por Hiroyasu \cite{Hiroyasu07discussion},  genera descendencia en función de la potencia de cálculo.
+Los algoritmos evolutivos paralelos y distribuidos se han utilizado desde la década de los 2000 \cite{Talbi08Parallel} para aprovechar las capacidades de las nuevas arquitecturas de computadores paralelos, tales como los clusters o GRIDs. Sin embargo, la distribución de MOEAs no es tan fácil como lo es en los EA de un solo objetivo, ya que tienen que hacer frente a toda una serie de soluciones dependientes, el Frente de Pareto, que debe ser gestionado en varios pasos del algoritmo. Algunos autores se han centrado en aproximaciones Maestro-Esclavo para paralelizar este tipo de EA. Por ejemplo, Durillo et al. \cite{Durillo08masterslave} comparó diferentes métodos maestro-esclavo para ahorrar tiempo cuando se ejecuta el AE. Por otro lado, método propuesto por Hiroyasu \cite{Hiroyasu07discussion},  genera descendencia en función de la potencia de cálculo.
 
 
 Los primeros enfoques para MOEAs distribuidos (dMOEAs) fueron estudiados en \cite{Deb03distributed}. En ese trabajo, la dominancia de las soluciones se divide en las islas utilizando una transformación de coordenadas. Los autores concluyeron que dividir el espacio de búsqueda es una buena idea, aunque lograrlo no es trivial. Otras ideas para dividir el espacio de búsqueda incluyen la separación de objetivos en diferentes procesadores \cite{Xiao03specialized}, o dividir en dos poblaciones: una para la élite y otra para búsqueda \cite{Wang09parallel}. Martens, en \cite{Martens13asynchronous} genera una red Barabasi-Albert como la topología de la isla, y usa un método de selección basado en la migración de individuos de una zona no-crowded y aceptación basada en la diversidad. %%TODO COMO SE TRADUCE CROWDED?
 
 Enfoques más similares al que se presenta en este artículo se estudiaron en \cite{Dorronsoro13superlinear,Kimovski15Parallel}, utilizando también la coevolución cooperativa para  problemas de alta dimensionalidad. Dorronsoro et al. en \cite{Dorronsoro13superlinear} obtuvo un rendimiento super-lineal en varios casos, centrándose cada isla en una porción del cromosoma. Sin embargo, en algunos casos la versión paralela no siempre mejoró la versión secuencial. Kimovski et al. \cite{Kimovski15Parallel} propuso un método maestro-esclavo que divide la población en varios procesadores, cada uno ejecutando un MOEA paralelo que sólo afecta a una parte de los individuos. Después de un cierto número de generaciones, el proceso maestro recibe todas las sub-poblaciones, que se combinan. Se compararon diferentes alternativas de combinación en este paso y se usaron hasta 8 procesadores en la configuración experimental. Nuestro enfoque en este artículo no transmite todas las soluciones a todas las islas para la recombinación, como en los trabajos anteriores, sino sólo una solución a una isla al azar, necesitando así menos tiempo de comunicación. Además, el número máximo de islas en los enfoques de  Dorronsoro o Kimovsky fue de 8, mientras que en este trabajo se han utilizado hasta 128 islas.
 
-Recientemente, algunos investigadores \cite{cheng2015adaptive} se han centrado en trabajar sobre el espacio de soluciones, dividiendo el frente de Pareto en diferentes grupos con el fin de modelarlo. Este enfoque {\em divide y vencerás}  es fácilmente paralelizable y, en el sentido de dar la responsabilidad de diferentes partes del espacio de búsqueda usando diferentes módulos, es similar a la presentada en este trabajo. Una versión preliminar usando un solo procesador y un número más limitado de islas y métodos fue presentada por los autores en \cite{Garcia16hpmoonANONYMOUS}. A continuación describiremos cómo hemos probado nuestro nuevo enfoque en la siguiente sección, usando un cluster real, y un mayor número de islas.
+Recientemente, algunos investigadores \cite{cheng2015adaptive} se han centrado en trabajar sobre el espacio de soluciones, dividiendo el frente de Pareto en diferentes grupos con el fin de modelarlo. Este enfoque {\em divide y vencerás}  es fácilmente paralelizable y, en el sentido de dar la responsabilidad de diferentes partes del espacio de búsqueda usando diferentes módulos, es similar a la presentada en este trabajo. Una versión preliminar usando un solo procesador y un número más limitado de islas y métodos fue presentada por los autores en \cite{Garcia16hpmoon}. A continuación describiremos cómo hemos probado nuestro nuevo enfoque en la siguiente sección, usando un clúster real, y un mayor número de islas.
 
 
 
@@ -156,7 +156,7 @@ Al igual que en el algoritmo base, cada cierto número de generaciones, un indivi
 
 Este enfoque es similar al anterior, pero cada isla también utiliza las secciones $p+1$ y $p-1$ (módulo el tamaño) del individuo para el cruce y la mutación. Por lo tanto, existe cierto tipo de solapamiento de las secciones cruzadas y mutadas entre las islas. %La Figura \ref{fig:overlapping} muestra las partes afectadas de los individuos en cada isla.
 
-\subsubsection{Coevolución con islas solapadas con tamaño adaptativo (SA)}
+\subsubsection{Coevolución con islas solapadas con tamaño adaptativo (A)}
 
 Al igual que el anterior, las secciones a abordar están solapadas, pero en lugar de usar una sección extra a cada lado ($p+1$ y $p-1$), utiliza $c$ fragmentos más a cada lado ($p+c$ y $p-c$), siendo el valor máximo de $c$ un valor dependiente del tamaño del cromosoma. La figura \ref{fig:islands} (b) muestra las partes afectadas de los individuos en cada isla.
 
@@ -175,7 +175,7 @@ Se ha elegido ZDT \cite{zdt2000a} como benchmark, ya que es el más utilizado en 
 
 El criterio de parada utilizado es el tiempo de ejecución, con límite en 100 segundos. Hemos utilizado el tiempo en lugar del número de evaluaciones en primer lugar porque nuestra hipótesis sostiene que el tiempo ahorrado en el cruce y la mutación se puede emplear en la mejora de las sub-poblaciones y se pueden lograr más operaciones y migraciones. Además, estamos utilizando diferentes números de islas (con diferentes tamaños de sub-población) que podrían dar lugar a diferentes tiempos de ejecución, por lo que sería difícil comparar diferentes tiempos y calidad de soluciones al mismo tiempo.
 
-Para el cálculo de $c$ en el método SA se ha utilizado como base los resultados de los métodos D y S, que como se verá a continuación, reducían su calidad cuando aumenta el número de islas, por lo que se ha usado la fórmula $c=round(0.2*P-1)/2$ para tener una proporción de secciones a modificar equilibrada.
+Para el cálculo de $c$ en el método A se ha utilizado como base los resultados de los métodos D y S, que como se verá a continuación, reducían su calidad cuando aumenta el número de islas, por lo que se ha usado la fórmula $c=round(0.2*P-1)/2$ para tener una proporción de secciones a modificar equilibrada.
 
 
 
@@ -187,7 +187,7 @@ Para el cálculo de $c$ en el método SA se ha utilizado como base los resultados 
 \hline
 {\em Nombre del parámetro} & {\em Valor} \\ \hline
 Número de islas ($P$) & 8, 16, 32, 64 y 128 \\ \hline
-Fragmentos extra a cada lado en SA ($c$) & 0, 1, 3, 6 y 12 \\ \hline
+Fragmentos extra a cada lado en A ($c$) & 0, 1, 3, 6 y 12 \\ \hline
 Tamaño del cromosoma ($L$) &  2048 \\ \hline
 Tiempo de ejecución (s) &  100  \\ \hline \hline
 Tamaño global de la población ($N$) & 1024 \\ \hline
@@ -206,10 +206,10 @@ Ejecuciones por configuración & 30 \\ \hline
 \end{center}
 \end{table}
 
-Se ha utilizado el framework ECJ \cite{ECJ} para realizar los experimentos. Se han desarrollado operadores específicos como nuevos módulos para ECJ, disponibles en nuestro repositorio GitHub bajo una licencia LGPL v3 \footnote{\url{URL ANONIMA}}. %https://github.com/hpmoon/hpmoon-islands}}. 
+Se ha utilizado el framework ECJ \cite{ECJ} para realizar los experimentos. Se han desarrollado operadores específicos como nuevos módulos para ECJ, disponibles en nuestro repositorio GitHub bajo una licencia LGPL v3 \footnote{\url{https://github.com/hpmoon/hpmoon-islands}}. 
 El modelo de la isla se ha ejecutado de forma asíncrona, utilizando el sistema de intercambio de ECJ, en un clúster de 16 nodos, cada uno con con 16 Intel(R) Xeon(R) CPU   E5520  @2.27GHz, Java Versión 1.7.0\_51.
 
-Se han utilizado diversas métricas, explicadas en la sección anterior, para calcular la calidad de los FPs obtenidos en cada configuración. Como algunas de las métricas requieren un punto de referencia para ser calculadas (como el HV), se ha elegido el punto (1,9) como referencia, ya que ninguno de los FP generados en todas las ejecuciones están dominados por él. Las métricas se han normalizado con respecto a ese punto. El test de signficancia de Kruskall-Wallis se ha utilizado para comparar todas las métricas de todas las ejecuiones de cada  configuración, ya que el test de Kolmogorov-Smirnov detectó distribuciones no normales. Los resultados promedio para cada configuración se muestran en la tabla \ref{tab:results}. %Para SA con 8 islas, el resultado es equivalente a D ($c$=0) y para 16 es equivalente a S ($c=1$).
+Se han utilizado diversas métricas, explicadas en la sección anterior, para calcular la calidad de los FPs obtenidos en cada configuración. Como algunas de las métricas requieren un punto de referencia para ser calculadas (como el HV), se ha elegido el punto (1,9) como referencia, ya que ninguno de los FP generados en todas las ejecuciones están dominados por él. Las métricas se han normalizado con respecto a ese punto. El test de significancia de Kruskall-Wallis se ha utilizado para comparar todas las métricas de todas las ejecuciones de cada  configuración, ya que el test de Kolmogorov-Smirnov detectó distribuciones no normales. Los resultados promedio para cada configuración se muestran en la tabla \ref{tab:results}. %Para A con 8 islas, el resultado es equivalente a D ($c$=0) y para 16 es equivalente a S ($c=1$).
 
 
 
@@ -218,7 +218,7 @@ Se han utilizado diversas métricas, explicadas en la sección anterior, para calc
 \resizebox{12cm}{!}{
 \begin{tabular}{|c||c|c|c|c||c|c|c|c||c|c|c|c||}
 \hline
-	&	\multicolumn{4}{|c|}{HV}													&	\multicolumn{4}{|c|}{Spread}														&	\multicolumn{4}{|c|}{IGD}														\\ \hline
+	&	\multicolumn{4}{|c|}{HV}													&	\multicolumn{4}{|c|}{Dispersión}														&	\multicolumn{4}{|c|}{DGI}														\\ \hline
 %\multicolumn{13}{|c|}{2048 dimensions}																																													\\ \hline
 \#Islas	&	B		&	D		&	S			&	A			&	B		&	D			&	S			&	A			&	B		&	D		&	S		&	A					\\ \hline
 \multicolumn{13}{|c|}{ZDT1}																																													\\ \hline
@@ -249,11 +249,11 @@ Se han utilizado diversas métricas, explicadas en la sección anterior, para calc
 
 \end{tabular}
 }
-\caption{Métricas de calidad obtenidas después de 30 ejecuciones por configuración, para los cuatro métodos comparados: baseline (B), disjunto (D), solapado (S) y solapado adaptativo (A). Los acrónimos junto a los valores indican que no hay diferencia significativa con respecto a ese método para ese valor. Los mejores valores están marcados en negrita.}
+\caption{Métricas de calidad obtenidas después de 30 ejecuciones por configuración, para los cuatro métodos comparados: algoritmo base (B), disjunto (D), solapado (S) y solapado adaptativo (A). Los acrónimos junto a los valores indican que no hay diferencia significativa con respecto a ese método para ese valor. Los mejores valores están marcados en negrita.}
 \label{tab:results}
 \end{table}
 
-Los resultados muestran que existe una mejora significativa respecto al baseline para las métricas con números pequeños de islas (8 y 16) usando los métodos D y S, que son equivalentes a SA según la fórmula de cálculo de $c$. A partir de 32 islas el algoritmo SA también optiene los mejores valores de todos los métodos, aunque en algunos casos y dependiendo de la instancia del problema, no existan diferencias significativas.
+Los resultados muestran que existe una mejora significativa respecto al algoritmo base para las métricas con números pequeños de islas (8 y 16) usando los métodos D y S, que son equivalentes a A según la fórmula de cálculo de $c$. A partir de 32 islas el algoritmo A también obtiene los mejores valores de todos los métodos, aunque en algunos casos y dependiendo de la instancia del problema, no existan diferencias significativas.
 
 Además, los resultados muestran que todos los indicadores de calidad disminuyen cuando se aumenta el número de islas, ya que las subpoblaciones son más pequeñas. Esto es consistente con la afirmación de Durillo en \cite{Dorronsoro13superlinear}, donde se comprobó que los MOEAs coevolutivos cooperativos funcionan mejor con poblaciones grandes (más de 100 individuos).
 
@@ -273,7 +273,7 @@ Además, se planea probar estas implementaciones distribuidas en otros sistemas (
 
 \section*{Agradecimientos} 
 
-Trabajo financiado en parte por los proyectos ...%TIN2014-56494-C4-3-P y TIN2015-67020-P (Ministerio de Economía y Competitividad), PROY-PP2015-06 (Plan Propio 2015 UGR),  y MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigación).
+Trabajo financiado en parte por los proyectos TIN2014-56494-C4-3-P y TIN2015-67020-P (Ministerio de Economía y Competitividad), PROY-PP2015-06 (Plan Propio 2015 UGR),  y MSTR (PRY142/14, Fundación Pública Andaluza Centro de Estudios Andaluces en la IX Convocatoria de Proyectos de Investigación). Los autores desean agradecer a los revisores sus comentarios, que han permitido mejorar la calidad de este artículo.
 
 
 %
